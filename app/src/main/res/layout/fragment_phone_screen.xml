@@ -82,6 +82,7 @@
             app:ccp_showNameCode="false"
             app:ccp_defaultNameCode="IL"
             android:layout_gravity="center"
+            app:ccp_countryPreference="IL,US"
             />
 <!--        <com.google.android.material.textfield.TextInputLayout-->
 <!--            android:id="@+id/CountryCode"-->
