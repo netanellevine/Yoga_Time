@@ -1,5 +1,6 @@
 package com.example.yogatime
 
+import android.graphics.Color
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -10,52 +11,48 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import androidx.fragment.app.FragmentManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.yogatime.databinding.ActivityMainBinding
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        setSupportActionBar(binding.toolbar)
-
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAnchorView(R.id.fab)
-                .setAction("Action", null).show()
-        }
+        setContentView(R.layout.activity_main)
+        setOnboardingItems()
+        supportActionBar?.hide()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+    private fun setOnboardingItems() {
+//        onboardingItemsAdapter = OnboardingItemsAdapter(
+//            listOf(
+//                OnboardingItem(
+//                    onboardingImage = R.drawable.ic_launcher_foreground,
+//                    title = "Find your perfect yoga pose",
+//                    description = "We have a wide range of yoga poses for you to choose from"
+//                ),
+//                OnboardingItem(
+//                    onboardingImage = R.drawable.ic_launcher_foreground,
+//                    title = "Find your perfect yoga pose",
+//                    description = "We have a wide range of yoga poses for you to choose from"
+//                ),
+//                OnboardingItem(
+//                    onboardingImage = R.drawable.ic_launcher_foreground,
+//                    title = "Find your perfect yoga pose",
+//                    description = "We have a wide range of yoga poses for you to choose from"
+//                )
+//            )
+//        )
+//
+//        val onboardingViewPager = findViewById<ViewPager2>(R.id.onboardingViewPager)
+//        onboardingViewPager.adapter = onboardingItemsAdapter
+//        val dotsIndicator = findViewById<DotsIndicator>(R.id.dots_indicator)
+//        dotsIndicator.attachTo(onboardingViewPager)
     }
 }
