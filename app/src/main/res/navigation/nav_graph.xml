@@ -9,14 +9,5 @@
         android:id="@+id/splashFragment"
         android:name="com.example.yogatime.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
-        <action
-            android:id="@+id/action_splashFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/viewPagerFragment"
-        android:name="com.example.yogatime.onboarding.ViewPagerFragment"
-        android:label="fragment_view_pager"
-        tools:layout="@layout/fragment_view_pager" />
+        tools:layout="@layout/fragment_splash" />
 </navigation>

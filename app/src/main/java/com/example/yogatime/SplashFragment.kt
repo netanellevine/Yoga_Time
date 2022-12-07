@@ -18,9 +18,9 @@ class SplashFragment : Fragment() {
     ): View? {
 
 
-        android.os.Handler(Looper.getMainLooper()).postDelayed({
-            findNavController().navigate(R.id.action_splashFragment_to_viewPagerFragment)
-        }, 3000)
+//        android.os.Handler(Looper.getMainLooper()).postDelayed({
+//            findNavController().navigate(R.id)
+//        }, 3000)
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_splash, container, false)
