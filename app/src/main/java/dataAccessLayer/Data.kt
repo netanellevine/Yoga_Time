@@ -1,12 +1,10 @@
 package dataAccessLayer
 
 import android.util.Log
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
-import org.json.JSONObject
 
 class Data {
     private val db = Firebase.firestore
@@ -90,12 +88,7 @@ class Data {
                 Log.d(tag,"Couldn't retrieve data")
             }
         }
-//            .addOnCompleteListener {Task ->
-//            if (Task.isSuccessful){
-//                Log.d(tag, "yanir ${Task.result.documents}")
-//            }
-//
-//        }
+
     }
 
 

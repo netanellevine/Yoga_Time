@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OTPActivity"
+    tools:context=".SignUp"
     android:id="@+id/main">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,17 +74,7 @@
         <!--        app:ccp_areaCodeDetectedCountry="true"-->
         <!--        app:ccp_autoDetectCountry="true"-->
         <!--        app:ccp_autoDetectLanguage="true"-->
-        <com.hbb20.CountryCodePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/countryCodePicker"
-            app:ccp_showPhoneCode="false"
-            app:ccp_showFullName="false"
-            app:ccp_showNameCode="false"
-            app:ccp_defaultNameCode="IL"
-            android:layout_gravity="center"
-            app:ccp_countryPreference="IL,US"
-            />
+
         <!--        <com.google.android.material.textfield.TextInputLayout-->
         <!--            android:id="@+id/CountryCode"-->
         <!--            android:layout_width="wrap_content"-->
@@ -103,23 +93,34 @@
 
         <!--        app:startIconDrawable="@drawable/ic_baseline_phone_24"-->
         <!--        app:startIconTint="@color/md_teal_400"-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="0dp"
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:shadowColor="#1c000000"
-            android:shadowDx="0"
-            android:shadowDy="4"
-            android:shadowRadius="15"
-            android:layout_weight="0.7">
+            android:background="#dbeceb"
+            android:padding="15dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/phoneNumber"
+            <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phone number"
-                android:inputType="phone" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="How do you plan to use the app"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+            <RadioButton
+                android:id="@+id/instructor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Yoga Instructor"/>
+
+            <RadioButton
+                android:id="@+id/participant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yoga Participant"/>
+
+        </RadioGroup>
 
     </LinearLayout>
 

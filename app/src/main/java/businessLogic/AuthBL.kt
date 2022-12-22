@@ -5,7 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.*
 import java.util.concurrent.TimeUnit
 
-class AuthBL(PhoneNumber: String, Activity: AppCompatActivity) {
+
+class AuthBL(PhoneNumber: String, Activity: AppCompatActivity)  {
     private var phoneNumber = PhoneNumber
     private var activity = Activity
     val authentication = Auth(activity)

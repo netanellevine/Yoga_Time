@@ -1,6 +1,7 @@
 package dataAccessLayer
 
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -8,7 +9,7 @@ import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class Auth(Activity: AppCompatActivity) {
+class Auth(Activity: AppCompatActivity)  {
     var firebaseAuth = FirebaseAuth.getInstance()
     var storedVerificationId: String? = null
     var storedToken: PhoneAuthProvider.ForceResendingToken? = null
@@ -17,7 +18,7 @@ class Auth(Activity: AppCompatActivity) {
     lateinit var userId: String
     val tag = "PhoneAuth"
     private val activity = Activity
-    lateinit private var  callback: (userId: String) -> Unit
+    private lateinit var  callback: (userId: String) -> Unit
 
     var callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
@@ -102,6 +103,8 @@ class Auth(Activity: AppCompatActivity) {
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         success = false
                         Log.d(tag,"Code is invalid")
+                        Toast.makeText(activity,"Wrong verification code",
+                            Toast.LENGTH_SHORT).show()
                         // The verification code entered was invalid
 
                     }

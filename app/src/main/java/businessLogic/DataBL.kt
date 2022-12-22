@@ -8,8 +8,7 @@ class DataBL {
 
     suspend fun addInstructor(
         userId: String, firstName: String,
-        lastName: String, workPlace: String,
-        price: Number, numberOfPeoplePerLesson: Int
+        lastName: String, workPlace: String
     ){
             // Construct User information
             val user:HashMap<String,Any> = hashMapOf(
@@ -17,8 +16,6 @@ class DataBL {
                 "firstName" to firstName,
                 "lastName" to lastName,
                 "workPlace" to workPlace,
-                "price" to price,
-                "numberOfPeoplePerLesson" to numberOfPeoplePerLesson
             )
 
             data.addInstructor(user)
