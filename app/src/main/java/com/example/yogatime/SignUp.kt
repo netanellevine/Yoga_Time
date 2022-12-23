@@ -21,13 +21,15 @@ class SignUp : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Get the userID either through local storage or from application transfer
         var userId = loadUser()
         if(userId==null) {
             userId = this.intent?.getSerializableExtra("userId", String::class.java)
         }
+        // Initialize databl
         val databl = DataBL()
         val act = this
-
+        // Checks if the user is already entered his information , if so transfer it into the right page (PostLoginInstructor)
         val scope = CoroutineScope(newSingleThreadContext("Add instructor"))
         scope.launch {
             if(userId?.let { databl.checkIfUserExists(it) } == true) {
@@ -41,10 +43,8 @@ class SignUp : AppCompatActivity() {
         Log.d(tag,"UserId $userId")
         setContentView(R.layout.signup)
         val radioGroup = findViewById<RadioGroup>(R.id.radio_group)
-//
-//        radio_group.setOnCheckedChangeListener { group, checkedId ->
-//        }
 
+        // Radio button to choose whether you are instructor or participant
         val enterButton = findViewById<MaterialButton>(R.id.btn_enter)
         enterButton.setOnClickListener{
             // Get the checked radio button id from radio group
@@ -68,12 +68,12 @@ class SignUp : AppCompatActivity() {
 
 
     }
-
+    // Load user from local storage
     private fun loadUser(): String? {
         val sharedPref = getSharedPreferences("sharedUser",Context.MODE_PRIVATE)
         return sharedPref.getString("userId", null)
     }
-
+   // Post login activity after entering information
     private fun postLogin(userId: String) {
         val intent = Intent(this, PostLoginInstructorActivity::class.java)
         intent.putExtra("userId", userId)

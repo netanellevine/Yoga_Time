@@ -17,13 +17,14 @@ class OTPActivity : AppCompatActivity() {
 
     private lateinit var auth: AuthBL
     val tag: String = "Authentication"
-
+    // Authentication page, In this activity you can authenticate into our application
+    // In order to authenticate we enter the phone number, that is it.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_otpactivity)
 
 
-
+        // Initialize variables
         val btnNext =
             findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_enter)
 
@@ -33,68 +34,22 @@ class OTPActivity : AppCompatActivity() {
         val phoneNumber =
             findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.phoneNumber)
 
+        // Get the phone number
         countryCodePicker.registerCarrierNumberEditText(phoneNumber)
 
         btnNext.setOnClickListener {
-
+            // Check if the phone number is valid
             if (countryCodePicker.isValidFullNumber) {
+                // If the phone number is valid we send a code
                 val number = countryCodePicker.fullNumberWithPlus
                 auth = AuthBL(number, this)
                 auth.authenticate(::postLogin)
                 Log.d(tag, "onCreateView: $number")
+                // Popup to receive the code
                 val otp : OTPVerificationActivity = OTPVerificationActivity(this,auth,number)
                 otp.setCancelable(false)
                 otp.show()
-//
-//                var text: String
-//
-//                val builder = AlertDialog.Builder(this)
-//                builder.setTitle("Please Enter Your Verification Code")
-//
-//// Set up the input
-//
-//// Set up the input
-//                val input = EditText(this)
-//// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-//// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-//                input.inputType = InputType.TYPE_CLASS_NUMBER
-//                input.setBackgroundColor(Color.BLACK)
-//                input.setTextColor(Color.WHITE)
-//                input.gravity = Gravity.CENTER_HORIZONTAL
-//
-//                builder.setView(input)
-//
-//// Set up the buttons
-//
-//// Set up the buttons
-//                builder.setPositiveButton(
-//                    "OK"
-//                ) { _, _ -> text = input.text.toString()
-//                    auth.verify(text)}
-//                builder.setNegativeButton(
-//                    "Wrong phone number"
-//                ) { dialog, _ -> dialog.cancel() }
-//                builder.setNeutralButton("Resend code")
-//                {_ , _ -> auth.resendCode()
-//                    val resend = AlertDialog.Builder(this)
-//                    resend.setTitle("Please Enter Your Verification Code")
-//                    val resend_input = EditText(this)
-//                   resend_input.inputType = InputType.TYPE_CLASS_NUMBER
-//                    resend_input.setBackgroundColor(Color.BLACK)
-//                    resend_input.setTextColor(Color.WHITE)
-//                    resend_input.gravity = Gravity.CENTER_HORIZONTAL
-//                    resend.setView(resend_input)
-//                    resend.setPositiveButton(
-//                        "OK"
-//                    ) { _, _ -> text = resend_input.text.toString()
-//                        auth.verify(text)}
-//                    resend.setNegativeButton(
-//                        "Wrong phone number"
-//                    ) { dialog, _ -> dialog.cancel() }
-//                    resend.show()
-//                }
-//                builder.setIcon(R.drawable.button_bg1)
-//                builder.show()
+
 
 
             } else {
@@ -108,7 +63,7 @@ class OTPActivity : AppCompatActivity() {
 
     }
 
-    // Transfer to post login
+    // Transfer to post login page, this is a callback function which we transfer
     private fun postLogin(userId: String) {
         val intent = Intent(this, SignUp::class.java)
         val shared = getSharedPreferences("sharedUser",Context.MODE_PRIVATE)

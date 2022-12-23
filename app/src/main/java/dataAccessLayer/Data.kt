@@ -91,6 +91,19 @@ class Data {
 
     }
 
+    fun addLesson(userId: String,lessonInfo: HashMap<String,Any>){
+        db.collection("Lessons").document(userId).set(lessonInfo).addOnCompleteListener { //, SetOptions.merge()
+                task ->
+            if (task.isSuccessful){
+                Log.d(tag,"Added to database")
+            }
+            else{
+                Log.d(tag,"Couldn't modify hours")
+            }
+        }
+    }
+
+
 
 
 }

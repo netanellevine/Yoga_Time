@@ -16,6 +16,8 @@ import android.widget.TextView
 import businessLogic.AuthBL
 
 class OTPVerificationActivity(context: Context, authBL: AuthBL, mobile: String) : Dialog(context) {
+
+    // Declare on variables
     private var mobile: String
     private var authBL: AuthBL
     private lateinit var otp1: EditText
