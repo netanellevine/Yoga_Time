@@ -88,9 +88,16 @@ class InstructorDiaryWeekly: AppCompatActivity(),InstructorLessonPopupFragment.O
                         changeColor(markedContainer,white,red)
                         markedContainer = container
                         removeTables()
-                        val year = data.date.format(yearFormat)
-                        userId?.let { databl.getInstructorTimeFromDatabase(it,year,::addTable) }
-
+                        if (markedContainer!=container) {
+                            val year = data.date.format(yearFormat)
+                            userId?.let {
+                                databl.getInstructorTimeFromDatabase(
+                                    it,
+                                    year,
+                                    ::addTable
+                                )
+                            }
+                        }
                     }
                 })
             }

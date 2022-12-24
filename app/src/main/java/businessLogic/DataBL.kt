@@ -58,7 +58,6 @@ class DataBL {
             fullDate to jsonString
         )
         data.validateLesson(userId,lessonInfo,callback)
-
     }
 
 

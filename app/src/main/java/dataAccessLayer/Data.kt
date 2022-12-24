@@ -120,7 +120,6 @@ class Data {
                 Task.result.data?.forEach { Entry ->
                     if (compareKeys(Entry.key,keyToCompare)){
                         addLessonBool = false
-
                     }
                 }
                 if(addLessonBool){
