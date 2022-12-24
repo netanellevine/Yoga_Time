@@ -84,10 +84,11 @@ class InstructorDiaryWeekly: AppCompatActivity(),InstructorLessonPopupFragment.O
                 container.view.setBackgroundColor(white)
                 container.view.setOnClickListener(object : DoubleClickListener() {
                     override fun onDoubleClick(v: View) {
-                        changeColor(container,red,white)
-                        changeColor(markedContainer,white,red)
-                        removeTables()
                         if (markedContainer!=container) {
+                            changeColor(container, red, white)
+                            changeColor(markedContainer, white, red)
+                            removeTables()
+
                             val year = data.date.format(yearFormat)
                             userId?.let {
                                 databl.getInstructorTimeFromDatabase(
@@ -96,8 +97,9 @@ class InstructorDiaryWeekly: AppCompatActivity(),InstructorLessonPopupFragment.O
                                     ::addTable
                                 )
                             }
+
+                            markedContainer = container
                         }
-                        markedContainer = container
                     }
                 })
             }
