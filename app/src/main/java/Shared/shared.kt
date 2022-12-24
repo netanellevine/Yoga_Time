@@ -7,4 +7,4 @@ data class Lesson(@SerializedName("lessonName") val lessonName: String,
                   @SerializedName("level") val level: String,
                   @SerializedName("price") val price: Double,
                   @SerializedName("description") val description: String,
-                  @SerializedName("currentNumberOfParticipants") val currentNumberOfParticipants: Int = 0)
+                  @SerializedName("ParticipantsList") var ParticipantsList: MutableList<String> = mutableListOf() )

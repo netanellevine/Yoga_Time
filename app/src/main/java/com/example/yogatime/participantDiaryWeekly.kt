@@ -4,12 +4,15 @@ import Shared.Lesson
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Build
 
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -210,7 +213,21 @@ class participantDiaryWeekly: AppCompatActivity() {
             startIdentity+3
         )
         priceLayout.addView(priceView)
+
+
+
         layout.addView(priceLayout)
+
+
+        val plusButton = ImageButton(this)
+        val plusLayout = createLayout(false,layoutId+4)
+
+        plusButton.setImageDrawable(getDrawable(R.drawable.ic_plus_24))
+        plusButton.setOnClickListener {
+
+        }
+        plusLayout.addView(plusButton)
+        layout.addView(plusLayout)
 //        layout.addView(LineVert())
 
     }
