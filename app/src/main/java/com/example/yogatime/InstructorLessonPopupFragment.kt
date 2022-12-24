@@ -73,6 +73,13 @@ class InstructorLessonPopupFragment : DialogFragment() {
         lessonLevel.setText(items[0], false)
         lessonLevel.setAdapter(adapter)
 
+        val lessonName = view.findViewById<MaterialAutoCompleteTextView>(R.id.lesson_name)
+        val items2 = resources.getStringArray(R.array.lesson_names)
+        items2.sort()
+        val adapter2 = ArrayAdapter(requireContext(), R.layout.list_item, items2)
+        lessonName.threshold = 1
+        lessonName.setAdapter(adapter2)
+
 //        var today = MaterialDatePicker.todayInUtcMilliseconds()
         var today = System.currentTimeMillis()
         var calendar = Calendar.getInstance()
@@ -257,7 +264,7 @@ class InstructorLessonPopupFragment : DialogFragment() {
         toolbar!!.setOnMenuItemClickListener { item: MenuItem? ->
             if (item != null) {
                 if (item.itemId == R.id.action_save) {
-                    val lessonName = view.findViewById<TextInputEditText>(R.id.lesson_name)
+                    val lessonName = view.findViewById<MaterialAutoCompleteTextView>(R.id.lesson_name)
                     val lessonNameLayout =
                         view.findViewById<TextInputLayout>(R.id.lesson_name_layout)
                     val lessonLevel =
