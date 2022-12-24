@@ -89,7 +89,7 @@ class participantDiaryWeekly: AppCompatActivity() {
                         changeColor(markedContainer, white, red)
 
                         val year = data.date.format(yearFormat)
-                        databl.getAvailability(year,::addTable)
+                        userId?.let { it1 -> databl.getAvailability(it1,year,::addTable) }
 
 
                         markedContainer = container
@@ -150,8 +150,9 @@ class participantDiaryWeekly: AppCompatActivity() {
 
     }
     // Add layout to the table, which we use to present the lesson information
-    fun addLayoutToTable(hour:String,height: Float,width: Float,layoutId: Int,startIdentity: Int,currentlySigned: String,lessonName:String,level:String,price:String){
-        val hourView = createTextView(text=hour, height = height, width = width, toDraw = true, size=13f)
+    fun addLayoutToTable(hour:String,height: Float,width: Float,layoutId: Int,startIdentity: Int,currentlySigned: String,lessonName:String,level:String,price:String,addButton:Boolean,buttonFunc: () -> Unit) {
+        val hourView =
+            createTextView(text = hour, height = height, width = width, toDraw = true, size = 13f)
 
         val layout = createLayout(identitiy = layoutId + 10)
         findViewById<LinearLayout>(R.id.timeLayout).addView(layout)
@@ -159,13 +160,13 @@ class participantDiaryWeekly: AppCompatActivity() {
         layout.addView(hourView)
         layout.addView(LineVert())
 
-        val peopleNumberLayout = createLayout(false,layoutId+1)
+        val peopleNumberLayout = createLayout(false, layoutId + 1)
         val peopleNumber = createTextView(
             Color.WHITE,
             currentlySigned,
             11f,
             true,
-            width  / 2,
+            width / 2,
             height,
             startIdentity
         )
@@ -174,43 +175,43 @@ class participantDiaryWeekly: AppCompatActivity() {
         layout.addView(peopleNumberLayout)
 //        layout.addView(LineVert())
 
-        val lessonLayout = createLayout(false,layoutId+2)
+        val lessonLayout = createLayout(false, layoutId + 2)
         val lessonNameView = createTextView(
             Color.WHITE,
             lessonName,
             11f,
             false,
-            width ,
+            width,
             height,
-            startIdentity+1
+            startIdentity + 1
         )
         lessonLayout.addView(lessonNameView)
         layout.addView(lessonLayout)
 //        layout.addView(LineVert())
 
-        val levelLayout = createLayout(false,layoutId+2)
+        val levelLayout = createLayout(false, layoutId + 2)
         val levelNameView = createTextView(
             Color.WHITE,
             level,
             12f,
             false,
-            width / 2 ,
+            width / 2,
             height,
-            startIdentity+2
+            startIdentity + 2
         )
         levelLayout.addView(levelNameView)
         layout.addView(levelLayout)
 //        layout.addView(LineVert())
 
-        val priceLayout = createLayout(false,layoutId+3)
+        val priceLayout = createLayout(false, layoutId + 3)
         val priceView = createTextView(
             Color.WHITE,
             price,
             11f,
             true,
-            width / 2 ,
+            width / 2,
             height,
-            startIdentity+3
+            startIdentity + 3
         )
         priceLayout.addView(priceView)
 
@@ -218,36 +219,25 @@ class participantDiaryWeekly: AppCompatActivity() {
 
         layout.addView(priceLayout)
 
+        if (addButton){
+            val plusButton = ImageButton(this)
+            val plusLayout = createLayout(false, layoutId + 4)
 
-        val plusButton = ImageButton(this)
-        val plusLayout = createLayout(false,layoutId+4)
-
-        plusButton.setImageDrawable(getDrawable(R.drawable.ic_plus_24))
-        plusButton.setOnClickListener {
-
+            plusButton.setImageDrawable(getDrawable(R.drawable.ic_plus_24))
+            plusButton.setOnClickListener {
+                buttonFunc()
+            }
+            plusLayout.addView(plusButton)
+            layout.addView(plusLayout)
         }
-        plusLayout.addView(plusButton)
-        layout.addView(plusLayout)
 //        layout.addView(LineVert())
 
     }
 
     // Add table to present the information
-    fun addTable(hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,price: String) {
-//        for (i in 4..12) {
-//            var spaceLayout = createLayout(identitiy = layoutId + i)
-//            if(i != 4) {
-//                spaceLayout.addView(blackLineHorz(viewColor = Color.WHITE))
-//            }
-//            if(i ==8){
-//                addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,level,price)
-//            }
-//            else{
-//                spaceLayout.addView(blackLineHorz())
-//            }
-//            findViewById<LinearLayout>(R.id.timeLayout).addView(spaceLayout)
-//        }
-        addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,level,price)
+    fun addTable(hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,price: String,addButton: Boolean,buttonFunc: () -> Unit) {
+
+        addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,level,price,addButton,buttonFunc)
         var spaceLayout = createLayout(identitiy = layoutId)
         spaceLayout.addView(LineHorz())
         findViewById<LinearLayout>(R.id.timeLayout).addView(spaceLayout)

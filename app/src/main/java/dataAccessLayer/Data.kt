@@ -94,7 +94,17 @@ class Data {
 
 
 
-
+    fun addUserToLesson(userId: String,lessonInfo:Lesson,userToAdd:String){
+        lessonInfo.ParticipantsList.add(userToAdd)
+        db.collection("Lessons").document(userId).set(lessonInfo,SetOptions.merge()).addOnCompleteListener {task ->
+            if(task.isSuccessful){
+                Log.d(tag,"Added to lesson successfuly")
+            }
+            else{
+                Log.w(tag,"Failed to add to lesson")
+            }
+        }
+    }
 
     private fun addLesson(userId: String, lessonInfo: HashMap<String,Any>){
         db.collection("Lessons").document(userId).set(lessonInfo,SetOptions.merge()).addOnCompleteListener { //, SetOptions.merge()
@@ -108,8 +118,9 @@ class Data {
         }
     }
 
-    fun getAvailability(date:String,
-                        callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) -> Unit) {
+    fun getAvailability(userId: String,date:String,
+                        callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String,
+                        inLesson : Boolean,addLesson: ()-> Unit) -> Unit) {
         db.collection("Lessons").get().addOnCompleteListener { task ->
             if (task.isSuccessful){
                 var startIdentity = 300000
@@ -118,14 +129,24 @@ class Data {
                     doc.data?.forEach { field ->
                         if (field.key.contains(date)){
                             val lesson = Gson().fromJson(field.value.toString(),Lesson::class.java)
-                            callback(field.key.split("_")[1],
-                                startIdentity,
-                                layoutId,
-                                "${lesson.currentNumberOfParticipants}/${lesson.numberOfParticipants}",
-                                lesson.lessonName,
-                                lesson.level,
-                                lesson.price.toString()
-                            )
+                            if (lesson.ParticipantsList.size < lesson.numberOfParticipants) {
+                                var inList = false
+                                if (userId in lesson.ParticipantsList){
+                                    inList = true
+                                }
+                                callback(
+                                    field.key.split("_")[1],
+                                    startIdentity,
+                                    layoutId,
+                                    "${lesson.ParticipantsList.size}/${lesson.numberOfParticipants}",
+                                    lesson.lessonName,
+                                    lesson.level,
+                                    lesson.price.toString(),
+                                    inList
+                                ) {
+                                    addUserToLesson(doc.id, lesson, userId)
+                                }
+                            }
                         }
                     }
                 }
@@ -211,10 +232,10 @@ class Data {
                             if (date == splitDate[0]){
                                 val lesson = Gson().fromJson(Task.result.data!![key].toString(), Lesson::class.java)
                                 callback(splitDate[1],startIdentity,layoutId,
-                                "${lesson.currentNumberOfParticipants}/${lesson.numberOfParticipants}",
+                                "${lesson.ParticipantsList.size}/${lesson.numberOfParticipants}",
                                 lesson.lessonName,
                                 lesson.level,
-                                "${lesson.price*lesson.currentNumberOfParticipants}$")
+                                "${lesson.price*lesson.ParticipantsList.size}$")
                                 startIdentity += 100
                                 layoutId += 100
                             }
