@@ -194,6 +194,9 @@ class Data {
     }
 
     private fun compareKeys(key:String, keyCompare:String): Boolean {
+        if (key==keyCompare){
+            return true
+        }
         val attributesKey = key.split("_")
         val attributeKeyCompare = keyCompare.split("_")
         if(attributesKey[0] == attributeKeyCompare[0]){

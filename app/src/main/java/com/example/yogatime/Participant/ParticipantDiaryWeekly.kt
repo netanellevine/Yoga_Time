@@ -227,7 +227,6 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
 
             plusButton.setImageDrawable(getDrawable(R.drawable.ic_plus_24))
             plusButton.setOnClickListener {
-
                 buttonFunc()
                 layout.removeView(plusLayout)
             }
@@ -235,7 +234,14 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
             layout.addView(plusLayout)
         }
         else{
+            val removeButton = ImageButton(this)
+            val removeLayout = createLayout(false, layoutId + 4)
 
+            removeButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_remove_24))
+            removeButton.setOnClickListener {
+            }
+            removeLayout.addView(removeButton)
+            layout.addView(removeLayout)
         }
 //        layout.addView(LineVert())
 
