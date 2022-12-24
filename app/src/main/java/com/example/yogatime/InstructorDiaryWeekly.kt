@@ -82,26 +82,27 @@ class InstructorDiaryWeekly: AppCompatActivity(),InstructorLessonPopupFragment.O
                 container.textView.textSize = width/100
                 container.textView.setTextColor(red)
                 container.view.setBackgroundColor(white)
-                container.view.setOnClickListener(object : DoubleClickListener() {
-                    override fun onDoubleClick(v: View) {
-                        if (markedContainer!=container) {
-                            changeColor(container, red, white)
-                            changeColor(markedContainer, white, red)
-                            removeTables()
+                container.view.setOnClickListener {
 
-                            val year = data.date.format(yearFormat)
-                            userId?.let {
-                                databl.getInstructorTimeFromDatabase(
-                                    it,
-                                    year,
-                                    ::addTable
-                                )
-                            }
+                    if (markedContainer != container) {
+                        changeColor(container, red, white)
+                        changeColor(markedContainer, white, red)
+                        removeTables()
 
-                            markedContainer = container
+                        val year = data.date.format(yearFormat)
+                        userId?.let {
+                            databl.getInstructorTimeFromDatabase(
+                                it,
+                                year,
+                                ::addTable
+                            )
                         }
+
+                        markedContainer = container
                     }
-                })
+
+                    }
+
             }
         }
         // Scroll to the current date and define max and min dates
@@ -144,22 +145,7 @@ class InstructorDiaryWeekly: AppCompatActivity(),InstructorLessonPopupFragment.O
     }
 
 
-    // On double click listener will remove it later
-    abstract class DoubleClickListener : View.OnClickListener {
-        private var lastClickTime: Long = 0
-        override fun onClick(v: View) {
-            val clickTime = System.currentTimeMillis()
-            if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
-                onDoubleClick(v)
-                lastClickTime = 0
-            }
-            lastClickTime = clickTime
-        }
-        abstract fun onDoubleClick(v: View)
-        companion object {
-            private const val DOUBLE_CLICK_TIME_DELTA: Long = 300 //milliseconds
-        }
-    }
+
     // Container view add the text to the container
     class DayViewContainer(view: View) : ViewContainer(view) {
         val textView: TextView = view.findViewById(R.id.calendarDayText)
