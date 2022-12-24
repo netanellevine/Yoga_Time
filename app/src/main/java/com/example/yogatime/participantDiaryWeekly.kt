@@ -216,7 +216,7 @@ class participantDiaryWeekly: AppCompatActivity() {
 
     }
     // Add table to present the information
-    fun addTable(hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,revenue: String) {
+    fun addTable(hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) {
         for (i in 4..12) {
             var spaceLayout = createLayout(identitiy = layoutId + i)
             if(i != 4) {

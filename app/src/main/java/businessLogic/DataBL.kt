@@ -44,7 +44,7 @@ class DataBL {
 
 
     fun getInstructorTimeFromDatabase(userId: String,date:String,
-                                      callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,revenue: String) -> Unit){
+                                      callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) -> Unit){
         data.getInstructorTimeFromDatabase(userId, date, callback)
 
     }

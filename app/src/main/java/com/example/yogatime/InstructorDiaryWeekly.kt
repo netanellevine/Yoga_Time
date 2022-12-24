@@ -159,7 +159,7 @@ class InstructorDiaryWeekly: AppCompatActivity(),InstructorLessonPopupFragment.O
 
     }
     // Add layout to the table, which we use to present the lesson information
-    fun addLayoutToTable(hour:String,height: Float,width: Float,layoutId: Int,startIdentity: Int,currentlySigned: String,lessonName:String,revenue:String){
+    fun addLayoutToTable(hour:String,height: Float,width: Float,layoutId: Int,startIdentity: Int,currentlySigned: String,lessonName:String,level:String,revenue:String){
         val hourView = createTextView(text=hour, height = height/2, width = width, toDraw = true)
 
         val layout = createLayout(identitiy = layoutId)
@@ -198,6 +198,19 @@ class InstructorDiaryWeekly: AppCompatActivity(),InstructorLessonPopupFragment.O
         lessonLayout.addView(lessonNameView)
         layout.addView(lessonLayout)
 
+        val levelLayout = createLayout(false,layoutId+2)
+        val levelNameView = createTextView(
+            Color.WHITE,
+            level,
+            10f,
+            false,
+            width ,
+            height / 2,
+            startIdentity+1
+        )
+        levelLayout.addView(levelNameView)
+        layout.addView(levelLayout)
+
         val revenueLayout = createLayout(false,layoutId+3)
         val revenueView = createTextView(
             Color.WHITE,
@@ -219,14 +232,14 @@ class InstructorDiaryWeekly: AppCompatActivity(),InstructorLessonPopupFragment.O
 
     }
     // Add table to present the information
-    fun addTable(hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,revenue: String) {
+    fun addTable(hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) {
         for (i in 4..12) {
             var spaceLayout = createLayout(identitiy = layoutId + i)
             if(i != 4) {
                 spaceLayout.addView(blackLineHorz(viewColor = Color.WHITE))
             }
             if(i ==8){
-                addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,revenue)
+                addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,level,revenue)
             }
             else{
                 spaceLayout.addView(blackLineHorz())

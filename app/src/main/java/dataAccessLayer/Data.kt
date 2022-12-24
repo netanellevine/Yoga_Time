@@ -164,12 +164,12 @@ class Data {
     }
 
     private fun inTheMiddle(x:Int, y:Int, z:Int): Boolean {
-        return (x <= y) && (y <= z)
+        return (x <= y) && (y < z)
     }
 
 
     fun getInstructorTimeFromDatabase(userId: String,date:String,
-    callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,revenue: String) -> Unit){
+    callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) -> Unit){
         db.collection("Lessons").document(userId).get().addOnCompleteListener { Task->
             if (Task.isSuccessful) {
                     val sortedKeys = Task.result.data?.keys?.sorted()
@@ -183,6 +183,7 @@ class Data {
                                 callback(splitDate[1],startIdentity,layoutId,
                                 "${lesson.currentNumberOfParticipants}/${lesson.numberOfParticipants}",
                                 lesson.lessonName,
+                                lesson.level,
                                 "${lesson.price*lesson.currentNumberOfParticipants}$")
                                 startIdentity += 100
                                 layoutId += 100
