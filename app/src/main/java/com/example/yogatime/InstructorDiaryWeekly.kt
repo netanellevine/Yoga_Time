@@ -86,7 +86,6 @@ class InstructorDiaryWeekly: AppCompatActivity(),InstructorLessonPopupFragment.O
                     override fun onDoubleClick(v: View) {
                         changeColor(container,red,white)
                         changeColor(markedContainer,white,red)
-                        markedContainer = container
                         removeTables()
                         if (markedContainer!=container) {
                             val year = data.date.format(yearFormat)
@@ -98,6 +97,7 @@ class InstructorDiaryWeekly: AppCompatActivity(),InstructorLessonPopupFragment.O
                                 )
                             }
                         }
+                        markedContainer = container
                     }
                 })
             }
