@@ -1,6 +1,7 @@
 package com.example.yogatime.Instructor
 
 import Shared.Lesson
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
@@ -37,6 +38,7 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
     var databl = DataBL()
     var width by Delegates.notNull<Float>()
     var height by Delegates.notNull<Float>()
+    val GETCOLOR:  (Int) -> Int = {color: Int -> resources.getColor(color)}
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -203,10 +205,10 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
 
         val levelLayout = createLayout(false,layoutId+2)
         var currColor = 0
-        if (level == "A") currColor = Color.GREEN
-        else if (level == "B") currColor = Color.YELLOW
-        else if (level == "C") currColor = Color.RED
-        else currColor = Color.BLUE
+        if (level == "A") currColor = R.color.EASY
+        else if (level == "B") currColor = R.color.MODERATE
+        else if (level == "C") currColor = R.color.ADVANCED
+        else currColor = R.color.ALL
         val levelNameView = createTextView(
             Color.WHITE,
             level,
@@ -215,7 +217,7 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
             width / 2 ,
             height,
             startIdentity+2,
-            textColor = currColor
+            textColor = GETCOLOR(currColor)
         )
         levelLayout.addView(levelNameView)
         layout.addView(levelLayout)
@@ -281,10 +283,10 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
     }
 
     // Create a text view according to given parameters
-    private fun createTextView(BgColor: Int = Color.rgb(220,220,220),text:String,size:Float = 10f,isCaps:Boolean = true,width: Float,height: Float,identitiy: Int = -1,toDraw: Boolean = false, textColor: Int = -1): TextView{
+    private fun createTextView(BgColor: Int = GETCOLOR(R.color.WeeklyBackgroundColor), text:String, size:Float = 10f, isCaps:Boolean = true, width: Float, height: Float, identity: Int = -1, toDraw: Boolean = false, textColor: Int = -1): TextView{
         val textView = TextView(this)
         textView.setBackgroundColor(BgColor)
-        textView.id = identitiy
+        textView.id = identity
         textView.text = text
         textView.textSize = size
         textView.isAllCaps = isCaps
@@ -314,7 +316,7 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
         return linear
     }
     // Creates vertical black line seperator
-    private fun LineVert(width: Int = 6, viewColor: Int = Color.rgb(60,108,106)) : View{
+    private fun LineVert(width: Int = 6, viewColor: Int = resources.getColor(R.color.TextColor)) : View{
         val view = View(this)
         view.layoutParams = LinearLayout.LayoutParams(
             width, LinearLayout.LayoutParams.MATCH_PARENT
@@ -323,7 +325,7 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
         return view
     }
     // Creates horizontal black line seperator
-    private fun LineHorz(height: Int = 6, viewColor: Int = Color.rgb(60,108,106)) : View{
+    private fun LineHorz(height: Int = 6, viewColor: Int = resources.getColor(R.color.TextColor)) : View{
         val view = View(this)
         view.layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT, height

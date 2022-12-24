@@ -243,9 +243,10 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
             removeTables()
             scope.launch {
                 userId?.let { it1 -> databl.getAvailability(it1, year, ::addTable) }
-                TimeUnit.SECONDS.sleep(3L)
+                TimeUnit.SECONDS.sleep(2L)
+                loading.dismissDialog()
             }
-            loading.dismissDialog()
+//            loading.dismissDialog()
         }
         signLayout.addView(signButton)
         layout.addView(signLayout)
