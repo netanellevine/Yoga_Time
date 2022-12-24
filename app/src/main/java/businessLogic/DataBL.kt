@@ -22,7 +22,7 @@ class DataBL {
 
             data.addInstructor(user)
     }
-    fun addParticipant(userId: String, firstName: String,
+    suspend fun addParticipant(userId: String, firstName: String,
                       lastName: String){
         val user:HashMap<String,String> = hashMapOf(
             "userId" to userId,
@@ -33,8 +33,12 @@ class DataBL {
         data.addParticipant(user)
     }
 
-    suspend fun checkIfUserExists(userId: String): Boolean {
+    suspend fun checkIfInstructorExists(userId: String): Boolean {
         return data.checkIfInstructorExists(userId)
+    }
+
+    suspend fun checkIfParticipantExists(userId: String): Boolean {
+        return data.checkIfParticipantExists(userId)
     }
 
 

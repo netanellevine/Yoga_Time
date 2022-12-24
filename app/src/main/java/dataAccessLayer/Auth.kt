@@ -64,6 +64,7 @@ class Auth(Activity: AppCompatActivity)  {
         }
     }
 
+
     /**
      * Authentication to our firebase
      */

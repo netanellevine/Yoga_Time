@@ -26,20 +26,10 @@ class SignUp : AppCompatActivity() {
         if(userId==null) {
             userId = this.intent?.getSerializableExtra("userId", String::class.java)
         }
-        // Initialize databl
-        val databl = DataBL()
-        val act = this
+
+
         // Checks if the user is already entered his information , if so transfer it into the right page (PostLoginInstructor)
-        val scope = CoroutineScope(newSingleThreadContext("Add instructor"))
-        scope.launch {
-            if(userId?.let { databl.checkIfUserExists(it) } == true) {
-                val intent = Intent(act, InstructorDiaryWeekly::class.java)
-                // start your next activity
-                Log.d("Transfer userid",userId)
-                intent.putExtra("userId",userId)
-                startActivity(intent)
-            }
-        }
+
         Log.d(tag,"UserId $userId")
         setContentView(R.layout.signup)
         val radioGroup = findViewById<RadioGroup>(R.id.radio_group)
@@ -56,9 +46,13 @@ class SignUp : AppCompatActivity() {
                         " ${radio.text}",
                     Toast.LENGTH_SHORT).show()
                 if (userId != null) {
-                    postLogin(userId)
+                    if (radio.text == "Yoga Instructor") {
+                        postLoginInstructor(userId)
+                    }
+                    else {
+                        postLoginParticipant(userId)
+                    }
                 }
-
             }else{
                 // If no radio button checked in this radio group
                 Toast.makeText(applicationContext, "Nothing Selected",
@@ -74,8 +68,13 @@ class SignUp : AppCompatActivity() {
         return sharedPref.getString("userId", null)
     }
    // Post login activity after entering information
-    private fun postLogin(userId: String) {
+    private fun postLoginInstructor(userId: String) {
         val intent = Intent(this, PostLoginInstructorActivity::class.java)
+        intent.putExtra("userId", userId)
+        startActivity(intent)
+    }
+    private fun postLoginParticipant(userId: String){
+        val intent = Intent(this,PostLoginParticipantActivity::class.java)
         intent.putExtra("userId", userId)
         startActivity(intent)
     }

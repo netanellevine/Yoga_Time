@@ -112,7 +112,7 @@
                 android:id="@+id/instructor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" Yoga Instructor"/>
+                android:text="Yoga Instructor"/>
 
             <RadioButton
                 android:id="@+id/participant"

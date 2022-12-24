@@ -6,6 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import businessLogic.DataBL
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
+
 /**
  * If the user is already logged in we transfer it into the Signup page
  */
@@ -13,13 +18,36 @@ class StartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
+        val dataBL = DataBL()
         // check if the userid is null else transfer it to the signup page
+        val userId = loadUser()
+        val act = this
         if (loadUser()!=null){
             Log.d("user","user id is not null")
-            val intent = Intent(this, SignUp::class.java)
-            // start your next activity
+            val scope = CoroutineScope(newSingleThreadContext("Add instructor"))
+            scope.launch {
+                if(userId?.let { dataBL.checkIfInstructorExists(it) } == true) {
+                    val intent = Intent(act, InstructorDiaryWeekly::class.java)
+                    // start your next activity
+                    Log.d("Transfer userid",userId)
+                    intent.putExtra("userId",userId)
+                    startActivity(intent)
+                }
 
-            startActivity(intent)
+                else if(userId?.let { dataBL.checkIfParticipantExists(it) } == true) {
+                    val intent = Intent(act, participantDiaryWeekly::class.java)
+                    // start your next activity
+                    Log.d("Transfer userid",userId)
+                    intent.putExtra("userId",userId)
+                    startActivity(intent)
+                }
+                else {
+                    val intent = Intent(act, SignUp::class.java)
+                    startActivity(intent)
+                }
+            }
+
+
         }
         // View the button and lets go
         else {

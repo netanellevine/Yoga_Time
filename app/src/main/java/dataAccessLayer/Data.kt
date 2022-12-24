@@ -27,27 +27,53 @@ class Data {
 
         }
         else{
-            Log.w(tag,  "Already exists")
+            Log.w(tag,  "Instructor already exists")
         }
     }
 
-    fun addParticipant(userInfo: HashMap<String, String>){
-
-        //Add the Participant to the Database
-        db.collection("Participants")
-            .add(userInfo)
-            .addOnSuccessListener { documentReference ->
-                Log.d(tag, "Added participant with ID:  ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(tag, "Error adding document", e)
-            }
+    suspend fun addParticipant(userInfo: HashMap<String, String>){
+        val userId = userInfo["userId"] as String
+        if (!checkIfParticipantExists(userId)) {
+            //Add the Participant to the Database
+            db.collection("Participants").document(userId)
+                .set(userInfo)
+                .addOnSuccessListener {
+                    Log.d(tag, "Added participant with ID:  $userId")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(tag, "Error adding document", e)
+                }
+        }
+        else{
+            Log.w(tag,  "Participant already exists")
+        }
 
     }
 
      suspend fun checkIfInstructorExists(userId: String): Boolean {
         var exists = false
         db.collection("Instructors").document(userId).get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val document = task.result
+                if(document != null) {
+                    if (document.exists()) {
+                        exists = true
+                        Log.d("TAG", "Document already exists.")
+                    } else {
+                        Log.d("TAG", "Document doesn't exist.")
+                    }
+                }
+            } else {
+                Log.d("TAG", "Error: ", task.exception)
+            }
+        }.await()
+
+        return exists
+    }
+
+    suspend fun checkIfParticipantExists(userId: String): Boolean {
+        var exists = false
+        db.collection("Participants").document(userId).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val document = task.result
                 if(document != null) {
