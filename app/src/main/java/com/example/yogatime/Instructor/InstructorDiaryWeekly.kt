@@ -202,6 +202,11 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
 //        layout.addView(LineVert())
 
         val levelLayout = createLayout(false,layoutId+2)
+        var currColor = 0
+        if (level == "A") currColor = Color.GREEN
+        else if (level == "B") currColor = Color.YELLOW
+        else if (level == "C") currColor = Color.RED
+        else currColor = Color.BLUE
         val levelNameView = createTextView(
             Color.WHITE,
             level,
@@ -209,7 +214,8 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
             false,
             width / 2 ,
             height,
-            startIdentity+2
+            startIdentity+2,
+            textColor = currColor
         )
         levelLayout.addView(levelNameView)
         layout.addView(levelLayout)
