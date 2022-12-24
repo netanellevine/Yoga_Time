@@ -1,7 +1,7 @@
 package businessLogic
 
 import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
+import Shared.Lesson
 import dataAccessLayer.Data
 
 class DataBL {
@@ -37,45 +37,26 @@ class DataBL {
         return data.checkIfInstructorExists(userId)
     }
 
-    fun setInstructorTimeInDataBase(userId: String,date:String,hours: String){
 
-        val userHours:HashMap<String,Any> = HashMap()
 
-        userHours[userId] = hours
-        data.setInstructorTimeInDataBase(userHours, date)
-
-    }
-
-    fun getInstructorTimeInDataBase(userId: String, date:String,callback:(res:String)-> Unit){
-        data.getInstructorTimeInDataBase(userId, date, callback)
+    fun getInstructorTimeFromDatabase(userId: String,date:String,
+                                      callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,revenue: String) -> Unit){
+        data.getInstructorTimeFromDatabase(userId, date, callback)
 
     }
 
-    data class Lesson(@SerializedName("lessonName") val lessonName: String,
-                      @SerializedName("maxNumberOfParticipants") val numberOfParticipants: Int,
-                      @SerializedName("level") val level: String,
-                      @SerializedName("price") val price: Double,
-                      @SerializedName("description") val description: String,
-                      @SerializedName("currentNumberOfParticipants") val currentNumberOfParticipants: Int = 0)
 
-    fun addLesson(userId: String,date: String,
-                  time: String,lessonName:String,
-                  maxNumberOfParticipants: Int, level: String,price: Double, description: String): Boolean {
-        val arr = arrayOf("A", "B", "C", "ALL")
-        if (level !in arr || price < 0 || maxNumberOfParticipants < 1) {
-            return false
-        }
-        val field = "${date}_${time}"
 
-        val lesson = Lesson(lessonName,maxNumberOfParticipants,level,price,description)
+    fun addLesson(userId: String,fullDate: String, lesson:Lesson,callback: (message:String) -> Unit) {
+
         val jsonString = Gson().toJson(lesson)
         val lessonInfo:HashMap<String,Any> = hashMapOf(
-            field to jsonString
+            fullDate to jsonString
         )
-        data.addLesson(userId,lessonInfo)
+        data.validateLesson(userId,lessonInfo,callback)
 
-        return true
     }
+
 
 
 }

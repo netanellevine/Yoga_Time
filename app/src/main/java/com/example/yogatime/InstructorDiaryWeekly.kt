@@ -1,8 +1,9 @@
 package com.example.yogatime
 
+import Shared.Lesson
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
-import android.graphics.ColorSpace.Rgb
 import android.os.Build
 
 import android.os.Bundle
@@ -11,11 +12,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import businessLogic.DataBL
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -27,24 +28,33 @@ import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
 import java.util.*
+import kotlin.properties.Delegates
 
 
-class InstructorDiaryWeekly: AppCompatActivity() {
+class InstructorDiaryWeekly: AppCompatActivity(),InstructorLessonPopupFragment.OnForwardListener {
+    var userId: String? = null
+    var databl = DataBL()
+    var width by Delegates.notNull<Float>()
+    var height by Delegates.notNull<Float>()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         // Initialize variables
-        val width = Resources.getSystem().displayMetrics.widthPixels.toFloat()
-        val height = Resources.getSystem().displayMetrics.heightPixels.toFloat()
+        width = Resources.getSystem().displayMetrics.widthPixels.toFloat()
+        height = Resources.getSystem().displayMetrics.heightPixels.toFloat()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.instructor_weekly)
-        val userId: String? = intent.getSerializableExtra("userId",String::class.java)
+        userId = loadUser()
+        if(userId!= null) {
+            userId = intent.getSerializableExtra("userId",String::class.java)
+        }
+
         // Initialize calender view
         val weekCalendarView: WeekCalendarView = findViewById(R.id.weekCalendarView)
         val red = Color.rgb(14,75,84)
         val white = Color.WHITE
         var markedContainer: DayViewContainer? = null
-        var databl = DataBL()
+
 
         // Add save popup
         val saveDatePopup = findViewById<FloatingActionButton>(R.id.floating_action_button)
@@ -52,7 +62,7 @@ class InstructorDiaryWeekly: AppCompatActivity() {
         saveDatePopup.setOnClickListener{
             val instructorLessonPopupFragment = InstructorLessonPopupFragment
             if (userId != null) {
-                instructorLessonPopupFragment.display(supportFragmentManager,databl,userId)
+                instructorLessonPopupFragment.display(supportFragmentManager)
             }
 
         }
@@ -66,6 +76,8 @@ class InstructorDiaryWeekly: AppCompatActivity() {
             override fun bind(container: DayViewContainer, data: WeekDay) {
                 // Build the daily view
                 val formatter = DateTimeFormatter.ofPattern("MM-dd")
+                val yearFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
                 container.textView.text = data.date.dayOfWeek.toString().substring(0,3) + '\n' +"${data.date.format(formatter)}"
                 container.textView.textSize = width/100
                 container.textView.setTextColor(red)
@@ -75,10 +87,10 @@ class InstructorDiaryWeekly: AppCompatActivity() {
                         changeColor(container,red,white)
                         changeColor(markedContainer,white,red)
                         markedContainer = container
-//                        removeTables()
-//                        addTables(
-//                            data.date.dayOfWeek.toString().substring(0,3) + '\n' +
-//                                data.date.month.toString().substring(0,3) + " ${data.date.dayOfMonth}" ,width,height)
+                        removeTables()
+                        val year = data.date.format(yearFormat)
+                        userId?.let { databl.getInstructorTimeFromDatabase(it,year,::addTable) }
+
                     }
                 })
             }
@@ -96,13 +108,16 @@ class InstructorDiaryWeekly: AppCompatActivity() {
         fun changeDate(imageView: ImageView, flag:Boolean) {
             if (flag){
                 imageView.setOnClickListener{
+                    removeTables()
+                    changeColor(markedContainer,white,red)
                     currentDate = currentDate.plusWeeks(1)
-
                     weekCalendarView.scrollToWeek(currentDate)
                 }
             }
             else{
                 imageView.setOnClickListener{
+                    removeTables()
+                    changeColor(markedContainer,white,red)
                     currentDate = currentDate.plusWeeks(-1)
                     weekCalendarView.scrollToWeek(currentDate)
                 }
@@ -149,8 +164,8 @@ class InstructorDiaryWeekly: AppCompatActivity() {
 
     }
     // Add layout to the table, which we use to present the lesson information
-    fun addLayoutToTable(hour:String,height: Float,width: Float,layoutId: Int,startIdentity: Int){
-        val hourView = createTextView(text=hour, height = height/2, width = width-400, toDraw = true)
+    fun addLayoutToTable(hour:String,height: Float,width: Float,layoutId: Int,startIdentity: Int,currentlySigned: String,lessonName:String,revenue:String){
+        val hourView = createTextView(text=hour, height = height/2, width = width, toDraw = true)
 
         val layout = createLayout(identitiy = layoutId)
         findViewById<LinearLayout>(R.id.timeLayout).addView(layout)
@@ -160,32 +175,63 @@ class InstructorDiaryWeekly: AppCompatActivity() {
 
         layout.addView(hourView)
 
-            val peopleNumberLayout = createLayout(false,15150)
-            val peopleNumber = createTextView(
-                Color.WHITE,
-                "  Number of people  ",
-                10f,
-                true,
-                width * 2,
-                height / 2,
-                startIdentity
-            )
-            peopleNumberLayout.addView(peopleNumber)
+        val peopleNumberLayout = createLayout(false,layoutId+1)
+        val peopleNumber = createTextView(
+            Color.WHITE,
+            currentlySigned,
+            10f,
+            true,
+            width ,
+            height / 2,
+            startIdentity
+        )
+        peopleNumberLayout.addView(peopleNumber)
 
 
-            layout.addView(peopleNumberLayout)
+        layout.addView(peopleNumberLayout)
+
+        val lessonLayout = createLayout(false,layoutId+2)
+        val lessonNameView = createTextView(
+            Color.WHITE,
+            lessonName,
+            10f,
+            false,
+            width ,
+            height / 2,
+            startIdentity+1
+        )
+        lessonLayout.addView(lessonNameView)
+        layout.addView(lessonLayout)
+
+        val revenueLayout = createLayout(false,layoutId+3)
+        val revenueView = createTextView(
+            Color.WHITE,
+            revenue,
+            10f,
+            true,
+            width ,
+            height / 2,
+            startIdentity+2
+        )
+        revenueLayout.addView(revenueView)
+
+
+        layout.addView(revenueLayout)
+
+
+
 
 
     }
     // Add table to present the information
-    fun addTable(hour:String,width:Float,height:Float,startIdentity:Int,layoutId:Int) {
-        for (i in 2..10) {
+    fun addTable(hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,revenue: String) {
+        for (i in 4..12) {
             var spaceLayout = createLayout(identitiy = layoutId + i)
-            if(i != 2) {
+            if(i != 4) {
                 spaceLayout.addView(blackLineHorz(viewColor = Color.WHITE))
             }
-            if(i ==6){
-                addLayoutToTable(hour,height,width,layoutId,startIdentity)
+            if(i ==8){
+                addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,revenue)
             }
             else{
                 spaceLayout.addView(blackLineHorz())
@@ -195,20 +241,22 @@ class InstructorDiaryWeekly: AppCompatActivity() {
 
     }
 
-    fun addTables(date: String,width: Float,height: Float){
-        for (i in 8..19) {
-                addTable(date, width,height, startIdentity = i*10000, layoutId = i*100000)
-        }
 
-    }
 
-    fun removeTables(){
+    fun removeTables() {
         val primLayout = findViewById<LinearLayout>(R.id.timeLayout)
-        for (i in 8..19) {
-            val id = i*100000
-            primLayout.removeView(findViewById(id))
-            primLayout.removeView(findViewById(id+1))
-            primLayout.removeView(findViewById(id+2))
+        var startIdentity = 300000
+        var layoutId = 400000
+        for (i in 1..24){
+            for (j in 0..12) {
+                primLayout.removeView(findViewById(layoutId + j))
+
+            }
+            for (j in 0..2){
+                primLayout.removeView(findViewById(startIdentity + j))
+            }
+            startIdentity+=10
+            layoutId+=10
         }
     }
 
@@ -261,5 +309,24 @@ class InstructorDiaryWeekly: AppCompatActivity() {
         view.setBackgroundColor(viewColor)
         return view
     }
+
+    override fun onForward(
+        lesson: Lesson,
+        date: String,
+        startTime: String,
+        endTime: String
+    ) {
+        userId?.let { databl.addLesson(it,"${date}_${startTime}-${endTime}",lesson) { message ->
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
+        }
+    }
+
+    // Load user
+    private fun loadUser(): String? {
+        val sharedPref = getSharedPreferences("sharedUser", Context.MODE_PRIVATE)
+        return sharedPref.getString("userId", null)
+    }
+
 
 }

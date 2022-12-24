@@ -4,12 +4,14 @@ import android.util.Log
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
+import Shared.Lesson
 import kotlinx.coroutines.tasks.await
+
 
 class Data {
     private val db = Firebase.firestore
     private val tag = "Database"
-
 
     suspend fun addInstructor(userInfo: HashMap<String, Any>) {
         val userId = userInfo["userId"] as String
@@ -65,8 +67,11 @@ class Data {
     }
 
 
-    fun setInstructorTimeInDataBase(userInfo: HashMap<String, Any>,date: String){
-        db.collection("Lessons").document(date).set(userInfo, SetOptions.merge()).addOnCompleteListener {
+
+
+
+    private fun addLesson(userId: String, lessonInfo: HashMap<String,Any>){
+        db.collection("Lessons").document(userId).set(lessonInfo,SetOptions.merge()).addOnCompleteListener { //, SetOptions.merge()
                 task ->
             if (task.isSuccessful){
                 Log.d(tag,"Added to database")
@@ -77,33 +82,95 @@ class Data {
         }
     }
 
-    fun getInstructorTimeInDataBase(userId: String, date:String,callback:(res:String)-> Unit){
-        db.document("Lessons/${date}").get().addOnCompleteListener{Task ->
-            if (Task.isSuccessful){
-                val res = Task.result.data?.get(userId).toString()
-                Log.d(tag,res)
-                callback(res)
+    fun validateLesson(
+        userId: String,
+        lessonInfo: HashMap<String, Any>,
+        callback: (message: String) -> Unit
+    ){
+        db.collection("Lessons").document(userId).get().addOnCompleteListener { Task->
+            if (Task.isSuccessful) {
+                var addLessonBool = true
+                val keyToCompare = lessonInfo.keys.elementAt(0)
+                Task.result.data?.forEach { Entry ->
+                    if (compareKeys(Entry.key,keyToCompare)){
+                        addLessonBool = false
+
+                    }
+                }
+                if(addLessonBool){
+                    Log.d(tag,"Adding to database $lessonInfo")
+                    callback("Scheduled successfully")
+                    addLesson(userId,lessonInfo)
+                }
+                else{
+                    callback("Busy at that date")
+                    Log.d(tag,"Couldn't add to database")
+                }
             }
             else{
-                Log.d(tag,"Couldn't retrieve data")
+                Log.d(tag,"Lesson verification failed")
             }
         }
-
     }
 
-    fun addLesson(userId: String,lessonInfo: HashMap<String,Any>){
-        db.collection("Lessons").document(userId).set(lessonInfo).addOnCompleteListener { //, SetOptions.merge()
-                task ->
-            if (task.isSuccessful){
-                Log.d(tag,"Added to database")
+    private fun compareKeys(key:String, keyCompare:String): Boolean {
+        val attributesKey = key.split("_")
+        val attributeKeyCompare = keyCompare.split("_")
+        if(attributesKey[0] == attributeKeyCompare[0]){
+            val startEndtime = attributesKey[1].split("-")
+            val startEndtimeCompare = attributeKeyCompare[1].split("-")
+            if(compareTime(startEndtime[0],startEndtime[1],startEndtimeCompare[0],startEndtimeCompare[1])){
+                return true
             }
+        }
+        return false
+    }
+
+    private fun compareTime(timeStart:String, timeEnd:String, timeStartCompare:String, timeEndCompare:String): Boolean {
+        var startTime = timeStart.replace(":","").toInt()
+        var endTime = timeEnd.replace(":","").toInt()
+        var compareStartTime = timeStartCompare.replace(":","").toInt()
+        var compareEndTime = timeEndCompare.replace(":","").toInt()
+
+        return inTheMiddle(startTime,compareStartTime,endTime)
+                || inTheMiddle(startTime,compareEndTime,endTime)
+                || inTheMiddle(compareStartTime,startTime,compareEndTime)
+                || inTheMiddle(compareStartTime,endTime,compareEndTime)
+    }
+
+    private fun inTheMiddle(x:Int, y:Int, z:Int): Boolean {
+        return (x <= y) && (y <= z)
+    }
+
+
+    fun getInstructorTimeFromDatabase(userId: String,date:String,
+    callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,revenue: String) -> Unit){
+        db.collection("Lessons").document(userId).get().addOnCompleteListener { Task->
+            if (Task.isSuccessful) {
+                    val sortedKeys = Task.result.data?.keys?.sorted()
+                    var startIdentity = 300000
+                    var layoutId = 400000
+                    if (sortedKeys!=null){
+                        for (key in sortedKeys){
+                            val splitDate = key.split("_")
+                            if (date == splitDate[0]){
+                                val lesson = Gson().fromJson(Task.result.data!![key].toString(), Lesson::class.java)
+                                callback(splitDate[1],startIdentity,layoutId,
+                                "${lesson.currentNumberOfParticipants}/${lesson.numberOfParticipants}",
+                                lesson.lessonName,
+                                "${lesson.price*lesson.currentNumberOfParticipants}$")
+                                startIdentity += 100
+                                layoutId += 100
+                            }
+                        }
+                    }
+                }
+
             else{
-                Log.d(tag,"Couldn't modify hours")
+                Log.d(tag,"Lesson verification failed")
             }
         }
     }
-
-
 
 
 }
