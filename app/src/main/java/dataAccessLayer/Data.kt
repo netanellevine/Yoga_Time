@@ -111,6 +111,33 @@ class Data {
     }
     }
 
+    fun removeUserFromLesson(userId: String,key:String,lesson:Lesson,userToAdd:String){
+            lesson.ParticipantsList.remove(userToAdd)
+            val lessonInfo: HashMap<String,Any> = hashMapOf(
+                key to Gson().toJson(lesson)
+            )
+            db.collection("Lessons").document(userId).set(lessonInfo,SetOptions.merge()).addOnCompleteListener {task ->
+                if(task.isSuccessful){
+                    Log.d(tag,"Added to lesson successfuly")
+                }
+                else{
+                    Log.w(tag,"Failed to add to lesson")
+                }
+            }
+
+    }
+
+    fun addAndRemove(flag:Boolean,userId: String,key:String,lesson:Lesson,userToAdd:String){
+        if(flag){
+            addUserToLesson(userId,key,lesson, userToAdd)
+        }
+        else{
+            removeUserFromLesson(userId,key,lesson, userToAdd)
+        }
+    }
+
+
+
     private fun addLesson(userId: String, lessonInfo: HashMap<String,Any>){
         db.collection("Lessons").document(userId).set(lessonInfo,SetOptions.merge()).addOnCompleteListener { //, SetOptions.merge()
                 task ->
@@ -125,7 +152,7 @@ class Data {
 
     fun getAvailability(userId: String,date:String,
                         callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String,
-                        inLesson : Boolean,addLesson: ()-> Unit) -> Unit) {
+                        inLesson : Boolean,addLesson: (flag:Boolean)-> Unit,year:String) -> Unit) {
         db.collection("Lessons").get().addOnCompleteListener { task ->
             if (task.isSuccessful){
                 var startIdentity = 300000
@@ -136,18 +163,21 @@ class Data {
                             val lesson = Gson().fromJson(field.value.toString(),Lesson::class.java)
                             if (lesson.ParticipantsList.size < lesson.numberOfParticipants) {
                                 val inList = userId in lesson.ParticipantsList
-                                callback(
-                                    field.key.split("_")[1],
-                                    startIdentity,
-                                    layoutId,
-                                    "${lesson.ParticipantsList.size}/${lesson.numberOfParticipants}",
-                                    lesson.lessonName,
-                                    lesson.level,
-                                    lesson.price.toString(),
-                                    inList
-                                ) {
-                                    addUserToLesson(doc.id,field.key, lesson, userId)
-                                }
+                                    callback(
+                                        field.key.split("_")[1],
+                                        startIdentity,
+                                        layoutId,
+                                        "${lesson.ParticipantsList.size}/${lesson.numberOfParticipants}",
+                                        lesson.lessonName,
+                                        lesson.level,
+                                        lesson.price.toString(),
+                                        inList,
+                                        { flag:Boolean ->
+                                            addAndRemove(flag,doc.id, field.key, lesson, userId)
+                                        },
+                                        field.key.split("_")[0]
+                                    )
+
 
                                 startIdentity+=100
                                 layoutId+=100

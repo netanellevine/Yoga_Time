@@ -50,10 +50,6 @@ class SignUp : AppCompatActivity() {
                 intent.putExtra("userId",userId)
                 startActivity(intent)
             }
-            else {
-                val intent = Intent(act, SignUp::class.java)
-                startActivity(intent)
-            }
         }
 
 

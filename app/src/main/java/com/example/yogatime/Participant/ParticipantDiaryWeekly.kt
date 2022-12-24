@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Build
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -19,13 +20,18 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import businessLogic.DataBL
 import com.example.yogatime.R
+import com.example.yogatime.utils.LoadingDialog
 
 import com.kizitonwose.calendar.core.*
 
 import com.kizitonwose.calendar.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
 
 import kotlin.properties.Delegates
 
@@ -35,6 +41,8 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
     var databl = DataBL()
     var width by Delegates.notNull<Float>()
     var height by Delegates.notNull<Float>()
+    lateinit var loading:LoadingDialog
+
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +61,7 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
                 Log.d("getUserId", userId!!)
             }
         }
+        loading = LoadingDialog(this)
 
         // Initialize calender view
         val weekCalendarView: WeekCalendarView = findViewById(R.id.weekCalendarView)
@@ -146,7 +155,7 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
 
     }
     // Add layout to the table, which we use to present the lesson information
-    fun addLayoutToTable(hour:String,height: Float,width: Float,layoutId: Int,startIdentity: Int,currentlySigned: String,lessonName:String,level:String,price:String,addButton:Boolean,buttonFunc: () -> Unit) {
+    fun addLayoutToTable(hour:String,height: Float,width: Float,layoutId: Int,startIdentity: Int,currentlySigned: String,lessonName:String,level:String,price:String,addButton:Boolean,buttonFunc: (flag:Boolean) -> Unit,year:String) {
         val hourView =
             createTextView(text = hour, height = height, width = width, toDraw = true, size = 13f)
 
@@ -221,36 +230,56 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
 
         layout.addView(priceLayout)
 
-        if (!addButton){
-            val plusButton = ImageButton(this)
-            val plusLayout = createLayout(false, layoutId + 4)
 
-            plusButton.setImageDrawable(getDrawable(R.drawable.ic_plus_24))
-            plusButton.setOnClickListener {
-                buttonFunc()
-                layout.removeView(plusLayout)
+        val signButton = ImageButton(this)
+        val signLayout = createLayout(false, layoutId + 4)
+        var cur = !addButton
+        var sign = if (cur)  getDrawable(R.drawable.ic_plus_24) else getDrawable(R.drawable.ic_baseline_remove_24)
+        signButton.setImageDrawable(sign)
+        signButton.setOnClickListener {
+            loading.startLoadingDialog()
+            buttonFunc(cur)
+            val scope = CoroutineScope(newSingleThreadContext("Assign user"))
+            removeTables()
+            scope.launch {
+                userId?.let { it1 -> databl.getAvailability(it1, year, ::addTable) }
+                TimeUnit.SECONDS.sleep(3L)
             }
-            plusLayout.addView(plusButton)
-            layout.addView(plusLayout)
+            loading.dismissDialog()
         }
-        else{
-            val removeButton = ImageButton(this)
-            val removeLayout = createLayout(false, layoutId + 4)
-
-            removeButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_remove_24))
-            removeButton.setOnClickListener {
-            }
-            removeLayout.addView(removeButton)
-            layout.addView(removeLayout)
-        }
+        signLayout.addView(signButton)
+        layout.addView(signLayout)
+//        if (!addButton){
+//            val plusButton = ImageButton(this)
+//            val plusLayout = createLayout(false, layoutId + 4)
+//            plusButton.setImageDrawable(getDrawable(R.drawable.ic_plus_24))
+//            plusButton.setOnClickListener {
+//                buttonFunc(true)
+//                layout.removeView(plusLayout)
+//            }
+//            plusLayout.addView(plusButton)
+//            layout.addView(plusLayout)
+//        }
+//        else{
+//            val removeButton = ImageButton(this)
+//            val removeLayout = createLayout(false, layoutId + 4)
+//
+//            removeButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_remove_24))
+//            removeButton.setOnClickListener {
+//                buttonFunc(false)
+//                layout.removeView(removeLayout)
+//            }
+//            removeLayout.addView(removeButton)
+//            layout.addView(removeLayout)
+//        }
 //        layout.addView(LineVert())
 
     }
 
     // Add table to present the information
-    fun addTable(hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,price: String,addButton: Boolean,buttonFunc: () -> Unit) {
+    fun addTable(hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,price: String,addButton: Boolean,buttonFunc: (flag:Boolean) -> Unit,year: String) {
 
-        addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,level,price,addButton,buttonFunc)
+        addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,level,price,addButton,buttonFunc,year)
         var spaceLayout = createLayout(identitiy = layoutId)
         spaceLayout.addView(LineHorz())
         findViewById<LinearLayout>(R.id.timeLayout).addView(spaceLayout)
