@@ -1,4 +1,4 @@
-package com.example.yogatime
+package com.example.yogatime.Instructor
 
 import android.app.Dialog
 import android.os.Bundle
@@ -21,6 +21,7 @@ import com.google.android.material.timepicker.TimeFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import Shared.Lesson
+import com.example.yogatime.R
 
 
 class InstructorLessonPopupFragment : DialogFragment() {

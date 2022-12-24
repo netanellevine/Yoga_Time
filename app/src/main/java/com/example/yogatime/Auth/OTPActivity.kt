@@ -1,16 +1,12 @@
-package com.example.yogatime
+package com.example.yogatime.Auth
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
-import android.view.Gravity
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import businessLogic.AuthBL
+import com.example.yogatime.R
 
 
 class OTPActivity : AppCompatActivity() {

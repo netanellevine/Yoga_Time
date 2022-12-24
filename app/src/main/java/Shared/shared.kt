@@ -1,6 +1,8 @@
 package Shared
 
+
 import com.google.gson.annotations.SerializedName
+
 
 data class Lesson(@SerializedName("lessonName") val lessonName: String,
                   @SerializedName("maxNumberOfParticipants") val numberOfParticipants: Int,

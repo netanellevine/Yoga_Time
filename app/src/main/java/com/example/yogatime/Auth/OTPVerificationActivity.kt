@@ -1,4 +1,4 @@
-package com.example.yogatime
+package com.example.yogatime.Auth
 
 import android.app.Dialog
 import android.content.Context
@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import businessLogic.AuthBL
+import com.example.yogatime.R
 
 class OTPVerificationActivity(context: Context, authBL: AuthBL, mobile: String) : Dialog(context) {
 

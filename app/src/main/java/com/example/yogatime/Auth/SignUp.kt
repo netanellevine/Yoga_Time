@@ -1,4 +1,4 @@
-package com.example.yogatime
+package com.example.yogatime.Auth
 
 import android.content.Context
 import android.content.Intent
@@ -10,11 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import businessLogic.DataBL
+import com.example.yogatime.Instructor.PostLoginInstructorActivity
+import com.example.yogatime.Participant.PostLoginParticipantActivity
+import com.example.yogatime.R
 import com.google.android.material.button.MaterialButton
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
 
 class SignUp : AppCompatActivity() {
     private val tag = "SignUp"
@@ -74,7 +73,7 @@ class SignUp : AppCompatActivity() {
         startActivity(intent)
     }
     private fun postLoginParticipant(userId: String){
-        val intent = Intent(this,PostLoginParticipantActivity::class.java)
+        val intent = Intent(this, PostLoginParticipantActivity::class.java)
         intent.putExtra("userId", userId)
         startActivity(intent)
     }

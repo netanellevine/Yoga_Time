@@ -1,4 +1,4 @@
-package com.example.yogatime
+package com.example.yogatime.Instructor
 
 import android.content.Intent
 import android.os.Build
@@ -10,18 +10,24 @@ import android.widget.ImageButton
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import businessLogic.DataBL
+import com.example.yogatime.R
+import com.example.yogatime.Auth.SignUp
 import kotlinx.coroutines.*
 
 
-class PostLoginParticipantActivity : AppCompatActivity() {
+class PostLoginInstructorActivity : AppCompatActivity() {
     lateinit var databl :DataBL
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_participant_signup)
+        setContentView(R.layout.activity_instructor_signup)
         // Get the userId from previous activity
-        val userId = this.intent?.getSerializableExtra("userId", String::class.java)
+        val user = this.intent?.getSerializableExtra("userId")
+        var userId: String? = null
+        if (user != null) {
+            userId = user as String
+        }
         if (userId != null) {
             Log.d("getUserId",userId)
         }
@@ -56,15 +62,17 @@ class PostLoginParticipantActivity : AppCompatActivity() {
             val lastName: EditText = findViewById(R.id.lastName)
             val lastNameText = lastName.text.toString()
 
-
+            val workPlace: EditText = findViewById(R.id.workPlace)
+            val workPlaceText = workPlace.text.toString()
 
             // Add the instructor to the database
             run {
                 val scope = CoroutineScope(newSingleThreadContext("Add instructor"))
                 scope.launch {
-                    databl.addParticipant(
+                    databl.addInstructor(
                         userId = userId!!, firstName = firstNameText,
                         lastName = lastNameText,
+                        workPlace = workPlaceText
                     )
                     val intent = Intent(act, InstructorDiaryWeekly::class.java)
                     // start your next activity

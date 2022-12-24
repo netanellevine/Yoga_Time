@@ -14,7 +14,7 @@
         android:theme="@style/Theme.YogaTime"
         tools:targetApi="31">
         <activity
-            android:name=".OTPActivity"
+            android:name=".Auth.OTPActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -42,11 +42,11 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".SignUp"/>
-        <activity android:name=".PostLoginInstructorActivity"/>
-        <activity android:name=".PostLoginParticipantActivity"/>
-        <activity android:name=".InstructorDiaryWeekly"/>
-        <activity android:name=".participantDiaryWeekly"/>
+        <activity android:name=".Auth.SignUp"/>
+        <activity android:name=".Instructor.PostLoginInstructorActivity"/>
+        <activity android:name=".Participant.PostLoginParticipantActivity"/>
+        <activity android:name=".Instructor.InstructorDiaryWeekly"/>
+        <activity android:name=".Participant.participantDiaryWeekly"/>
 
         <meta-data
             android:name="preloaded_fonts"

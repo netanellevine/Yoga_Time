@@ -7,6 +7,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import businessLogic.DataBL
+import com.example.yogatime.Auth.OTPActivity
+import com.example.yogatime.Auth.SignUp
+import com.example.yogatime.Instructor.InstructorDiaryWeekly
+import com.example.yogatime.Participant.ParticipantDiaryWeekly
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
@@ -35,7 +39,7 @@ class StartActivity : AppCompatActivity() {
                 }
 
                 else if(userId?.let { dataBL.checkIfParticipantExists(it) } == true) {
-                    val intent = Intent(act, participantDiaryWeekly::class.java)
+                    val intent = Intent(act, ParticipantDiaryWeekly::class.java)
                     // start your next activity
                     Log.d("Transfer userid",userId)
                     intent.putExtra("userId",userId)
