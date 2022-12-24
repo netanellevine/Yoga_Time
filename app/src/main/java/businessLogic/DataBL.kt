@@ -49,6 +49,12 @@ class DataBL {
 
     }
 
+    fun getAvailability(date:String,
+                                      callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) -> Unit){
+        data.getAvailability(date, callback)
+
+    }
+
 
 
     fun addLesson(userId: String,fullDate: String, lesson:Lesson,callback: (message:String) -> Unit) {
@@ -59,6 +65,8 @@ class DataBL {
         )
         data.validateLesson(userId,lessonInfo,callback)
     }
+
+
 
 
 

@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.os.Build
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
@@ -27,7 +28,6 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-import java.util.*
 import kotlin.properties.Delegates
 
 
@@ -46,9 +46,14 @@ class participantDiaryWeekly: AppCompatActivity() {
         setContentView(R.layout.participant_weekly)
         userId = loadUser()
         if(userId!= null) {
-            userId = intent.getSerializableExtra("userId",String::class.java)
+            val user = this.intent?.getSerializableExtra("userId")
+            if (user != null) {
+                userId = user as String
+            }
+            if (userId != null) {
+                Log.d("getUserId", userId!!)
+            }
         }
-        Toast.makeText(this,"hey I just met you",Toast.LENGTH_SHORT).show()
 
         // Initialize calender view
         val weekCalendarView: WeekCalendarView = findViewById(R.id.weekCalendarView)
@@ -74,17 +79,21 @@ class participantDiaryWeekly: AppCompatActivity() {
                 container.textView.textSize = width/100
                 container.textView.setTextColor(red)
                 container.view.setBackgroundColor(white)
-                container.view.setOnClickListener(object : DoubleClickListener() {
-                    override fun onDoubleClick(v: View) {
-                        changeColor(container,red,white)
-                        changeColor(markedContainer,white,red)
-                        markedContainer = container
+                container.view.setOnClickListener {
+                    if (markedContainer != container) {
                         removeTables()
-                        val year = data.date.format(yearFormat)
-                        userId?.let { databl.getInstructorTimeFromDatabase(it,year,::addTable) }
+                        changeColor(container, red, white)
+                        changeColor(markedContainer, white, red)
 
+                        val year = data.date.format(yearFormat)
+                        databl.getAvailability(year,::addTable)
+
+
+                        markedContainer = container
                     }
-                })
+
+                }
+
             }
         }
         // Scroll to the current date and define max and min dates
@@ -119,30 +128,12 @@ class participantDiaryWeekly: AppCompatActivity() {
         // Set on click listeners for the buttons
         changeDate(findViewById(R.id.forward),true)
         changeDate(findViewById(R.id.backward),false)
-
-
-
-
+        addHeaderToTable()
 
     }
 
 
-    // On double click listener will remove it later
-    abstract class DoubleClickListener : View.OnClickListener {
-        private var lastClickTime: Long = 0
-        override fun onClick(v: View) {
-            val clickTime = System.currentTimeMillis()
-            if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
-                onDoubleClick(v)
-                lastClickTime = 0
-            }
-            lastClickTime = clickTime
-        }
-        abstract fun onDoubleClick(v: View)
-        companion object {
-            private const val DOUBLE_CLICK_TIME_DELTA: Long = 300 //milliseconds
-        }
-    }
+
     // Container view add the text to the container
     class DayViewContainer(view: View) : ViewContainer(view) {
         val textView: TextView = view.findViewById(R.id.calendarDayText)
@@ -156,80 +147,93 @@ class participantDiaryWeekly: AppCompatActivity() {
 
     }
     // Add layout to the table, which we use to present the lesson information
-    fun addLayoutToTable(hour:String,height: Float,width: Float,layoutId: Int,startIdentity: Int,currentlySigned: String,lessonName:String,revenue:String){
-        val hourView = createTextView(text=hour, height = height/2, width = width, toDraw = true)
+    fun addLayoutToTable(hour:String,height: Float,width: Float,layoutId: Int,startIdentity: Int,currentlySigned: String,lessonName:String,level:String,price:String){
+        val hourView = createTextView(text=hour, height = height, width = width, toDraw = true, size=13f)
 
-        val layout = createLayout(identitiy = layoutId)
+        val layout = createLayout(identitiy = layoutId + 10)
         findViewById<LinearLayout>(R.id.timeLayout).addView(layout)
 
-
-
-
         layout.addView(hourView)
+        layout.addView(LineVert())
 
         val peopleNumberLayout = createLayout(false,layoutId+1)
         val peopleNumber = createTextView(
             Color.WHITE,
             currentlySigned,
-            10f,
+            11f,
             true,
-            width ,
-            height / 2,
+            width  / 2,
+            height,
             startIdentity
         )
         peopleNumberLayout.addView(peopleNumber)
 
-
         layout.addView(peopleNumberLayout)
+//        layout.addView(LineVert())
 
         val lessonLayout = createLayout(false,layoutId+2)
         val lessonNameView = createTextView(
             Color.WHITE,
             lessonName,
-            10f,
+            11f,
             false,
             width ,
-            height / 2,
+            height,
             startIdentity+1
         )
         lessonLayout.addView(lessonNameView)
         layout.addView(lessonLayout)
+//        layout.addView(LineVert())
 
-        val revenueLayout = createLayout(false,layoutId+3)
-        val revenueView = createTextView(
+        val levelLayout = createLayout(false,layoutId+2)
+        val levelNameView = createTextView(
             Color.WHITE,
-            revenue,
-            10f,
-            true,
-            width ,
-            height / 2,
+            level,
+            12f,
+            false,
+            width / 2 ,
+            height,
             startIdentity+2
         )
-        revenueLayout.addView(revenueView)
+        levelLayout.addView(levelNameView)
+        layout.addView(levelLayout)
+//        layout.addView(LineVert())
 
-
-        layout.addView(revenueLayout)
-
-
-
-
+        val priceLayout = createLayout(false,layoutId+3)
+        val priceView = createTextView(
+            Color.WHITE,
+            price,
+            11f,
+            true,
+            width / 2 ,
+            height,
+            startIdentity+3
+        )
+        priceLayout.addView(priceView)
+        layout.addView(priceLayout)
+//        layout.addView(LineVert())
 
     }
+
     // Add table to present the information
-    fun addTable(hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) {
-        for (i in 4..12) {
-            var spaceLayout = createLayout(identitiy = layoutId + i)
-            if(i != 4) {
-                spaceLayout.addView(blackLineHorz(viewColor = Color.WHITE))
-            }
-            if(i ==8){
-                addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,revenue)
-            }
-            else{
-                spaceLayout.addView(blackLineHorz())
-            }
-            findViewById<LinearLayout>(R.id.timeLayout).addView(spaceLayout)
-        }
+    fun addTable(hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,price: String) {
+//        for (i in 4..12) {
+//            var spaceLayout = createLayout(identitiy = layoutId + i)
+//            if(i != 4) {
+//                spaceLayout.addView(blackLineHorz(viewColor = Color.WHITE))
+//            }
+//            if(i ==8){
+//                addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,level,price)
+//            }
+//            else{
+//                spaceLayout.addView(blackLineHorz())
+//            }
+//            findViewById<LinearLayout>(R.id.timeLayout).addView(spaceLayout)
+//        }
+        addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,level,price)
+        var spaceLayout = createLayout(identitiy = layoutId)
+        spaceLayout.addView(LineHorz())
+        findViewById<LinearLayout>(R.id.timeLayout).addView(spaceLayout)
 
     }
 
@@ -240,37 +244,41 @@ class participantDiaryWeekly: AppCompatActivity() {
         var startIdentity = 300000
         var layoutId = 400000
         for (i in 1..24){
-            for (j in 0..12) {
-                primLayout.removeView(findViewById(layoutId + j))
-
-            }
-            for (j in 0..2){
-                primLayout.removeView(findViewById(startIdentity + j))
-            }
-            startIdentity+=10
-            layoutId+=10
+            primLayout.removeView(findViewById(layoutId + 10))
+            primLayout.removeView(findViewById(layoutId))
+//            for (j in 0..12) {
+//                primLayout.removeView(findViewById(layoutId + j))
+//
+//            }
+//            for (j in 0..3){
+//                primLayout.removeView(findViewById(startIdentity + j))
+//            }
+            startIdentity+=100
+            layoutId+=100
         }
     }
 
     // Create a text view according to given parameters
-    private fun createTextView(Color: Int = android.graphics.Color.rgb(220,220,220),text:String,size:Float = 10f,isCaps:Boolean = true,width: Float,height: Float,identitiy: Int = -1,toDraw: Boolean = false): TextView{
+    private fun createTextView(BgColor: Int = Color.rgb(220,220,220),text:String,size:Float = 10f,isCaps:Boolean = true,width: Float,height: Float,identitiy: Int = -1,toDraw: Boolean = false, textColor: Int = -1): TextView{
         val textView = TextView(this)
-        textView.setBackgroundColor(Color)
+        textView.setBackgroundColor(BgColor)
         textView.id = identitiy
         textView.text = text
         textView.textSize = size
         textView.isAllCaps = isCaps
-        textView.textSize = 10f
         textView.gravity = Gravity.CENTER
         textView.width = (width/4).toInt()
         textView.height = (height/17).toInt()
+        if (textColor != -1) {
+            textView.setTextColor(textColor)
+        }
         if(toDraw){
             textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_schedule_24,0,0,0)
         }
         return textView
     }
     // Create basic layout according to given parameters
-     fun createLayout(flag: Boolean = true,identitiy:Int = -1,backColor : Int = Color.WHITE) : LinearLayout{
+    fun createLayout(flag: Boolean = true,identitiy:Int = -1,backColor : Int = Color.WHITE) : LinearLayout{
         val linear = LinearLayout(this)
         val id = identitiy
         linear.id = id
@@ -280,20 +288,20 @@ class participantDiaryWeekly: AppCompatActivity() {
         else{
             linear.orientation = LinearLayout.VERTICAL
         }
-         linear.setBackgroundColor(backColor)
+        linear.setBackgroundColor(backColor)
         return linear
     }
     // Creates vertical black line seperator
-    private fun blackLineVert() : View{
+    private fun LineVert(width: Int = 6, viewColor: Int = Color.rgb(60,108,106)) : View{
         val view = View(this)
         view.layoutParams = LinearLayout.LayoutParams(
-            10, LinearLayout.LayoutParams.MATCH_PARENT
+            width, LinearLayout.LayoutParams.MATCH_PARENT
         )
-        view.setBackgroundColor(Color.BLACK)
+        view.setBackgroundColor(viewColor)
         return view
     }
     // Creates horizontal black line seperator
-    private fun blackLineHorz(height: Int = 8,viewColor: Int = Color.rgb(60,108,106)) : View{
+    private fun LineHorz(height: Int = 6, viewColor: Int = Color.rgb(60,108,106)) : View{
         val view = View(this)
         view.layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT, height
@@ -308,6 +316,84 @@ class participantDiaryWeekly: AppCompatActivity() {
     private fun loadUser(): String? {
         val sharedPref = getSharedPreferences("sharedUser", Context.MODE_PRIVATE)
         return sharedPref.getString("userId", null)
+    }
+
+    // Add layout to the table, which we use to present the lesson information
+    fun addHeaderToTable(){
+        val lineLayoutTop = createLayout()
+        findViewById<LinearLayout>(R.id.timeLayout).addView(lineLayoutTop)
+        lineLayoutTop.addView(LineHorz(12))
+        val hourView = createTextView(text="Time", height = height, width = width, size=11f, isCaps=false, textColor = Color.rgb(21, 115, 135))
+
+        val layout = createLayout()
+        findViewById<LinearLayout>(R.id.timeLayout).addView(layout)
+//        layout.orientation = LinearLayout.VERTICAL
+//        layout.addView(LineHorz(12))
+//        layout.orientation = LinearLayout.HORIZONTAL
+        layout.addView(hourView)
+        layout.setBackgroundColor(Color.rgb(220,220,220))
+//        layout.addView(LineVert())
+
+        val peopleNumberLayout = createLayout(false)
+        val peopleNumber = createTextView(
+            Color.rgb(220,220,220),
+            "Availability/\nCapacity",
+            10f,
+            false,
+            width / 2,
+            height,
+            textColor = Color.rgb(21, 115, 135)
+        )
+        peopleNumberLayout.addView(peopleNumber)
+
+        layout.addView(peopleNumberLayout)
+//        layout.addView(LineVert())
+
+        val lessonLayout = createLayout(false,)
+        val lessonNameView = createTextView(
+            Color.rgb(220,220,220),
+            "Lesson",
+            11f,
+            false,
+            width ,
+            height,
+            textColor = Color.rgb(21, 115, 135)
+        )
+        lessonLayout.addView(lessonNameView)
+        layout.addView(lessonLayout)
+//        layout.addView(LineVert())
+
+        val levelLayout = createLayout(false,)
+        val levelNameView = createTextView(
+            Color.rgb(220,220,220),
+            "Level",
+            11f,
+            false,
+            width / 2 ,
+            height,
+            textColor = Color.rgb(21, 115, 135)
+        )
+        levelLayout.addView(levelNameView)
+        layout.addView(levelLayout)
+//        layout.addView(LineVert())
+
+        val priceLayout = createLayout(false)
+        val priceView = createTextView(
+            Color.rgb(220,220,220),
+            "Price",
+            11f,
+            false,
+            width / 2 ,
+            height,
+            textColor = Color.rgb(21, 115, 135)
+        )
+        priceLayout.addView(priceView)
+        layout.addView(priceLayout)
+//        layout.addView(LineVert())
+
+        val lineLayoutBottom = createLayout()
+        findViewById<LinearLayout>(R.id.timeLayout).addView(lineLayoutBottom)
+        lineLayoutBottom.addView(LineHorz())
     }
 
 

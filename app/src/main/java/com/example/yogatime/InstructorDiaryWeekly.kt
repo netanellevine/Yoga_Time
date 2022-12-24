@@ -89,8 +89,9 @@ class InstructorDiaryWeekly: AppCompatActivity(),InstructorLessonPopupFragment.O
                 container.textView.setTextColor(red)
                 container.view.setBackgroundColor(white)
                 container.view.setOnClickListener {
-                    removeTables()
+
                     if (markedContainer != container) {
+                        removeTables()
                         changeColor(container, red, white)
                         changeColor(markedContainer, white, red)
 

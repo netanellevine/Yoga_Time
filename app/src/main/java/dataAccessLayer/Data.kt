@@ -108,6 +108,35 @@ class Data {
         }
     }
 
+    fun getAvailability(date:String,
+                        callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) -> Unit) {
+        db.collection("Lessons").get().addOnCompleteListener { task ->
+            if (task.isSuccessful){
+                var startIdentity = 300000
+                var layoutId = 400000
+                task.result.documents.forEach { doc ->
+                    doc.data?.forEach { field ->
+                        if (field.key.contains(date)){
+                            val lesson = Gson().fromJson(field.value.toString(),Lesson::class.java)
+                            callback(field.key.split("_")[1],
+                                startIdentity,
+                                layoutId,
+                                "${lesson.currentNumberOfParticipants}/${lesson.numberOfParticipants}",
+                                lesson.lessonName,
+                                lesson.level,
+                                lesson.price.toString()
+                            )
+                        }
+                    }
+                }
+            }
+            else{
+                Log.w(tag,"Couldn't search through database please verify internet connection")
+            }
+
+        }
+    }
+
     fun validateLesson(
         userId: String,
         lessonInfo: HashMap<String, Any>,
@@ -164,11 +193,12 @@ class Data {
     }
 
     private fun inTheMiddle(x:Int, y:Int, z:Int): Boolean {
-        return (x <= y) && (y < z)
+        return (x < y) && (y < z)
     }
 
 
-    fun getInstructorTimeFromDatabase(userId: String,date:String,
+
+        fun getInstructorTimeFromDatabase(userId: String,date:String,
     callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) -> Unit){
         db.collection("Lessons").document(userId).get().addOnCompleteListener { Task->
             if (Task.isSuccessful) {
