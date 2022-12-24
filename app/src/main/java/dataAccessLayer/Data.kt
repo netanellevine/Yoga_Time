@@ -94,8 +94,11 @@ class Data {
 
 
 
-    fun addUserToLesson(userId: String,lessonInfo:Lesson,userToAdd:String){
-        lessonInfo.ParticipantsList.add(userToAdd)
+    fun addUserToLesson(userId: String,key:String,lesson:Lesson,userToAdd:String){
+        lesson.ParticipantsList.add(userToAdd)
+        val lessonInfo: HashMap<String,Any> = hashMapOf(
+            key to Gson().toJson(lesson)
+        )
         db.collection("Lessons").document(userId).set(lessonInfo,SetOptions.merge()).addOnCompleteListener {task ->
             if(task.isSuccessful){
                 Log.d(tag,"Added to lesson successfuly")
@@ -130,10 +133,7 @@ class Data {
                         if (field.key.contains(date)){
                             val lesson = Gson().fromJson(field.value.toString(),Lesson::class.java)
                             if (lesson.ParticipantsList.size < lesson.numberOfParticipants) {
-                                var inList = false
-                                if (userId in lesson.ParticipantsList){
-                                    inList = true
-                                }
+                                val inList = userId in lesson.ParticipantsList
                                 callback(
                                     field.key.split("_")[1],
                                     startIdentity,
@@ -144,7 +144,7 @@ class Data {
                                     lesson.price.toString(),
                                     inList
                                 ) {
-                                    addUserToLesson(doc.id, lesson, userId)
+                                    addUserToLesson(doc.id,field.key, lesson, userId)
                                 }
                             }
                         }

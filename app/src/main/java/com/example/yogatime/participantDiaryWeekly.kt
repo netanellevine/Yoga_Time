@@ -219,7 +219,7 @@ class participantDiaryWeekly: AppCompatActivity() {
 
         layout.addView(priceLayout)
 
-        if (addButton){
+        if (!addButton){
             val plusButton = ImageButton(this)
             val plusLayout = createLayout(false, layoutId + 4)
 
