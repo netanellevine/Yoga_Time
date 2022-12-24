@@ -28,7 +28,7 @@ class StartActivity : AppCompatActivity() {
         val act = this
         if (loadUser()!=null){
             Log.d("user","user id is not null")
-            val scope = CoroutineScope(newSingleThreadContext("Add instructor"))
+            val scope = CoroutineScope(newSingleThreadContext("Transfer to right page"))
             scope.launch {
                 if(userId?.let { dataBL.checkIfInstructorExists(it) } == true) {
                     val intent = Intent(act, InstructorDiaryWeekly::class.java)

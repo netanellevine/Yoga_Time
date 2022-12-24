@@ -95,7 +95,8 @@ class Data {
 
 
     fun addUserToLesson(userId: String,key:String,lesson:Lesson,userToAdd:String){
-        lesson.ParticipantsList.add(userToAdd)
+        if(userToAdd !in lesson.ParticipantsList && lesson.ParticipantsList.size < lesson.numberOfParticipants){
+            lesson.ParticipantsList.add(userToAdd)
         val lessonInfo: HashMap<String,Any> = hashMapOf(
             key to Gson().toJson(lesson)
         )
@@ -107,6 +108,7 @@ class Data {
                 Log.w(tag,"Failed to add to lesson")
             }
         }
+    }
     }
 
     private fun addLesson(userId: String, lessonInfo: HashMap<String,Any>){
@@ -129,7 +131,7 @@ class Data {
                 var startIdentity = 300000
                 var layoutId = 400000
                 task.result.documents.forEach { doc ->
-                    doc.data?.forEach { field ->
+                    doc.data?.toSortedMap()?.forEach { field ->
                         if (field.key.contains(date)){
                             val lesson = Gson().fromJson(field.value.toString(),Lesson::class.java)
                             if (lesson.ParticipantsList.size < lesson.numberOfParticipants) {
@@ -146,6 +148,9 @@ class Data {
                                 ) {
                                     addUserToLesson(doc.id,field.key, lesson, userId)
                                 }
+
+                                startIdentity+=100
+                                layoutId+=100
                             }
                         }
                     }

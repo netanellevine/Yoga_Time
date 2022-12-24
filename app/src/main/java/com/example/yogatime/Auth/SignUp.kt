@@ -10,10 +10,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import businessLogic.DataBL
+import com.example.yogatime.Instructor.InstructorDiaryWeekly
 import com.example.yogatime.Instructor.PostLoginInstructorActivity
+import com.example.yogatime.Participant.ParticipantDiaryWeekly
 import com.example.yogatime.Participant.PostLoginParticipantActivity
 import com.example.yogatime.R
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
 
 class SignUp : AppCompatActivity() {
     private val tag = "SignUp"
@@ -24,6 +30,30 @@ class SignUp : AppCompatActivity() {
         var userId = loadUser()
         if(userId==null) {
             userId = this.intent?.getSerializableExtra("userId", String::class.java)
+        }
+        val dataBL = DataBL()
+        val act = this
+        val scope = CoroutineScope(newSingleThreadContext("Transfer to right page"))
+        scope.launch {
+            if(userId?.let { dataBL.checkIfInstructorExists(it) } == true) {
+                val intent = Intent(act, InstructorDiaryWeekly::class.java)
+                // start your next activity
+                Log.d("Transfer userid",userId)
+                intent.putExtra("userId",userId)
+                startActivity(intent)
+            }
+
+            else if(userId?.let { dataBL.checkIfParticipantExists(it) } == true) {
+                val intent = Intent(act, ParticipantDiaryWeekly::class.java)
+                // start your next activity
+                Log.d("Transfer userid",userId)
+                intent.putExtra("userId",userId)
+                startActivity(intent)
+            }
+            else {
+                val intent = Intent(act, SignUp::class.java)
+                startActivity(intent)
+            }
         }
 
 

@@ -185,6 +185,11 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
         layout.addView(lessonLayout)
 //        layout.addView(LineVert())
 
+        var currColor = 0
+        if (level == "A") currColor = Color.GREEN
+        else if (level == "B") currColor = Color.YELLOW
+        else if (level == "C") currColor = Color.RED
+        else currColor = Color.BLUE
         val levelLayout = createLayout(false, layoutId + 2)
         val levelNameView = createTextView(
             Color.WHITE,
@@ -193,7 +198,8 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
             false,
             width / 2,
             height,
-            startIdentity + 2
+            startIdentity + 2,
+            textColor = currColor
         )
         levelLayout.addView(levelNameView)
         layout.addView(levelLayout)
@@ -221,10 +227,15 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
 
             plusButton.setImageDrawable(getDrawable(R.drawable.ic_plus_24))
             plusButton.setOnClickListener {
+
                 buttonFunc()
+                layout.removeView(plusLayout)
             }
             plusLayout.addView(plusButton)
             layout.addView(plusLayout)
+        }
+        else{
+
         }
 //        layout.addView(LineVert())
 

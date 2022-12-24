@@ -46,7 +46,7 @@
         <activity android:name=".Instructor.PostLoginInstructorActivity"/>
         <activity android:name=".Participant.PostLoginParticipantActivity"/>
         <activity android:name=".Instructor.InstructorDiaryWeekly"/>
-        <activity android:name=".Participant.participantDiaryWeekly"/>
+        <activity android:name=".Participant.ParticipantDiaryWeekly"/>
 
         <meta-data
             android:name="preloaded_fonts"
