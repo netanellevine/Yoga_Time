@@ -21,7 +21,11 @@ class PostLoginInstructorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_instructor_signup)
         // Get the userId from previous activity
-        val userId = this.intent?.getSerializableExtra("userId", String::class.java)
+        val user = this.intent?.getSerializableExtra("userId")
+        var userId: String? = null
+        if (user != null) {
+            userId = user as String
+        }
         if (userId != null) {
             Log.d("getUserId",userId)
         }
