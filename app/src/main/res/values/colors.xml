@@ -303,4 +303,18 @@
     <color name="md_blue_grey_700">#455A64</color>
     <color name="md_blue_grey_800">#37474F</color>
     <color name="md_blue_grey_900">#263238</color>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- Lesson LEVELS -->
+    <color name="EASY">#169FF5</color>
+    <color name="MODERATE">#862CB0</color>
+    <color name="ADVANCED">#F50288</color>
+    <color name="ALL">#070264</color>
+
+    <!-- WeeklyBG -->
+    <color name="WeeklyBackgroundColor">#DCDCDC</color>
+    <color name="TextColor">#3C6C6A</color>
 </resources>

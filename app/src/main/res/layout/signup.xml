@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Auth.SignUp"
+    android:id="@+id/main">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/vie_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.65"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0">
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/phone_screen_ico"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintHeight_percent="0.5"/>
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/yogatime_text_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintVertical_bias="0.1"
+            app:layout_constraintWidth_percent="0.7"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/btn_enter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintWidth_percent="0.8">
+
+        <!--        <Button-->
+        <!--            android:text="left"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_weight=".30" />-->
+
+        <!--        <Button-->
+        <!--            android:text="right"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_weight=".70" />-->
+
+        <!--        app:ccp_areaCodeDetectedCountry="true"-->
+        <!--        app:ccp_autoDetectCountry="true"-->
+        <!--        app:ccp_autoDetectLanguage="true"-->
+
+        <!--        <com.google.android.material.textfield.TextInputLayout-->
+        <!--            android:id="@+id/CountryCode"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"-->
+        <!--            app:startIconDrawable="@drawable/ic_baseline_phone_24"-->
+        <!--            app:startIconTint="@color/md_teal_400"-->
+        <!--            >-->
+
+        <!--            <AutoCompleteTextView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:hint="Phone number"-->
+        <!--                android:inputType="phone" />-->
+        <!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--        app:startIconDrawable="@drawable/ic_baseline_phone_24"-->
+        <!--        app:startIconTint="@color/md_teal_400"-->
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#dbeceb"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="How do you plan to use the app"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+            <RadioButton
+                android:id="@+id/instructor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yoga Instructor"/>
+
+            <RadioButton
+                android:id="@+id/participant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yoga Participant"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_enter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_bg2"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/md_teal_400"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="Enter"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:backgroundTint="@null"
+        app:cornerRadius="0dp"
+        app:icon="@drawable/ic_baseline_arrow_forward_ios_24"
+        app:iconGravity="end"
+        app:iconPadding="0dp"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.6"
+        app:layout_constraintWidth_percent="0.8" />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
