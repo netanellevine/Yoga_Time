@@ -13,6 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+*.pem
+*.json
 
 
 # Gradle files

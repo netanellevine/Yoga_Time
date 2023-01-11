@@ -2,10 +2,13 @@ package businessLogic
 
 import com.google.gson.Gson
 import Shared.Lesson
+import android.os.Build
+import androidx.annotation.RequiresApi
 import dataAccessLayer.Data
-
+@RequiresApi(Build.VERSION_CODES.N)
 class DataBL {
     val data = Data()
+
 
 
     suspend fun addInstructor(
@@ -24,7 +27,7 @@ class DataBL {
     }
     suspend fun addParticipant(userId: String, firstName: String,
                       lastName: String){
-        val user:HashMap<String,String> = hashMapOf(
+        val user:HashMap<String,Any> = hashMapOf(
             "userId" to userId,
             "firstName" to firstName,
             "lastName" to lastName
@@ -62,7 +65,8 @@ class DataBL {
 
         val jsonString = Gson().toJson(lesson)
         val lessonInfo:HashMap<String,Any> = hashMapOf(
-            fullDate to jsonString
+            "key" to fullDate,
+            "lesson" to jsonString
         )
         data.validateLesson(userId,lessonInfo,callback)
     }

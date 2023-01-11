@@ -26,6 +26,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kizitonwose.calendar.core.*
 
 import com.kizitonwose.calendar.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -35,6 +38,7 @@ import kotlin.properties.Delegates
 
 class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.OnForwardListener {
     var userId: String? = null
+    @RequiresApi(Build.VERSION_CODES.N)
     var databl = DataBL()
     var width by Delegates.notNull<Float>()
     var height by Delegates.notNull<Float>()
@@ -334,15 +338,19 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onForward(
         lesson: Lesson,
         date: String,
         startTime: String,
         endTime: String
     ) {
-        userId?.let { databl.addLesson(it,"${date}_${startTime}-${endTime}",lesson) { message ->
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        }
+        val act = this
+
+            userId?.let {
+                databl.addLesson(it, "${date}_${startTime}-${endTime}", lesson) { message ->
+                    Toast.makeText(act, message, Toast.LENGTH_SHORT).show()
+                }
         }
     }
 

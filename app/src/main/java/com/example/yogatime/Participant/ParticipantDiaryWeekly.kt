@@ -38,6 +38,7 @@ import kotlin.properties.Delegates
 
 class ParticipantDiaryWeekly: AppCompatActivity() {
     var userId: String? = null
+    @RequiresApi(Build.VERSION_CODES.N)
     var databl = DataBL()
     var width by Delegates.notNull<Float>()
     var height by Delegates.notNull<Float>()
@@ -53,13 +54,7 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
         setContentView(R.layout.participant_weekly)
         userId = loadUser()
         if(userId!= null) {
-            val user = this.intent?.getSerializableExtra("userId")
-            if (user != null) {
-                userId = user as String
-            }
-            if (userId != null) {
-                Log.d("getUserId", userId!!)
-            }
+            val user = this.intent?.getSerializableExtra("userId") as String
         }
         loading = LoadingDialog(this)
 
@@ -155,7 +150,8 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
 
     }
     // Add layout to the table, which we use to present the lesson information
-    fun addLayoutToTable(hour:String,height: Float,width: Float,layoutId: Int,startIdentity: Int,currentlySigned: String,lessonName:String,level:String,price:String,addButton:Boolean,buttonFunc: (flag:Boolean) -> Unit,year:String) {
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun addLayoutToTable(hour:String, height: Float, width: Float, layoutId: Int, startIdentity: Int, currentlySigned: String, lessonName:String, level:String, price:String, addButton:Boolean, buttonFunc: (flag:Boolean) -> Unit, year:String) {
         val hourView =
             createTextView(text = hour, height = height, width = width, toDraw = true, size = 13f)
 
@@ -238,13 +234,16 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
         signButton.setImageDrawable(sign)
         signButton.setOnClickListener {
             loading.startLoadingDialog()
-            buttonFunc(cur)
             val scope = CoroutineScope(newSingleThreadContext("Assign user"))
             removeTables()
+
             scope.launch {
-                userId?.let { it1 -> databl.getAvailability(it1, year, ::addTable) }
-                TimeUnit.SECONDS.sleep(2L)
-                loading.dismissDialog()
+                    buttonFunc(cur)
+                    userId?.let { it1 -> databl.getAvailability(it1, year, ::addTable) }
+                    TimeUnit.SECONDS.sleep(2L)
+                    loading.dismissDialog()
+
+
             }
 //            loading.dismissDialog()
         }
@@ -278,7 +277,8 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
     }
 
     // Add table to present the information
-    fun addTable(hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,price: String,addButton: Boolean,buttonFunc: (flag:Boolean) -> Unit,year: String) {
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun addTable(hour:String, startIdentity:Int, layoutId:Int, currentlySigned: String, lessonName: String, level:String, price: String, addButton: Boolean, buttonFunc: (flag:Boolean) -> Unit, year: String) {
 
         addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,level,price,addButton,buttonFunc,year)
         var spaceLayout = createLayout(identitiy = layoutId)

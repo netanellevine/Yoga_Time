@@ -69,7 +69,7 @@ class PostLoginParticipantActivity : AppCompatActivity() {
                         userId = userId!!, firstName = firstNameText,
                         lastName = lastNameText,
                     )
-                    val intent = Intent(act, InstructorDiaryWeekly::class.java)
+                    val intent = Intent(act, ParticipantDiaryWeekly::class.java)
                     // start your next activity
                     Log.d("Transfer userid",userId)
                     intent.putExtra("userId",userId)
