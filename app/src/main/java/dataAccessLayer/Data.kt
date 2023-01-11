@@ -1,14 +1,16 @@
 package dataAccessLayer
 
+import Shared.*
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
-import Shared.Lesson
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.*
 
-
+@RequiresApi(Build.VERSION_CODES.N)
 class Data {
     private val db = Firebase.firestore
     private val tag = "Database"
@@ -16,14 +18,13 @@ class Data {
     suspend fun addInstructor(userInfo: HashMap<String, Any>) {
         val userId = userInfo["userId"] as String
         if (!checkIfInstructorExists(userId)) {
-            //Add the instructor to the Database
-            db.collection("Instructors").document(userId).set(userInfo)
-                .addOnSuccessListener {
-                    Log.d(tag, "Added instructor with ID: $userId ")
-                }
-                .addOnFailureListener { e ->
-                    Log.w(tag, "Error adding document", e)
-                }
+            val res = postRequest("instructor/create",userInfo)
+            if(res == "true"){
+                Log.d(tag,"ADDED instructor")
+            }
+            else{
+                Log.d(tag,"Failed to add instructor")
+            }
 
         }
         else{
@@ -31,18 +32,17 @@ class Data {
         }
     }
 
-    suspend fun addParticipant(userInfo: HashMap<String, String>){
+    suspend fun addParticipant(userInfo: HashMap<String, Any>){
         val userId = userInfo["userId"] as String
         if (!checkIfParticipantExists(userId)) {
             //Add the Participant to the Database
-            db.collection("Participants").document(userId)
-                .set(userInfo)
-                .addOnSuccessListener {
-                    Log.d(tag, "Added participant with ID:  $userId")
-                }
-                .addOnFailureListener { e ->
-                    Log.w(tag, "Error adding document", e)
-                }
+            val res = postRequest("participant/create",userInfo)
+            if(res == "true"){
+                Log.d(tag,"ADDED Participant")
+            }
+            else{
+                Log.d(tag,"Failed to add Participant")
+            }
         }
         else{
             Log.w(tag,  "Participant already exists")
@@ -50,90 +50,79 @@ class Data {
 
     }
 
-     suspend fun checkIfInstructorExists(userId: String): Boolean {
-        var exists = false
-        db.collection("Instructors").document(userId).get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val document = task.result
-                if(document != null) {
-                    if (document.exists()) {
-                        exists = true
-                        Log.d("TAG", "Document already exists.")
-                    } else {
-                        Log.d("TAG", "Document doesn't exist.")
-                    }
-                }
-            } else {
-                Log.d("TAG", "Error: ", task.exception)
-            }
-        }.await()
-
-        return exists
+     fun checkIfInstructorExists(userId: String): Boolean {
+         val res = getRequest("instructor/exists", hashMapOf("userId" to userId))
+         if (res == "true"){
+             Log.d(tag,"Instructor $userId exists, res:$res")
+         }
+         else{
+             Log.d(tag,"Instructor $userId does not exists, res:$res")
+         }
+         return res == "true"
     }
 
-    suspend fun checkIfParticipantExists(userId: String): Boolean {
-        var exists = false
-        db.collection("Participants").document(userId).get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val document = task.result
-                if(document != null) {
-                    if (document.exists()) {
-                        exists = true
-                        Log.d("TAG", "Document already exists.")
-                    } else {
-                        Log.d("TAG", "Document doesn't exist.")
-                    }
-                }
-            } else {
-                Log.d("TAG", "Error: ", task.exception)
-            }
-        }.await()
+    fun checkIfParticipantExists(userId: String): Boolean {
 
-        return exists
+
+        val res = getRequest("participant/exists", hashMapOf("userId" to userId))
+        if (res == "true"){
+            Log.d(tag,"Participant $userId exists, res:$res")
+        }
+        else{
+            Log.d(tag,"Participant $userId does not exists, res:$res")
+        }
+        return res == "true"
+
     }
 
 
 
     fun addUserToLesson(userId: String,key:String,lesson:Lesson,userToAdd:String){
-        if(userToAdd !in lesson.ParticipantsList && lesson.ParticipantsList.size < lesson.numberOfParticipants){
-            lesson.ParticipantsList.add(userToAdd)
+//        if(userToAdd !in lesson.ParticipantsList && lesson.ParticipantsList.size < lesson.numberOfParticipants){
+//            lesson.ParticipantsList.add(userToAdd)
         val lessonInfo: HashMap<String,Any> = hashMapOf(
-            key to Gson().toJson(lesson)
+            "key" to key,
+            "userId" to userId,
+            "userToAdd" to userToAdd,
+            "lesson" to Gson().toJson(lesson)
         )
-        db.collection("Lessons").document(userId).set(lessonInfo,SetOptions.merge()).addOnCompleteListener {task ->
-            if(task.isSuccessful){
-                Log.d(tag,"Added to lesson successfuly")
+
+            val res = postRequest("lesson/addUser",lessonInfo)
+            if(res == "true"){
+                Log.d(tag,"ADDED user to lesson")
             }
             else{
-                Log.w(tag,"Failed to add to lesson")
+                Log.d(tag,"Failed to add user to lesson")
             }
-        }
-    }
+
     }
 
     fun removeUserFromLesson(userId: String,key:String,lesson:Lesson,userToAdd:String){
-            lesson.ParticipantsList.remove(userToAdd)
-            val lessonInfo: HashMap<String,Any> = hashMapOf(
-                key to Gson().toJson(lesson)
-            )
-            db.collection("Lessons").document(userId).set(lessonInfo,SetOptions.merge()).addOnCompleteListener {task ->
-                if(task.isSuccessful){
-                    Log.d(tag,"Added to lesson successfuly")
-                }
-                else{
-                    Log.w(tag,"Failed to add to lesson")
-                }
-            }
+        val lessonInfo: HashMap<String,Any> = hashMapOf(
+            "key" to key,
+            "userId" to userId,
+            "userToAdd" to userToAdd,
+            "lesson" to Gson().toJson(lesson)
+        )
+
+        val res = postRequest("lesson/removeUser",lessonInfo)
+        if(res == "true"){
+            Log.d(tag,"Removed user to lesson")
+        }
+        else{
+            Log.d(tag,"Failed to add user to lesson")
+        }
+
 
     }
 
-    fun addAndRemove(flag:Boolean,userId: String,key:String,lesson:Lesson,userToAdd:String){
-        if(flag){
-            addUserToLesson(userId,key,lesson, userToAdd)
-        }
-        else{
-            removeUserFromLesson(userId,key,lesson, userToAdd)
-        }
+    fun addAndRemove(flag:Boolean, userId: String, key:String, lesson:Lesson, userToAdd:String){
+            if (flag) {
+                addUserToLesson(userId, key, lesson, userToAdd)
+            } else {
+                removeUserFromLesson(userId, key, lesson, userToAdd)
+            }
+
     }
 
 
@@ -153,111 +142,85 @@ class Data {
     fun getAvailability(userId: String,date:String,
                         callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String,
                         inLesson : Boolean,addLesson: (flag:Boolean)-> Unit,year:String) -> Unit) {
-        db.collection("Lessons").get().addOnCompleteListener { task ->
-            if (task.isSuccessful){
-                var startIdentity = 300000
-                var layoutId = 400000
-                task.result.documents.forEach { doc ->
-                    doc.data?.toSortedMap()?.forEach { field ->
-                        if (field.key.contains(date)){
-                            val lesson = Gson().fromJson(field.value.toString(),Lesson::class.java)
-                            if (lesson.ParticipantsList.size < lesson.numberOfParticipants) {
-                                val inList = userId in lesson.ParticipantsList
-                                    callback(
-                                        field.key.split("_")[1],
-                                        startIdentity,
-                                        layoutId,
-                                        "${lesson.ParticipantsList.size}/${lesson.numberOfParticipants}",
-                                        lesson.lessonName,
-                                        lesson.level,
-                                        lesson.price.toString(),
-                                        inList,
-                                        { flag:Boolean ->
-                                            addAndRemove(flag,doc.id, field.key, lesson, userId)
-                                        },
-                                        field.key.split("_")[0]
-                                    )
+        val scope = CoroutineScope(newSingleThreadContext("Add instructor"))
+        var res: String = ""
+        var wait = true
+        scope.launch {
+            res = getRequest("lesson/availability", hashMapOf(
+                "userId" to userId,
+                "date" to date
+            ))
+            wait = false
+        }
+        while (wait){}
+
+        val lessons = Gson().fromJson(res,Array<fullLesson>::class.java)
+        var startIdentity = 300000
+        var layoutId = 400000
+        for(fulllesson in lessons){
+                val lessonDate = fulllesson.date
+
+                if (lessonDate.contains(date)){
+                    val lesson = fulllesson.lesson
+                    if (lesson.ParticipantsList.size < lesson.numberOfParticipants) {
+                        val inList = userId in lesson.ParticipantsList
+                        callback(
+                            lessonDate.split("_")[1],
+                            startIdentity,
+                            layoutId,
+                            "${lesson.ParticipantsList.size}/${lesson.numberOfParticipants}",
+                            lesson.lessonName,
+                            lesson.level,
+                            lesson.price.toString(),
+                            inList,
+                            { flag:Boolean ->
+                                addAndRemove(flag,fulllesson.docId, lessonDate, lesson, userId)
+                            },
+                            lessonDate.split("_")[0]
+                        )
 
 
-                                startIdentity+=100
-                                layoutId+=100
-                            }
-                        }
+                        startIdentity+=100
+                        layoutId+=100
                     }
                 }
-            }
-            else{
-                Log.w(tag,"Couldn't search through database please verify internet connection")
-            }
 
+            }
         }
-    }
 
+
+
+    @OptIn(DelicateCoroutinesApi::class)
     fun validateLesson(
         userId: String,
         lessonInfo: HashMap<String, Any>,
         callback: (message: String) -> Unit
-    ){
-        db.collection("Lessons").document(userId).get().addOnCompleteListener { Task->
-            if (Task.isSuccessful) {
-                var addLessonBool = true
-                val keyToCompare = lessonInfo.keys.elementAt(0)
-                Task.result.data?.forEach { Entry ->
-                    if (compareKeys(Entry.key,keyToCompare)){
-                        addLessonBool = false
-                    }
-                }
-                if(addLessonBool){
-                    Log.d(tag,"Adding to database $lessonInfo")
-                    callback("Scheduled successfully")
-                    addLesson(userId,lessonInfo)
-                }
-                else{
-                    callback("Busy at that date")
-                    Log.d(tag,"Couldn't add to database")
-                }
-            }
-            else{
-                Log.d(tag,"Lesson verification failed")
-            }
+    ): Boolean {
+        lessonInfo["userId"] = userId
+        val scope = CoroutineScope(newSingleThreadContext("Add instructor"))
+
+        var pop = true
+        var wait = true
+        scope.launch {
+            pop = postRequestValidate("lesson/validate", lessonInfo) == "true"
+            wait = false
         }
-    }
-
-    private fun compareKeys(key:String, keyCompare:String): Boolean {
-        if (key==keyCompare){
-            return true
+        while (wait){}
+        if (pop){
+            callback("added successfully")
         }
-        val attributesKey = key.split("_")
-        val attributeKeyCompare = keyCompare.split("_")
-        if(attributesKey[0] == attributeKeyCompare[0]){
-            val startEndtime = attributesKey[1].split("-")
-            val startEndtimeCompare = attributeKeyCompare[1].split("-")
-            if(compareTime(startEndtime[0],startEndtime[1],startEndtimeCompare[0],startEndtimeCompare[1])){
-                return true
-            }
+
+        else{
+            callback("Couldn't add successfully")
         }
-        return false
-    }
 
-    private fun compareTime(timeStart:String, timeEnd:String, timeStartCompare:String, timeEndCompare:String): Boolean {
-        var startTime = timeStart.replace(":","").toInt()
-        var endTime = timeEnd.replace(":","").toInt()
-        var compareStartTime = timeStartCompare.replace(":","").toInt()
-        var compareEndTime = timeEndCompare.replace(":","").toInt()
+        return pop
 
-        return inTheMiddle(startTime,compareStartTime,endTime)
-                || inTheMiddle(startTime,compareEndTime,endTime)
-                || inTheMiddle(compareStartTime,startTime,compareEndTime)
-                || inTheMiddle(compareStartTime,endTime,compareEndTime)
-    }
-
-    private fun inTheMiddle(x:Int, y:Int, z:Int): Boolean {
-        return (x < y) && (y < z)
     }
 
 
 
-        fun getInstructorTimeFromDatabase(userId: String,date:String,
+    fun getInstructorTimeFromDatabase(userId: String,date:String,
     callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) -> Unit){
         db.collection("Lessons").document(userId).get().addOnCompleteListener { Task->
             if (Task.isSuccessful) {
