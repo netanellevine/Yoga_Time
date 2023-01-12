@@ -22,6 +22,9 @@ data class Lesson(@SerializedName("lessonName") val lessonName: String,
 data class fullLesson(@SerializedName("doc_id") val docId: String,
                       @SerializedName("date") val date: String,
                       @SerializedName("lesson") val lesson: Lesson)
+
+data class instructorLesson(@SerializedName("date") val date: String,
+                      @SerializedName("lesson") val lesson: Lesson)
 const val server = "13.37.222.111"
 
 
@@ -85,6 +88,32 @@ fun postRequestValidate(path:String, postMap: HashMap<String,Any>): String {
     queryStr+= "&key="+ postMap["key"]
 
     val url = URL("http://${server}/${path}?${queryStr}")
+    Log.d("POST request",postData)
+    val conn = url.openConnection()
+    conn.doOutput = true
+    conn.setRequestProperty("Content-Type", "application/json")
+    conn.setRequestProperty("Content-Length", postData.length.toString())
+    conn.setRequestProperty("requestMethod","POST")
+
+
+    var res = ""
+    DataOutputStream(conn.getOutputStream()).use { it.writeBytes(postData) }
+    BufferedReader(InputStreamReader(conn.getInputStream())).use { bf ->
+        var line: String?
+
+        while (bf.readLine().also { line = it } != null) {
+            res += line
+        }
+
+    }
+    return res
+}
+
+
+fun postRequestCreation(path:String, postMap: HashMap<String,Any>): String {
+    val postData = Gson().toJson(postMap)
+
+    val url = URL("http://${server}/${path}")
     Log.d("POST request",postData)
     val conn = url.openConnection()
     conn.doOutput = true

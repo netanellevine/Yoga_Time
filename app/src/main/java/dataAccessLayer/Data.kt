@@ -4,7 +4,6 @@ import Shared.*
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
@@ -18,7 +17,7 @@ class Data {
     suspend fun addInstructor(userInfo: HashMap<String, Any>) {
         val userId = userInfo["userId"] as String
         if (!checkIfInstructorExists(userId)) {
-            val res = postRequest("instructor/create",userInfo)
+            val res = postRequestCreation("instructor/create",userInfo)
             if(res == "true"){
                 Log.d(tag,"ADDED instructor")
             }
@@ -36,7 +35,7 @@ class Data {
         val userId = userInfo["userId"] as String
         if (!checkIfParticipantExists(userId)) {
             //Add the Participant to the Database
-            val res = postRequest("participant/create",userInfo)
+            val res = postRequestCreation("participant/create",userInfo)
             if(res == "true"){
                 Log.d(tag,"ADDED Participant")
             }
@@ -86,8 +85,17 @@ class Data {
             "userToAdd" to userToAdd,
             "lesson" to Gson().toJson(lesson)
         )
+        var res = ""
+        val thread = Thread {
+            try {
+            res = postRequest("lesson/addUser", lessonInfo)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
 
-            val res = postRequest("lesson/addUser",lessonInfo)
+        thread.start()
+        thread.join()
             if(res == "true"){
                 Log.d(tag,"ADDED user to lesson")
             }
@@ -104,8 +112,17 @@ class Data {
             "userToAdd" to userToAdd,
             "lesson" to Gson().toJson(lesson)
         )
+        var res = ""
+        val thread = Thread {
+            try {
+            res = postRequest("lesson/removeUser", lessonInfo)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
 
-        val res = postRequest("lesson/removeUser",lessonInfo)
+        thread.start()
+        thread.join()
         if(res == "true"){
             Log.d(tag,"Removed user to lesson")
         }
@@ -127,32 +144,29 @@ class Data {
 
 
 
-    private fun addLesson(userId: String, lessonInfo: HashMap<String,Any>){
-        db.collection("Lessons").document(userId).set(lessonInfo,SetOptions.merge()).addOnCompleteListener { //, SetOptions.merge()
-                task ->
-            if (task.isSuccessful){
-                Log.d(tag,"Added to database")
-            }
-            else{
-                Log.d(tag,"Couldn't modify hours")
-            }
-        }
-    }
 
-    fun getAvailability(userId: String,date:String,
+
+    @OptIn(DelicateCoroutinesApi::class)
+    fun getAvailability(userId: String, date:String,
                         callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String,
                         inLesson : Boolean,addLesson: (flag:Boolean)-> Unit,year:String) -> Unit) {
-        val scope = CoroutineScope(newSingleThreadContext("Add instructor"))
         var res: String = ""
-        var wait = true
-        scope.launch {
-            res = getRequest("lesson/availability", hashMapOf(
-                "userId" to userId,
-                "date" to date
-            ))
-            wait = false
+
+        val thread = Thread {
+            try {
+                res = getRequest("lesson/availability", hashMapOf(
+                    "userId" to userId,
+                    "date" to date
+                ))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
-        while (wait){}
+
+        thread.start()
+        thread.join()
+//        }
+//        while (wait){}
 
         val lessons = Gson().fromJson(res,Array<fullLesson>::class.java)
         var startIdentity = 300000
@@ -164,6 +178,7 @@ class Data {
                     val lesson = fulllesson.lesson
                     if (lesson.ParticipantsList.size < lesson.numberOfParticipants) {
                         val inList = userId in lesson.ParticipantsList
+
                         callback(
                             lessonDate.split("_")[1],
                             startIdentity,
@@ -197,15 +212,18 @@ class Data {
         callback: (message: String) -> Unit
     ): Boolean {
         lessonInfo["userId"] = userId
-        val scope = CoroutineScope(newSingleThreadContext("Add instructor"))
 
         var pop = true
-        var wait = true
-        scope.launch {
-            pop = postRequestValidate("lesson/validate", lessonInfo) == "true"
-            wait = false
+        val thread = Thread {
+            try {
+            pop = postRequestValidate("instructor/addLesson", lessonInfo) == "true"
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
-        while (wait){}
+
+        thread.start()
+        thread.join()
         if (pop){
             callback("added successfully")
         }
@@ -220,35 +238,43 @@ class Data {
 
 
 
-    fun getInstructorTimeFromDatabase(userId: String,date:String,
-    callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) -> Unit){
-        db.collection("Lessons").document(userId).get().addOnCompleteListener { Task->
-            if (Task.isSuccessful) {
-                    val sortedKeys = Task.result.data?.keys?.sorted()
-                    var startIdentity = 300000
-                    var layoutId = 400000
-                    if (sortedKeys!=null){
-                        for (key in sortedKeys){
-                            val splitDate = key.split("_")
-                            if (date == splitDate[0]){
-                                val lesson = Gson().fromJson(Task.result.data!![key].toString(), Lesson::class.java)
-                                callback(splitDate[1],startIdentity,layoutId,
-                                "${lesson.ParticipantsList.size}/${lesson.numberOfParticipants}",
-                                lesson.lessonName,
-                                lesson.level,
-                                "${lesson.price*lesson.ParticipantsList.size}$")
-                                startIdentity += 100
-                                layoutId += 100
-                            }
-                        }
-                    }
-                }
+    @OptIn(DelicateCoroutinesApi::class)
+    fun getInstructorTimeFromDatabase(userId: String, date:String,
+                                      callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) -> Unit){
 
-            else{
-                Log.d(tag,"Lesson verification failed")
+        var res = ""
+        val thread = Thread {
+            try {
+            res = getRequest("instructor/date", hashMapOf(
+                    "userId" to userId,
+                    "date" to date
+                ))
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
-    }
+
+        thread.start()
+        thread.join()
+        val lessons = Gson().fromJson(res,Array<instructorLesson>::class.java)
+        lessons.forEach { field ->
+            var startIdentity = 300000
+            var layoutId = 400000
+            val splitDate = field.date.split("_")
+            val lesson = field.lesson
+            callback(
+                splitDate[1], startIdentity, layoutId,
+                "${lesson.ParticipantsList.size}/${lesson.numberOfParticipants}",
+                lesson.lessonName,
+                lesson.level,
+                "${lesson.price * lesson.ParticipantsList.size}$"
+            )
+            startIdentity += 100
+            layoutId += 100
+        }
+
+        }
+
 
 
 }

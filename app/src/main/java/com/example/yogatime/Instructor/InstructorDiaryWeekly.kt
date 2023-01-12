@@ -347,10 +347,10 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
     ) {
         val act = this
 
-            userId?.let {
-                databl.addLesson(it, "${date}_${startTime}-${endTime}", lesson) { message ->
-                    Toast.makeText(act, message, Toast.LENGTH_SHORT).show()
-                }
+        userId?.let {
+            databl.addLesson(it, "${date}_${startTime}-${endTime}", lesson) { message ->
+                Toast.makeText(act, message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import businessLogic.DataBL
 import com.example.yogatime.R
 import com.example.yogatime.Auth.SignUp
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import kotlinx.coroutines.*
 
 
@@ -30,6 +31,11 @@ class PostLoginInstructorActivity : AppCompatActivity() {
         }
         if (userId != null) {
             Log.d("getUserId",userId)
+        }
+
+        val phoneNumber = this.intent?.getSerializableExtra("PhoneNumber", String::class.java)
+        if (phoneNumber != null) {
+            Log.d("phoneNumber",phoneNumber)
         }
         // initialize Databl
         databl = DataBL()
@@ -72,7 +78,8 @@ class PostLoginInstructorActivity : AppCompatActivity() {
                     databl.addInstructor(
                         userId = userId!!, firstName = firstNameText,
                         lastName = lastNameText,
-                        workPlace = workPlaceText
+                        workPlace = workPlaceText,
+                        PhoneNumber = phoneNumber!!
                     )
                     val intent = Intent(act, InstructorDiaryWeekly::class.java)
                     // start your next activity

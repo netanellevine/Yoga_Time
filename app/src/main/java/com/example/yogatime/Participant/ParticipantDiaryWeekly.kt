@@ -1,13 +1,12 @@
 package com.example.yogatime.Participant
 
+
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
-
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageButton
@@ -15,15 +14,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-
-
 import androidx.appcompat.app.AppCompatActivity
 import businessLogic.DataBL
 import com.example.yogatime.R
 import com.example.yogatime.utils.LoadingDialog
-
 import com.kizitonwose.calendar.core.*
-
 import com.kizitonwose.calendar.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -32,7 +27,6 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
-
 import kotlin.properties.Delegates
 
 
@@ -45,9 +39,11 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
     lateinit var loading:LoadingDialog
 
 
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         // Initialize variables
+
         width = Resources.getSystem().displayMetrics.widthPixels.toFloat()
         height = Resources.getSystem().displayMetrics.heightPixels.toFloat()
         super.onCreate(savedInstanceState)
@@ -89,6 +85,7 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
                         changeColor(markedContainer, white, red)
 
                         val year = data.date.format(yearFormat)
+
                         userId?.let { it1 -> databl.getAvailability(it1,year,::addTable) }
 
 
@@ -239,13 +236,14 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
 
             scope.launch {
                     buttonFunc(cur)
+                runOnUiThread {
                     userId?.let { it1 -> databl.getAvailability(it1, year, ::addTable) }
+                }
                     TimeUnit.SECONDS.sleep(2L)
-                    loading.dismissDialog()
-
+            loading.dismissDialog()
 
             }
-//            loading.dismissDialog()
+
         }
         signLayout.addView(signButton)
         layout.addView(signLayout)
@@ -399,7 +397,7 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
         layout.addView(peopleNumberLayout)
 //        layout.addView(LineVert())
 
-        val lessonLayout = createLayout(false,)
+        val lessonLayout = createLayout(false)
         val lessonNameView = createTextView(
             Color.rgb(220,220,220),
             "Lesson",
@@ -413,7 +411,7 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
         layout.addView(lessonLayout)
 //        layout.addView(LineVert())
 
-        val levelLayout = createLayout(false,)
+        val levelLayout = createLayout(false)
         val levelNameView = createTextView(
             Color.rgb(220,220,220),
             "Level",
