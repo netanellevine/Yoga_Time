@@ -13,7 +13,6 @@ import com.example.yogatime.Auth.OTPActivity
 import com.example.yogatime.Auth.SignUp
 import com.example.yogatime.Instructor.InstructorDiaryWeekly
 import com.example.yogatime.Participant.ParticipantDiaryWeekly
-import com.example.yogatime.utils.NotificationService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch

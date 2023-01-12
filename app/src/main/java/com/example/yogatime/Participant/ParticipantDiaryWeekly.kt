@@ -1,8 +1,8 @@
 package com.example.yogatime.Participant
 
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
@@ -21,6 +21,7 @@ import com.example.yogatime.utils.LoadingDialog
 import com.kizitonwose.calendar.core.*
 import com.kizitonwose.calendar.view.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import java.time.LocalDate
@@ -50,7 +51,7 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
         setContentView(R.layout.participant_weekly)
         userId = loadUser()
         if(userId!= null) {
-            val user = this.intent?.getSerializableExtra("userId") as String
+            userId = this.intent?.getSerializableExtra("userId") as String
         }
         loading = LoadingDialog(this)
 
@@ -69,12 +70,13 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
             override fun create(view: View) = DayViewContainer(view)
 
             // Called every time we need to reuse a container.
+            @SuppressLint("SetTextI18n")
             override fun bind(container: DayViewContainer, data: WeekDay) {
                 // Build the daily view
                 val formatter = DateTimeFormatter.ofPattern("MM-dd")
                 val yearFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
-                container.textView.text = data.date.dayOfWeek.toString().substring(0,3) + '\n' +"${data.date.format(formatter)}"
+                container.textView.text = data.date.dayOfWeek.toString().substring(0,3) + '\n' + data.date.format(formatter)
                 container.textView.textSize = width/100
                 container.textView.setTextColor(red)
                 container.view.setBackgroundColor(white)
@@ -147,6 +149,7 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
 
     }
     // Add layout to the table, which we use to present the lesson information
+    @OptIn(DelicateCoroutinesApi::class)
     @RequiresApi(Build.VERSION_CODES.N)
     fun addLayoutToTable(hour:String, height: Float, width: Float, layoutId: Int, startIdentity: Int, currentlySigned: String, lessonName:String, level:String, price:String, addButton:Boolean, buttonFunc: (flag:Boolean) -> Unit, year:String) {
         val hourView =
@@ -187,11 +190,10 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
         layout.addView(lessonLayout)
 //        layout.addView(LineVert())
 
-        var currColor = 0
-        if (level == "A") currColor = Color.GREEN
-        else if (level == "B") currColor = Color.YELLOW
-        else if (level == "C") currColor = Color.RED
-        else currColor = Color.BLUE
+        val currColor: Int = if (level == "A") Color.GREEN
+        else if (level == "B") Color.YELLOW
+        else if (level == "C") Color.RED
+        else Color.BLUE
         val levelLayout = createLayout(false, layoutId + 2)
         val levelNameView = createTextView(
             Color.WHITE,
@@ -226,8 +228,8 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
 
         val signButton = ImageButton(this)
         val signLayout = createLayout(false, layoutId + 4)
-        var cur = !addButton
-        var sign = if (cur)  getDrawable(R.drawable.ic_plus_24) else getDrawable(R.drawable.ic_baseline_remove_24)
+        val cur = !addButton
+        val sign = if (cur)  getDrawable(R.drawable.ic_plus_24) else getDrawable(R.drawable.ic_baseline_remove_24)
         signButton.setImageDrawable(sign)
         signButton.setOnClickListener {
             loading.startLoadingDialog()
@@ -279,7 +281,7 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
     fun addTable(hour:String, startIdentity:Int, layoutId:Int, currentlySigned: String, lessonName: String, level:String, price: String, addButton: Boolean, buttonFunc: (flag:Boolean) -> Unit, year: String) {
 
         addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,level,price,addButton,buttonFunc,year)
-        var spaceLayout = createLayout(identitiy = layoutId)
+        val spaceLayout = createLayout(identitiy = layoutId)
         spaceLayout.addView(LineHorz())
         findViewById<LinearLayout>(R.id.timeLayout).addView(spaceLayout)
 
