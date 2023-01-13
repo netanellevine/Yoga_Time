@@ -3,6 +3,7 @@ package com.example.yogatime.Instructor
 import Shared.Lesson
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
@@ -21,6 +22,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import businessLogic.DataBL
 import com.example.yogatime.R
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import com.kizitonwose.calendar.core.*
@@ -43,6 +45,8 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
     var width by Delegates.notNull<Float>()
     var height by Delegates.notNull<Float>()
     val GETCOLOR:  (Int) -> Int = {color: Int -> resources.getColor(color)}
+
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -151,6 +155,23 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
         changeDate(findViewById(R.id.forward),true)
         changeDate(findViewById(R.id.backward),false)
         addHeaderToTable()
+
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.selectedItemId = R.id.schedule_instructor_nav
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.personal_profile_instructor_nav -> {
+                    startActivity(Intent(this, InstructorProfileActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.schedule_instructor_nav -> {
+                    true
+                }
+                else -> false
+            }
+        }
 
     }
 
