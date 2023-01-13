@@ -4,6 +4,7 @@ package com.example.yogatime.Participant
 import Shared.showCustomToast
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
@@ -17,8 +18,10 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import businessLogic.DataBL
+import com.example.yogatime.Instructor.InstructorProfileActivity
 import com.example.yogatime.R
 import com.example.yogatime.utils.LoadingDialog
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kizitonwose.calendar.core.*
 import com.kizitonwose.calendar.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -45,6 +48,9 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
     lateinit var loading:LoadingDialog
     var markedContainer: DayViewContainer? = null
     var markedYear = ""
+
+
+    private lateinit var bottomNavigationView: BottomNavigationView
 
 
 
@@ -138,6 +144,23 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
         changeDate(findViewById(R.id.forward),true)
         changeDate(findViewById(R.id.backward),false)
         addHeaderToTable()
+
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.selectedItemId = R.id.schedule_participant_nav
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.personal_profile_participant_nav -> {
+                    startActivity(Intent(this, ParticipantProfileActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.schedule_participant_nav -> {
+                    true
+                }
+                else -> false
+            }
+        }
 
     }
 

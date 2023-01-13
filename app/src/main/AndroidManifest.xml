@@ -8,16 +8,30 @@
 
     <application
 
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/yoga_time_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/yoga_time_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.YogaTime"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".Participant.ParticipantProfileActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Instructor.InstructorProfileActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".Auth.OTPActivity"
             android:exported="false">
@@ -47,16 +61,11 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".Auth.SignUp"/>
-        <activity android:name=".Instructor.PostLoginInstructorActivity"/>
-        <activity android:name=".Participant.PostLoginParticipantActivity"/>
-        <activity android:name=".Instructor.InstructorDiaryWeekly"/>
-        <activity android:name=".Participant.ParticipantDiaryWeekly"/>
-        <service
-            android:name=".utils.NotificationService"
-            android:label="@string/app_name"
-            android:enabled="true">
-        </service>
+        <activity android:name=".Auth.SignUp" />
+        <activity android:name=".Instructor.PostLoginInstructorActivity" />
+        <activity android:name=".Participant.PostLoginParticipantActivity" />
+        <activity android:name=".Instructor.InstructorDiaryWeekly" />
+        <activity android:name=".Participant.ParticipantDiaryWeekly" />
 
 
         <meta-data
