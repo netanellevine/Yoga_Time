@@ -3,8 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name = "android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
+
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -63,6 +66,7 @@
         <activity android:name=".Participant.PostLoginParticipantActivity" />
         <activity android:name=".Instructor.InstructorDiaryWeekly" />
         <activity android:name=".Participant.ParticipantDiaryWeekly" />
+
 
         <meta-data
             android:name="preloaded_fonts"

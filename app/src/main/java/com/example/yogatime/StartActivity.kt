@@ -2,16 +2,19 @@ package com.example.yogatime
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import androidx.annotation.RequiresApi
 import businessLogic.DataBL
 import com.example.yogatime.Auth.OTPActivity
 import com.example.yogatime.Auth.SignUp
 import com.example.yogatime.Instructor.InstructorDiaryWeekly
 import com.example.yogatime.Participant.ParticipantDiaryWeekly
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 
@@ -19,6 +22,9 @@ import kotlinx.coroutines.newSingleThreadContext
  * If the user is already logged in we transfer it into the Signup page
  */
 class StartActivity : AppCompatActivity() {
+    @OptIn(DelicateCoroutinesApi::class)
+    @RequiresApi(Build.VERSION_CODES.N)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)

@@ -13,6 +13,7 @@ import businessLogic.DataBL
 import com.example.yogatime.Instructor.InstructorDiaryWeekly
 import com.example.yogatime.R
 import com.example.yogatime.Auth.SignUp
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import kotlinx.coroutines.*
 
 
@@ -27,6 +28,11 @@ class PostLoginParticipantActivity : AppCompatActivity() {
         val userId = this.intent?.getSerializableExtra("userId", String::class.java)
         if (userId != null) {
             Log.d("getUserId",userId)
+        }
+
+        val phoneNumber = this.intent?.getSerializableExtra("PhoneNumber", String::class.java)
+        if (phoneNumber != null) {
+            Log.d("phoneNumber",phoneNumber)
         }
         // initialize Databl
         databl = DataBL()
@@ -68,6 +74,7 @@ class PostLoginParticipantActivity : AppCompatActivity() {
                     databl.addParticipant(
                         userId = userId!!, firstName = firstNameText,
                         lastName = lastNameText,
+                        PhoneNumber = phoneNumber!!
                     )
                     val intent = Intent(act, ParticipantDiaryWeekly::class.java)
                     // start your next activity

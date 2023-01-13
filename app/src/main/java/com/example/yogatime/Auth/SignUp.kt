@@ -31,6 +31,11 @@ class SignUp : AppCompatActivity() {
         if(userId==null) {
             userId = this.intent?.getSerializableExtra("userId", String::class.java)
         }
+
+        var phoneNumber = loadPhone()
+        if(phoneNumber==null) {
+            phoneNumber = this.intent?.getSerializableExtra("phoneNumber", String::class.java)
+        }
         val dataBL = DataBL()
         val act = this
         val scope = CoroutineScope(newSingleThreadContext("Transfer to right page"))
@@ -72,10 +77,14 @@ class SignUp : AppCompatActivity() {
                     Toast.LENGTH_SHORT).show()
                 if (userId != null) {
                     if (radio.text == "Yoga Instructor") {
-                        postLoginInstructor(userId)
+                        if (phoneNumber != null) {
+                            postLoginInstructor(userId,phoneNumber)
+                        }
                     }
                     else {
-                        postLoginParticipant(userId)
+                        if (phoneNumber != null) {
+                            postLoginParticipant(userId,phoneNumber)
+                        }
                     }
                 }
             }else{
@@ -92,15 +101,22 @@ class SignUp : AppCompatActivity() {
         val sharedPref = getSharedPreferences("sharedUser",Context.MODE_PRIVATE)
         return sharedPref.getString("userId", null)
     }
+
+    private fun loadPhone(): String? {
+        val sharedPref = getSharedPreferences("sharedUser",Context.MODE_PRIVATE)
+        return sharedPref.getString("PhoneNumber", null)
+    }
    // Post login activity after entering information
-    private fun postLoginInstructor(userId: String) {
+    private fun postLoginInstructor(userId: String,PhoneNumber:String) {
         val intent = Intent(this, PostLoginInstructorActivity::class.java)
         intent.putExtra("userId", userId)
+        intent.putExtra("PhoneNumber", PhoneNumber)
         startActivity(intent)
     }
-    private fun postLoginParticipant(userId: String){
+    private fun postLoginParticipant(userId: String,PhoneNumber:String){
         val intent = Intent(this, PostLoginParticipantActivity::class.java)
         intent.putExtra("userId", userId)
+        intent.putExtra("PhoneNumber", PhoneNumber)
         startActivity(intent)
     }
 

@@ -13,7 +13,8 @@ class DataBL {
 
     suspend fun addInstructor(
         userId: String, firstName: String,
-        lastName: String, workPlace: String
+        lastName: String, workPlace: String,
+        PhoneNumber: String
     ){
             // Construct User information
             val user:HashMap<String,Any> = hashMapOf(
@@ -21,16 +22,18 @@ class DataBL {
                 "firstName" to firstName,
                 "lastName" to lastName,
                 "workPlace" to workPlace,
+                "phoneNumber" to PhoneNumber
             )
 
             data.addInstructor(user)
     }
     suspend fun addParticipant(userId: String, firstName: String,
-                      lastName: String){
+                      lastName: String,PhoneNumber: String){
         val user:HashMap<String,Any> = hashMapOf(
             "userId" to userId,
             "firstName" to firstName,
-            "lastName" to lastName
+            "lastName" to lastName,
+            "phoneNumber" to PhoneNumber
         )
 
         data.addParticipant(user)
@@ -54,7 +57,7 @@ class DataBL {
 
     fun getAvailability(userId: String,date:String,
                         callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String,
-                                   inLesson : Boolean,addLesson: (flag:Boolean)-> Unit,year:String) -> Unit) {
+                                   inLesson : Boolean,addLesson: (flag:Boolean)-> Unit,year:String,lessonInfo: String) -> Unit) {
         data.getAvailability(userId,date, callback)
 
     }

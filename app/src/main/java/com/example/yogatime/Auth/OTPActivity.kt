@@ -39,7 +39,7 @@ class OTPActivity : AppCompatActivity() {
                 // If the phone number is valid we send a code
                 val number = countryCodePicker.fullNumberWithPlus
                 auth = AuthBL(number, this)
-                auth.authenticate(::postLogin)
+                auth.authenticate { userId -> postLogin(userId, number) }
                 Log.d(tag, "onCreateView: $number")
                 // Popup to receive the code
                 val otp : OTPVerificationActivity = OTPVerificationActivity(this,auth,number)
@@ -60,14 +60,16 @@ class OTPActivity : AppCompatActivity() {
     }
 
     // Transfer to post login page, this is a callback function which we transfer
-    private fun postLogin(userId: String) {
+    private fun postLogin(userId: String,PhoneNumber:String) {
         val intent = Intent(this, SignUp::class.java)
         val shared = getSharedPreferences("sharedUser",Context.MODE_PRIVATE)
         val editor = shared.edit()
         editor.apply {
             putString("userId",userId)
+            putString("PhoneNumber",PhoneNumber)
         }.apply()
         intent.putExtra("userId", userId)
+        intent.putExtra("PhoneNumber", PhoneNumber)
         startActivity(intent)
     }
 
