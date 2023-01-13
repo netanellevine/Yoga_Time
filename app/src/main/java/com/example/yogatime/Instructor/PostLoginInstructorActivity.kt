@@ -24,7 +24,7 @@ class PostLoginInstructorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_instructor_signup)
         // Get the userId from previous activity
-        val user = this.intent?.getSerializableExtra("userId")
+        val user = this.intent?.getSerializableExtra("userId") as String
         var userId: String? = null
         if (user != null) {
             userId = user as String
@@ -33,7 +33,7 @@ class PostLoginInstructorActivity : AppCompatActivity() {
             Log.d("getUserId",userId)
         }
 
-        val phoneNumber = this.intent?.getSerializableExtra("PhoneNumber", String::class.java)
+        val phoneNumber = this.intent?.getSerializableExtra("PhoneNumber"/*, String::class.java*/) as String
         if (phoneNumber != null) {
             Log.d("phoneNumber",phoneNumber)
         }

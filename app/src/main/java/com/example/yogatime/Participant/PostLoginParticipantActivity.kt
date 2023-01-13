@@ -25,12 +25,12 @@ class PostLoginParticipantActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_participant_signup)
         // Get the userId from previous activity
-        val userId = this.intent?.getSerializableExtra("userId", String::class.java)
+        val userId = this.intent?.getSerializableExtra("userId"/*, String::class.java*/) as String
         if (userId != null) {
             Log.d("getUserId",userId)
         }
 
-        val phoneNumber = this.intent?.getSerializableExtra("PhoneNumber", String::class.java)
+        val phoneNumber = this.intent?.getSerializableExtra("PhoneNumber"/*, String::class.java*/) as String
         if (phoneNumber != null) {
             Log.d("phoneNumber",phoneNumber)
         }

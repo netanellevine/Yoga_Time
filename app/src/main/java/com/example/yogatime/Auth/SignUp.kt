@@ -29,12 +29,12 @@ class SignUp : AppCompatActivity() {
         // Get the userID either through local storage or from application transfer
         var userId = loadUser()
         if(userId==null) {
-            userId = this.intent?.getSerializableExtra("userId", String::class.java)
+            userId = this.intent?.getSerializableExtra("userId"/*, String::class.java*/) as String
         }
 
         var phoneNumber = loadPhone()
         if(phoneNumber==null) {
-            phoneNumber = this.intent?.getSerializableExtra("phoneNumber", String::class.java)
+            phoneNumber = this.intent?.getSerializableExtra("phoneNumber"/*, String::class.java*/) as String
         }
         val dataBL = DataBL()
         val act = this

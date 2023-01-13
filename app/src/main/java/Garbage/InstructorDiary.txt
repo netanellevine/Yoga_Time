@@ -38,7 +38,7 @@ class InstructorDiary: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.instructor_activity)
         val databl = DataBL()
-        val userId: String = intent.getSerializableExtra("userId",) as String
+        val userId: String = intent.getSerializableExtra("userId") as String
         class DayViewContainer(view: View) : ViewContainer(view) {
             val textView = view.findViewById<TextView>(R.id.calendarDayText)
             // With ViewBinding

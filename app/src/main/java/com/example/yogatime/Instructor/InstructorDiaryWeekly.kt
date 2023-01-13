@@ -57,7 +57,7 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
         setContentView(R.layout.instructor_weekly)
         userId = loadUser()
         if(userId!= null) {
-            val user = this.intent?.getSerializableExtra("userId")
+            val user = this.intent?.getSerializableExtra("userId") as String
             if (user != null) {
                 userId = user as String
             }
