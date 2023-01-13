@@ -149,7 +149,7 @@ class Data {
     @OptIn(DelicateCoroutinesApi::class)
     fun getAvailability(userId: String, date:String,
                         callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String,
-                        inLesson : Boolean,addLesson: (flag:Boolean)-> Unit,year:String) -> Unit) {
+                        inLesson : Boolean,addLesson: (flag:Boolean)-> Unit,year:String,lessonInfo:String) -> Unit) {
         var res: String = ""
 
         val thread = Thread {
@@ -191,7 +191,8 @@ class Data {
                             { flag:Boolean ->
                                 addAndRemove(flag,fulllesson.docId, lessonDate, lesson, userId)
                             },
-                            lessonDate.split("_")[0]
+                            lessonDate.split("_")[0],
+                            lesson.description
                         )
 
 

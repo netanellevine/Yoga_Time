@@ -57,7 +57,7 @@ class DataBL {
 
     fun getAvailability(userId: String,date:String,
                         callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String,
-                                   inLesson : Boolean,addLesson: (flag:Boolean)-> Unit,year:String) -> Unit) {
+                                   inLesson : Boolean,addLesson: (flag:Boolean)-> Unit,year:String,lessonInfo: String) -> Unit) {
         data.getAvailability(userId,date, callback)
 
     }

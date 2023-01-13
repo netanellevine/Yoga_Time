@@ -4,13 +4,17 @@ package Shared
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.example.yogatime.R
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import java.io.BufferedReader
 import java.io.DataOutputStream
 import java.io.InputStreamReader
-import java.net.HttpURLConnection
 import java.net.URL
+import android.app.Activity
+import android.view.Gravity
+import android.widget.TextView
+import android.widget.Toast
 
 data class Lesson(@SerializedName("lessonName") val lessonName: String,
                   @SerializedName("maxNumberOfParticipants") val numberOfParticipants: Int,
@@ -134,3 +138,30 @@ fun postRequestCreation(path:String, postMap: HashMap<String,Any>): String {
     }
     return res
 }
+
+
+
+
+fun Toast.showCustomToast(message: String, activity: Activity) {
+    val layout = activity.layoutInflater.inflate (
+        R.layout.toast,
+        activity.findViewById(R.id.toast_container)
+    )
+
+    // set the text of the TextView of the message
+    val textView = layout.findViewById<TextView>(R.id.toast_text)
+    textView.text = message
+
+    // use the application extension function
+    this.apply {
+        setGravity(Gravity.CENTER, 0, 40)
+        duration = Toast.LENGTH_LONG
+        view = layout
+        show()
+
+
+    }
+
+
+}
+
