@@ -42,4 +42,12 @@
         <item>Meditation</item>
     </string-array>
 
+
+    <string-array name="overview_span">
+        <item>All Time</item>
+        <item>Today</item>
+        <item>This Week</item>
+        <item>This Month</item>
+    </string-array>
+
 </resources>

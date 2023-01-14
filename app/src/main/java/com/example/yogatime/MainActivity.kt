@@ -6,7 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-
+import com.example.yogatime.Instructor.InstructorProfileActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,7 +20,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val intent = Intent(this, StartActivity::class.java)
+//        val intent = Intent(this, StartActivity::class.java)
+        val intent = Intent(this, InstructorProfileActivity::class.java)
         startActivity(intent)
     }
 

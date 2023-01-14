@@ -29,6 +29,12 @@ data class fullLesson(@SerializedName("doc_id") val docId: String,
 
 data class instructorLesson(@SerializedName("date") val date: String,
                       @SerializedName("lesson") val lesson: Lesson)
+
+data class instructorStats(@SerializedName("avgParticipants") val avgParticipants: Double,
+                            @SerializedName("avgRevenue") val avgRevenue: Double,
+                           @SerializedName("totalLessons") val totalLessons: Int,
+                           @SerializedName("totalRevenue") val totalRevenue: Double)
+
 const val server = "13.37.222.111"
 
 

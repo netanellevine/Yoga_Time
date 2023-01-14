@@ -277,5 +277,22 @@ class Data {
         }
 
 
+    fun getInstructorStats(map: HashMap<String, Any>, callback: (stats: instructorStats) -> Unit) {
+        var res = ""
+        val thread = Thread {
+            try {
+            res = getRequest("instructor/stats", map)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        thread.start()
+        thread.join()
+        val stats = Gson().fromJson(res, instructorStats::class.java)
+        callback(stats)
+    }
+
+
 
 }

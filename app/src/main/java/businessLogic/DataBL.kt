@@ -2,6 +2,7 @@ package businessLogic
 
 import com.google.gson.Gson
 import Shared.Lesson
+import Shared.instructorStats
 import android.os.Build
 import androidx.annotation.RequiresApi
 import dataAccessLayer.Data
@@ -74,6 +75,16 @@ class DataBL {
         data.validateLesson(userId,lessonInfo,callback)
     }
 
+
+    fun getInstructorStats(userId: String, startDate:String, endDate:String, callback: (stats: instructorStats) -> Unit) {
+        val map = hashMapOf<String, Any>(
+            "userId" to userId,
+            "startDate" to startDate,
+            "endDate" to endDate
+        )
+
+        data.getInstructorStats(map,callback)
+    }
 
 
 
