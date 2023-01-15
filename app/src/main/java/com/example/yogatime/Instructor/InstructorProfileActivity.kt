@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import businessLogic.DataBL
 import com.example.yogatime.R
@@ -40,7 +41,7 @@ class InstructorProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_instructor_profile)
 
         var userId = loadUser()
-        if (userId != null) {
+        if (userId == null) {
             userId = this.intent?.getSerializableExtra("userId") as String
         }
 
@@ -61,8 +62,8 @@ class InstructorProfileActivity : AppCompatActivity() {
             var startDate : LocalDate? = null
             when (item) {
                 "All Time" -> {
-                    startDate = LocalDate.MIN
-                    endDate = LocalDate.MAX
+                    startDate = LocalDate.now().minusYears(500)
+                    endDate = LocalDate.now().plusYears(500)
                 }
                 "Today" -> {
                     startDate = LocalDate.now()
@@ -117,7 +118,7 @@ class InstructorProfileActivity : AppCompatActivity() {
 
         for (element in elements) {
             val id = resources.getIdentifier(element.key, "id", packageName)
-            val textView = findViewById<MaterialAutoCompleteTextView>(id)
+            val textView = findViewById<TextView>(id)
             textView.setText(element.value.toString())
         }
 
