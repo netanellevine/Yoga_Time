@@ -1,6 +1,7 @@
 package com.example.yogatime.Instructor
 
 import Shared.Lesson
+import Shared.showCustomToast
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -12,10 +13,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 
 
@@ -32,8 +30,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
 
 import kotlin.properties.Delegates
 
@@ -45,6 +45,8 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
     var width by Delegates.notNull<Float>()
     var height by Delegates.notNull<Float>()
     val GETCOLOR:  (Int) -> Int = {color: Int -> resources.getColor(color)}
+    var markedYear = ""
+    var markedYearDeletion = ""
 
     private lateinit var bottomNavigationView: BottomNavigationView
 
@@ -105,6 +107,8 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
                         removeTables()
                         changeColor(container, red, white)
                         changeColor(markedContainer, white, red)
+                        markedYear = data.date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"))
+                        markedYearDeletion = data.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 
                         val year = data.date.format(yearFormat)
                         userId?.let {
@@ -190,7 +194,8 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
 
     }
     // Add layout to the table, which we use to present the lesson information
-    fun addLayoutToTable(hour:String,height: Float,width: Float,layoutId: Int,startIdentity: Int,currentlySigned: String,lessonName:String,level:String,revenue:String){
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun addLayoutToTable(hour:String, height: Float, width: Float, layoutId: Int, startIdentity: Int, currentlySigned: String, lessonName:String, level:String, revenue:String){
         val hourView = createTextView(text=hour, height = height, width = width, toDraw = true, size=13f)
 
         val layout = createLayout(identitiy = layoutId + 10)
@@ -228,7 +233,7 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
         layout.addView(lessonLayout)
 //        layout.addView(LineVert())
 
-        val levelLayout = createLayout(false,layoutId+2)
+        val levelLayout = createLayout(false,layoutId+3)
         var currColor = 0
         if (level == "A") currColor = R.color.EASY
         else if (level == "B") currColor = R.color.MODERATE
@@ -248,7 +253,7 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
         layout.addView(levelLayout)
 //        layout.addView(LineVert())
 
-        val revenueLayout = createLayout(false,layoutId+3)
+        val revenueLayout = createLayout(false,layoutId+4)
         val revenueView = createTextView(
             Color.WHITE,
             revenue,
@@ -262,10 +267,30 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
         layout.addView(revenueLayout)
 //        layout.addView(LineVert())
 
+        val currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd-HH:mm"))
+        val res = currentTime.toString().compareTo("$markedYear-$hour")
+        if (res < 0) {
+
+            val deleteButton = ImageButton(this)
+            val deleteLayout = createLayout(false, layoutId + 5)
+            deleteLayout.addView(deleteButton)
+            deleteButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_remove_24))
+            deleteButton.setOnClickListener {
+                userId?.let { it1 -> databl.deleteLesson(it1,"$markedYearDeletion-$hour"
+                ) { message ->
+                    Toast(this).showCustomToast(message, this)
+                }
+                }
+            }
+            layout.addView(deleteLayout)
+        }
+
+
     }
 
     // Add table to present the information
-    fun addTable(hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) {
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun addTable(hour:String, startIdentity:Int, layoutId:Int, currentlySigned: String, lessonName: String, level:String, revenue: String) {
 //        for (i in 4..12) {
 //            var spaceLayout = createLayout(identitiy = layoutId + i)
 //            if(i != 4) {
@@ -292,19 +317,14 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
         val primLayout = findViewById<LinearLayout>(R.id.timeLayout)
         var startIdentity = 300000
         var layoutId = 400000
-        for (i in 1..24){
+        for (i in 1..24) {
             primLayout.removeView(findViewById(layoutId + 10))
+            primLayout.removeView(findViewById(startIdentity))
             primLayout.removeView(findViewById(layoutId))
-//            for (j in 0..12) {
-//                primLayout.removeView(findViewById(layoutId + j))
-//
-//            }
-//            for (j in 0..3){
-//                primLayout.removeView(findViewById(startIdentity + j))
-//            }
+        }
             startIdentity+=100
             layoutId+=100
-        }
+//        }
     }
 
     // Create a text view according to given parameters

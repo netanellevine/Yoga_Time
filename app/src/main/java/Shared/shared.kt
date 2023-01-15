@@ -62,6 +62,30 @@ fun getRequest(path:String, requestMap: HashMap<String,Any>): String {
     return res
 }
 
+fun post(path:String, postMap: HashMap<String,Any>): String {
+    val postData = Gson().toJson(postMap).toString()
+    val url = URL("http://${server}/${path}")
+    Log.d("POST request",postData)
+    val conn = url.openConnection()
+    conn.doOutput = true
+    conn.setRequestProperty("Content-Type", "application/json")
+    conn.setRequestProperty("Content-Length", postData.length.toString())
+    conn.setRequestProperty("requestMethod","POST")
+
+
+    var res = ""
+    DataOutputStream(conn.getOutputStream()).use { it.writeBytes(postData) }
+    BufferedReader(InputStreamReader(conn.getInputStream())).use { bf ->
+        var line: String?
+
+        while (bf.readLine().also { line = it } != null) {
+            res += line
+        }
+
+    }
+    return res
+}
+
 
 
 fun postRequest(path:String, postMap: HashMap<String,Any>): String {

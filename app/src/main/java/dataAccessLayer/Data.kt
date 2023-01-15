@@ -293,6 +293,27 @@ class Data {
         callback(stats)
     }
 
+    fun deleteLesson(map:HashMap<String,Any>,callback: (message: String) -> Unit){
+        var res = ""
+        val thread = Thread {
+            try {
+                res = post("instructor/deleteLesson", map)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        thread.start()
+        thread.join()
+
+        if(res == "true"){
+            callback("Deleted Successfully")
+        }
+        else{
+            callback("Couldn't delete lesson")
+        }
+    }
+
 
 
 }

@@ -86,6 +86,14 @@ class DataBL {
         data.getInstructorStats(map,callback)
     }
 
+    fun deleteLesson(userId: String, key:String,callback: (message: String) -> Unit){
+        val deletionMap = hashMapOf<String,Any>(
+            "userId" to userId,
+            "date" to key
+        )
+        data.deleteLesson(deletionMap,callback)
+    }
+
 
 
 
