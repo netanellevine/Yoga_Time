@@ -20,6 +20,7 @@
     <string name="phone">Phone</string>
 
     <string-array name="lesson_levels">
+        <item>any</item>
         <item>All</item>
         <item>A</item>
         <item>B</item>

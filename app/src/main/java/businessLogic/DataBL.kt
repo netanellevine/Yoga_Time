@@ -3,6 +3,7 @@ package businessLogic
 import com.google.gson.Gson
 import Shared.Lesson
 import Shared.instructorStats
+import Shared.participantFilter
 import android.os.Build
 import androidx.annotation.RequiresApi
 import dataAccessLayer.Data
@@ -94,7 +95,17 @@ class DataBL {
         data.deleteLesson(deletionMap,callback)
     }
 
-
+    fun participantLessonFilter(filter: participantFilter,userId: String,callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String,
+                                                                                    inLesson : Boolean,addLesson: (flag:Boolean)-> Unit,year:String,lessonInfo: String) -> Unit) {
+        val filterMap = hashMapOf(
+            "instructorName" to filter.instructorName,
+            "lessonName" to filter.lessonName,
+            "level" to filter.level,
+            "price" to filter.price,
+            "date" to filter.date
+        )
+        data.participantLessonFilter(filterMap,userId,callback)
+    }
 
 
 }
