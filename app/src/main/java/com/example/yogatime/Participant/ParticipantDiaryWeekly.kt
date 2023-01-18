@@ -1,6 +1,8 @@
 package com.example.yogatime.Participant
 
 
+import Shared.Lesson
+import Shared.participantFilter
 import Shared.showCustomToast
 import android.annotation.SuppressLint
 import android.content.Context
@@ -18,7 +20,6 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import businessLogic.DataBL
-import com.example.yogatime.Instructor.InstructorProfileActivity
 import com.example.yogatime.R
 import com.example.yogatime.utils.LoadingDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -35,11 +36,10 @@ import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import android.widget.Toast
+import com.example.yogatime.Instructor.InstructorLessonPopupFragment
 
 
-
-
-class ParticipantDiaryWeekly: AppCompatActivity() {
+class ParticipantDiaryWeekly: AppCompatActivity(),ParticipentSearchPopupFragment.OnForwardListener {
     var userId: String? = null
     @RequiresApi(Build.VERSION_CODES.N)
     var databl = DataBL()
@@ -461,12 +461,35 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
         priceLayout.addView(priceView)
         layout.addView(priceLayout)
 //        layout.addView(LineVert())
+        layout.addView(LineVert(width=75, viewColor = Color.rgb(220,220,220)))
+        val searchLayout = createLayout(false)
+        val imageButton = ImageButton(this)
+        imageButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_search_24))
+        imageButton.setBackgroundColor(Color.rgb(220,220,220))
+        imageButton.setOnClickListener {
+            if (userId != null) {
+                ParticipentSearchPopupFragment.display(supportFragmentManager)
+            }
+        }
+        searchLayout.addView(imageButton)
+        layout.addView(searchLayout)
 
         val lineLayoutBottom = createLayout()
         findViewById<LinearLayout>(R.id.timeLayout).addView(lineLayoutBottom)
         lineLayoutBottom.addView(LineHorz())
-    }
 
+
+    }
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onForward(
+        filter: participantFilter
+    ) {
+
+        userId?.let {
+            removeTables()
+            databl.participantLessonFilter(filter,it,::addTable)
+        }
+    }
 
 }
 

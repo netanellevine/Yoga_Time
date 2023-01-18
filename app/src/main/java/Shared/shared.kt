@@ -35,6 +35,15 @@ data class instructorStats(@SerializedName("avgParticipants") val avgParticipant
                            @SerializedName("totalLessons") val totalLessons: Int,
                            @SerializedName("totalRevenue") val totalRevenue: Double)
 
+
+data class participantFilter(@SerializedName("instructorName") val instructorName: String = "any",
+                             @SerializedName("lessonName") val lessonName: String = "any",
+                             @SerializedName("level") val level: List<String> = listOf(
+                                 "string"
+                             ),
+                             @SerializedName("price") val price: Double =0.0,
+                             @SerializedName("date") val date: String = "any" )
+
 const val server = "13.37.222.111"
 
 

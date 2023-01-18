@@ -314,6 +314,53 @@ class Data {
         }
     }
 
+    fun participantLessonFilter(filter: HashMap<String,Any>,userId: String,
+                                callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String,
+                                           inLesson : Boolean,addLesson: (flag:Boolean)-> Unit,year:String,lessonInfo: String) -> Unit) {
+        var res = ""
+        val thread = Thread {
+            try {
+                res = post("lessons/search", filter)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        thread.start()
+        thread.join()
+        val lessons = Gson().fromJson(res,Array<fullLesson>::class.java)
+        var startIdentity = 300000
+        var layoutId = 400000
+        for(fulllesson in lessons){
+            val lessonDate = fulllesson.date
+            val lesson = fulllesson.lesson
+            if (lesson.ParticipantsList.size < lesson.numberOfParticipants) {
+                    val inList = userId in lesson.ParticipantsList
+
+                    callback(
+                        lessonDate.split("_")[1],
+                        startIdentity,
+                        layoutId,
+                        "${lesson.ParticipantsList.size}/${lesson.numberOfParticipants}",
+                        lesson.lessonName,
+                        lesson.level,
+                        lesson.price.toString(),
+                        inList,
+                        { flag:Boolean ->
+                            addAndRemove(flag,fulllesson.docId, lessonDate, lesson, userId)
+                        },
+                        lessonDate.split("_")[0],
+                        lesson.description
+                    )
+
+
+                    startIdentity+=100
+                    layoutId+=100
+                }
+
+
+        }
+    }
 
 
 }
