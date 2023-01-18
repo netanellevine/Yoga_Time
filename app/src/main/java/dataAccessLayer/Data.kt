@@ -4,17 +4,14 @@ import Shared.*
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import kotlinx.coroutines.*
 
 @RequiresApi(Build.VERSION_CODES.N)
 class Data {
-    private val db = Firebase.firestore
     private val tag = "Database"
 
-    suspend fun addInstructor(userInfo: HashMap<String, Any>) {
+    fun addInstructor(userInfo: HashMap<String, Any>) {
         val userId = userInfo["userId"] as String
         if (!checkIfInstructorExists(userId)) {
             val res = postRequestCreation("instructor/create",userInfo)
@@ -31,7 +28,7 @@ class Data {
         }
     }
 
-    suspend fun addParticipant(userInfo: HashMap<String, Any>){
+    fun addParticipant(userInfo: HashMap<String, Any>){
         val userId = userInfo["userId"] as String
         if (!checkIfParticipantExists(userId)) {
             //Add the Participant to the Database
@@ -146,11 +143,10 @@ class Data {
 
 
 
-    @OptIn(DelicateCoroutinesApi::class)
     fun getAvailability(userId: String, date:String,
                         callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String,
                         inLesson : Boolean,addLesson: (flag:Boolean)-> Unit,year:String,lessonInfo:String) -> Unit) {
-        var res: String = ""
+        var res = ""
 
         val thread = Thread {
             try {
@@ -206,7 +202,6 @@ class Data {
 
 
 
-    @OptIn(DelicateCoroutinesApi::class)
     fun validateLesson(
         userId: String,
         lessonInfo: HashMap<String, Any>,
@@ -239,7 +234,6 @@ class Data {
 
 
 
-    @OptIn(DelicateCoroutinesApi::class)
     fun getInstructorTimeFromDatabase(userId: String, date:String,
                                       callback: (hour:String,startIdentity:Int,layoutId:Int,currentlySigned: String,lessonName: String,level:String,revenue: String) -> Unit){
 
@@ -297,7 +291,7 @@ class Data {
         var res = ""
         val thread = Thread {
             try {
-                res = post("instructor/deleteLesson", map)
+                res = getRequest("instructor/deleteLesson", map)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -338,7 +332,8 @@ class Data {
                     val inList = userId in lesson.ParticipantsList
 
                     callback(
-                        lessonDate.split("_")[1],
+                        lessonDate.replace('_' ,' '),
+//                        lessonDate.split("_")[1],
                         startIdentity,
                         layoutId,
                         "${lesson.ParticipantsList.size}/${lesson.numberOfParticipants}",

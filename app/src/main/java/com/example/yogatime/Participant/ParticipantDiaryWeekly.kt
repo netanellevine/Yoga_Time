@@ -1,7 +1,6 @@
 package com.example.yogatime.Participant
 
 
-import Shared.Lesson
 import Shared.participantFilter
 import Shared.showCustomToast
 import android.annotation.SuppressLint
@@ -36,7 +35,6 @@ import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import android.widget.Toast
-import com.example.yogatime.Instructor.InstructorLessonPopupFragment
 
 
 class ParticipantDiaryWeekly: AppCompatActivity(),ParticipentSearchPopupFragment.OnForwardListener {
@@ -254,9 +252,17 @@ class ParticipantDiaryWeekly: AppCompatActivity(),ParticipentSearchPopupFragment
 
 
         layout.addView(priceLayout)
-
+        val res: Int
         val currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd-HH:mm"))
-        val res = currentTime.toString().compareTo("$markedYear-$hour")
+        if (hour.contains(" ")){
+            val splitHour = hour.split(" ")
+            val splitDate = splitHour[0].split("/")
+            val time = splitDate[2]+"/"+splitDate[1]+"/"+splitDate[0]+"_"+splitHour[1]
+            res = currentTime.toString().compareTo(time)
+        }
+        else {
+            res = currentTime.toString().compareTo("$markedYear-$hour")
+        }
         if (res < 0) {
 
             val signButton = ImageButton(this)
