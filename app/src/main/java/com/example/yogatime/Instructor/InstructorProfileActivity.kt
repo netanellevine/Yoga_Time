@@ -50,9 +50,10 @@ class InstructorProfileActivity : AppCompatActivity() {
         val items = resources.getStringArray(R.array.overview_span)
         val adapter = ArrayAdapter(this, R.layout.list_item_exposeddropdown, items)
         val textField: AutoCompleteTextView = findViewById(R.id.overview_span_dropdown)
+    dataBL.getInstructorStats(userId!!, LocalDate.now().minusYears(500)!!.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")),  LocalDate.now().plusYears(500)!!.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), ::updateStats)
 
 
-        textField.setOnItemClickListener { parent, view, position, id ->
+    textField.setOnItemClickListener { parent, view, position, id ->
             val item = parent.getItemAtPosition(position).toString()
             if (item == currentOverview) {
                 return@setOnItemClickListener
