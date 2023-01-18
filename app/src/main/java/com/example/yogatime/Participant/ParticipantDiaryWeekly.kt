@@ -462,9 +462,17 @@ class ParticipantDiaryWeekly: AppCompatActivity() {
         layout.addView(priceLayout)
 //        layout.addView(LineVert())
 
+        val searchLayout = createLayout()
+        val imageButton = ImageButton(this)
+        imageButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_search_24))
+        searchLayout.addView(imageButton)
+        layout.addView(searchLayout)
+
         val lineLayoutBottom = createLayout()
         findViewById<LinearLayout>(R.id.timeLayout).addView(lineLayoutBottom)
         lineLayoutBottom.addView(LineHorz())
+
+
     }
 
 
