@@ -3,9 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/upcoming_lesson_date"
+        android:id="@+id/history_lesson_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -16,7 +15,7 @@
         android:textSize="16sp" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/upcoming_lesson_name"
+        android:id="@+id/history_lesson_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -27,7 +26,7 @@
         android:textSize="16sp" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/upcoming_lesson_revenue"
+        android:id="@+id/history_lesson_revenue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

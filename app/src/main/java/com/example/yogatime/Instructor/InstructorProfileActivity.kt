@@ -1,7 +1,6 @@
 package com.example.yogatime.Instructor
 
 import Shared.fullLesson
-import Shared.instructorLesson
 import Shared.instructorStats
 import android.content.Context
 import android.content.Intent
@@ -10,25 +9,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import businessLogic.DataBL
 import com.example.yogatime.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textview.MaterialTextView
-import com.google.firebase.firestore.core.View
-import com.kizitonwose.calendar.core.atStartOfMonth
-import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters
 
@@ -107,7 +99,17 @@ class InstructorProfileActivity : AppCompatActivity() {
 //        val endDate = LocalDate.MAX
 //        dataBL.getInstructorStats(userId!!, startDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), endDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), ::updateStats)
 
-//        dataBL.
+        dataBL.getUpcomingLessons(
+            userId!!,
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd_HH:mm")),
+            5,
+            ::updateUpcomingLessons)
+
+        dataBL.getHistoryLessons(
+            userId!!,
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd_HH:mm")),
+            5,
+            ::updateHistoryLessons)
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.selectedItemId = R.id.personal_profile_instructor_nav
@@ -143,22 +145,40 @@ class InstructorProfileActivity : AppCompatActivity() {
 
     }
 
-    fun updateUpcoming(stats: List<fullLesson>) {
+    fun updateUpcomingLessons(stats: List<fullLesson>) {
         val upcomingTable = findViewById<TableLayout>(R.id.upcoming_lessons_tablelayout)
-        upcomingTable.removeAllViews()
+//        upcomingTable.removeAllViews()
 
         for (lesson in stats) {
             val row =
                 LayoutInflater.from(this).inflate(R.layout.upcoming_lessons_row, null) as TableRow
-            val dateTextView = row.findViewById<MaterialTextView>(R.id.lesson_date)
-            val nameTextView = row.findViewById<MaterialTextView>(R.id.lesson_name)
-            val revenueTextView = row.findViewById<MaterialTextView>(R.id.lesson_revenue)
+            val dateTextView = row.findViewById<MaterialTextView>(R.id.upcoming_lesson_date)
+            val nameTextView = row.findViewById<MaterialTextView>(R.id.upcoming_lesson_name)
+            val revenueTextView = row.findViewById<MaterialTextView>(R.id.upcoming_lesson_revenue)
             dateTextView.text = lesson.date
             nameTextView.text = lesson.lesson.lessonName
             revenueTextView.text = lesson.lesson.price.toString()
             upcomingTable.addView(row)
         }
         upcomingTable.requestLayout()
+    }
+
+    fun updateHistoryLessons(stats: List<fullLesson>) {
+        val historyTable = findViewById<TableLayout>(R.id.history_lessons_tablelayout)
+        historyTable.removeAllViews()
+
+        for (lesson in stats) {
+            val row =
+                LayoutInflater.from(this).inflate(R.layout.history_lessons_row, null) as TableRow
+            val dateTextView = row.findViewById<MaterialTextView>(R.id.history_lesson_date)
+            val nameTextView = row.findViewById<MaterialTextView>(R.id.history_lesson_name)
+            val revenueTextView = row.findViewById<MaterialTextView>(R.id.history_lesson_revenue)
+            dateTextView.text = lesson.date
+            nameTextView.text = lesson.lesson.lessonName
+            revenueTextView.text = lesson.lesson.price.toString()
+            historyTable.addView(row)
+        }
+        historyTable.requestLayout()
     }
 
 

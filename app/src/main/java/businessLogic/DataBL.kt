@@ -2,6 +2,7 @@ package businessLogic
 
 import com.google.gson.Gson
 import Shared.Lesson
+import Shared.fullLesson
 import Shared.instructorStats
 import Shared.participantFilter
 import android.os.Build
@@ -105,6 +106,24 @@ class DataBL {
             "date" to filter.date
         )
         data.participantLessonFilter(filterMap,userId,callback)
+    }
+
+    fun getUpcomingLessons(userId: String, startDate: String, upcomingAmount: Int, callback: (lesson: List<fullLesson>) -> Unit) {
+        val map = hashMapOf<String, Any>(
+            "userId" to userId,
+            "startDate" to startDate,
+            "upcomingAmount" to upcomingAmount
+        )
+        data.getUpcomingLessons(map, callback)
+    }
+
+    fun getHistoryLessons(userId: String, endDate: String, historyAmount: Int, callback: (lesson: List<fullLesson>) -> Unit) {
+        val map = hashMapOf<String, Any>(
+            "userId" to userId,
+            "endDate" to endDate,
+            "historyAmount" to historyAmount
+        )
+        data.getHistoryLessons(map, callback)
     }
 
 

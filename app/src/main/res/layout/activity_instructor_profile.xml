@@ -437,7 +437,7 @@
                     </LinearLayout>
 
                     <TableLayout
-                        android:id="@+id/history_tablelayout"
+                        android:id="@+id/history_lessons_tablelayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
