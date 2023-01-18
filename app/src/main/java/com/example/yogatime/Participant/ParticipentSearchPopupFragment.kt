@@ -62,7 +62,7 @@ class ParticipentSearchPopupFragment : DialogFragment() {
         toolbar = view.findViewById(R.id.toolbar)
 
         val lessonLevel = view.findViewById<MaterialAutoCompleteTextView>(R.id.lesson_level)
-        val items = resources.getStringArray(R.array.lesson_levels)
+        val items = resources.getStringArray(R.array.lesson_filter)
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
         lessonLevel.setText(items[0], false)
         lessonLevel.setAdapter(adapter)
