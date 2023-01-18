@@ -89,8 +89,8 @@ class DataBL {
 
     fun deleteLesson(userId: String, key:String,callback: (message: String) -> Unit){
         val deletionMap = hashMapOf<String,Any>(
-            "userId" to userId,
-            "date" to key
+            "instructor_id" to userId,
+            "full_date" to key
         )
         data.deleteLesson(deletionMap,callback)
     }

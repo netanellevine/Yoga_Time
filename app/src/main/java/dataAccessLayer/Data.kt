@@ -291,7 +291,7 @@ class Data {
         var res = ""
         val thread = Thread {
             try {
-                res = getRequest("instructor/deleteLesson", map)
+                res = getRequest("lessons/delete", map)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

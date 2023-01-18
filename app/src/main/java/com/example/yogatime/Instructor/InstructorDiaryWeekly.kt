@@ -276,7 +276,7 @@ class InstructorDiaryWeekly: AppCompatActivity(), InstructorLessonPopupFragment.
             deleteLayout.addView(deleteButton)
             deleteButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_remove_24))
             deleteButton.setOnClickListener {
-                userId?.let { it1 -> databl.deleteLesson(it1,"$markedYearDeletion-$hour"
+                userId?.let { it1 -> databl.deleteLesson(it1,"${markedYearDeletion}_${hour}"
                 ) { message ->
                     Toast(this).showCustomToast(message, this)
                 }
