@@ -1,7 +1,6 @@
 package com.example.yogatime.Participant
 
 
-import Shared.Lesson
 import Shared.participantFilter
 import Shared.showCustomToast
 import android.annotation.SuppressLint
@@ -36,7 +35,6 @@ import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import android.widget.Toast
-import com.example.yogatime.Instructor.InstructorLessonPopupFragment
 
 
 class ParticipantDiaryWeekly: AppCompatActivity(),ParticipentSearchPopupFragment.OnForwardListener {
@@ -179,8 +177,8 @@ class ParticipantDiaryWeekly: AppCompatActivity(),ParticipentSearchPopupFragment
 
     }
     // Add layout to the table, which we use to present the lesson information
+    @RequiresApi(Build.VERSION_CODES.O)
     @OptIn(DelicateCoroutinesApi::class)
-    @RequiresApi(Build.VERSION_CODES.N)
     fun addLayoutToTable(hour:String, height: Float, width: Float, layoutId: Int, startIdentity: Int, currentlySigned: String, lessonName:String, level:String, price:String, addButton:Boolean, buttonFunc: (flag:Boolean) -> Unit, year:String,lessonInfo:String) {
         val hourView =
             createTextView(text = hour, height = height, width = width, toDraw = true, size = 13f)
@@ -254,9 +252,17 @@ class ParticipantDiaryWeekly: AppCompatActivity(),ParticipentSearchPopupFragment
 
 
         layout.addView(priceLayout)
-
+        val res: Int
         val currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd-HH:mm"))
-        val res = currentTime.toString().compareTo("$markedYear-$hour")
+        if (hour.contains(" ")){
+            val splitHour = hour.split(" ")
+            val splitDate = splitHour[0].split("/")
+            val time = splitDate[2]+"/"+splitDate[1]+"/"+splitDate[0]+"_"+splitHour[1]
+            res = currentTime.toString().compareTo(time)
+        }
+        else {
+            res = currentTime.toString().compareTo("$markedYear-$hour")
+        }
         if (res < 0) {
 
             val signButton = ImageButton(this)
@@ -298,8 +304,8 @@ class ParticipantDiaryWeekly: AppCompatActivity(),ParticipentSearchPopupFragment
     }
 
     // Add table to present the information
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun addTable(hour:String, startIdentity:Int, layoutId:Int, currentlySigned: String, lessonName: String, level:String, price: String, addButton: Boolean, buttonFunc: (flag:Boolean) -> Unit, year: String,lessonInfo: String) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun addTable(hour:String, startIdentity:Int, layoutId:Int, currentlySigned: String, lessonName: String, level:String, price: String, addButton: Boolean, buttonFunc: (flag:Boolean) -> Unit, year: String, lessonInfo: String) {
 
         addLayoutToTable(hour,height,width,layoutId,startIdentity,currentlySigned,lessonName,level,price,addButton,buttonFunc,year,lessonInfo)
         val spaceLayout = createLayout(identitiy = layoutId)
@@ -480,7 +486,7 @@ class ParticipantDiaryWeekly: AppCompatActivity(),ParticipentSearchPopupFragment
 
 
     }
-    @RequiresApi(Build.VERSION_CODES.N)
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onForward(
         filter: participantFilter
     ) {
