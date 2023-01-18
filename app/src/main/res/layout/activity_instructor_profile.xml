@@ -9,272 +9,491 @@
     <!--    https://www.figma.com/file/J4deGybYDcR4zcdpIC71FA/Core-Dashboard-Builder-(Community)?node-id=1317%3A196791&t=31lTprJ71FkbEDBF-0-->
     <!--    https://www.figma.com/community/file/1190236252897703761-->
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/dashboard_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Dashboard"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.Material3.CardView.Elevated"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:cardCornerRadius="8dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dashboard_textview">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:fontFamily="@font/inter_semibold"
-                    android:text="Overview"
-                    android:textSize="24sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/overview_span_textinputlayout"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/overview_span_dropdown"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        app:simpleItems="@array/overview_span" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <com.google.android.material.card.MaterialCardView
-                style="@style/Widget.Material3.CardView.Filled"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/dashboard_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="16dp"
-                app:cardCornerRadius="20dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Dashboard"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dashboard_textview">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="16dp">
 
-                        <com.google.android.material.card.MaterialCardView
-                            style="@style/Widget.Material3.CardView.Elevated"
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:fontFamily="@font/inter_semibold"
+                            android:text="Overview"
+                            android:textSize="24sp" />
+
+                        <View
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            app:cardCornerRadius="12dp">
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
 
-                            <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/overview_span_textinputlayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/overview_span_dropdown"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                android:padding="8dp">
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                app:simpleItems="@array/overview_span" />
 
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="16dp"
-                                    android:fontFamily="@font/inter_semibold"
-                                    android:text="Average Participants"
-                                    android:textSize="16sp" />
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/avg_participants_textview"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="16dp"
-                                    android:fontFamily="@font/inter_semibold"
-                                    android:text="0"
-                                    android:textSize="40sp" />
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="16dp"
-                                    android:text="Per Lesson"
-                                    android:fontFamily="@font/inter_semibold"
-                                    android:textSize="16sp" />
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <com.google.android.material.card.MaterialCardView
-                            style="@style/Widget.Material3.CardView.Elevated"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            app:cardCornerRadius="12dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                android:padding="8dp">
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="16dp"
-                                    android:fontFamily="@font/inter_semibold"
-                                    android:text="Average Revenue"
-                                    android:textSize="16sp" />
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/avg_revenue_textview"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="16dp"
-                                    android:fontFamily="@font/inter_semibold"
-                                    android:text="0"
-                                    android:textSize="40sp" />
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
-                    <LinearLayout
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/Widget.Material3.CardView.Filled"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="16dp"
+                        app:cardCornerRadius="20dp">
 
-                        <com.google.android.material.card.MaterialCardView
-                            style="@style/Widget.Material3.CardView.Elevated"
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            app:cardCornerRadius="12dp">
+                            android:orientation="vertical">
+
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                android:padding="8dp">
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
 
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="16dp"
-                                    android:fontFamily="@font/inter_semibold"
-                                    android:text="Overall Lessons"
-                                    android:textSize="16sp" />
+                                <com.google.android.material.card.MaterialCardView
+                                    style="@style/Widget.Material3.CardView.Elevated"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="8dp"
+                                    android:layout_weight="1"
+                                    app:cardCornerRadius="12dp">
 
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/total_lessons_textview"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="16dp"
-                                    android:fontFamily="@font/inter_semibold"
-                                    android:maxLines="1"
-                                    android:text="0"
-                                    android:textSize="40sp" />
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:padding="8dp">
+
+                                        <com.google.android.material.textview.MaterialTextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="16dp"
+                                            android:layout_marginTop="16dp"
+                                            android:layout_marginEnd="16dp"
+                                            android:fontFamily="@font/inter_semibold"
+                                            android:text="Average Participants"
+                                            android:textSize="16sp" />
+
+                                        <com.google.android.material.textview.MaterialTextView
+                                            android:id="@+id/avg_participants_textview"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="16dp"
+                                            android:layout_marginTop="16dp"
+                                            android:layout_marginEnd="16dp"
+                                            android:fontFamily="@font/inter_semibold"
+                                            android:text="0"
+                                            android:textSize="32sp" />
+
+                                        <com.google.android.material.textview.MaterialTextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="16dp"
+                                            android:layout_marginTop="16dp"
+                                            android:layout_marginEnd="16dp"
+                                            android:fontFamily="@font/inter_semibold"
+                                            android:text="Per Lesson"
+                                            android:textSize="14sp" />
+                                    </LinearLayout>
+                                </com.google.android.material.card.MaterialCardView>
+
+                                <com.google.android.material.card.MaterialCardView
+                                    style="@style/Widget.Material3.CardView.Elevated"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="8dp"
+                                    android:layout_weight="1"
+                                    app:cardCornerRadius="12dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:padding="8dp">
+
+                                        <com.google.android.material.textview.MaterialTextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="16dp"
+                                            android:layout_marginTop="16dp"
+                                            android:layout_marginEnd="16dp"
+                                            android:fontFamily="@font/inter_semibold"
+                                            android:text="Average Revenue"
+                                            android:textSize="16sp" />
+
+                                        <com.google.android.material.textview.MaterialTextView
+                                            android:id="@+id/avg_revenue_textview"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="16dp"
+                                            android:layout_marginTop="16dp"
+                                            android:layout_marginEnd="16dp"
+                                            android:fontFamily="@font/inter_semibold"
+                                            android:text="0"
+                                            android:textSize="32sp" />
+
+                                        <com.google.android.material.textview.MaterialTextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="16dp"
+                                            android:layout_marginTop="16dp"
+                                            android:layout_marginEnd="16dp"
+                                            android:fontFamily="@font/inter_semibold"
+                                            android:text="Per Lesson"
+                                            android:textSize="14sp" />
+                                    </LinearLayout>
+                                </com.google.android.material.card.MaterialCardView>
+
                             </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <com.google.android.material.card.MaterialCardView
-                            style="@style/Widget.Material3.CardView.Elevated"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            app:cardCornerRadius="12dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                android:padding="8dp">
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
 
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="16dp"
-                                    android:fontFamily="@font/inter_semibold"
-                                    android:text="Overall Revenue"
-                                    android:textSize="16sp" />
+                                <com.google.android.material.card.MaterialCardView
+                                    style="@style/Widget.Material3.CardView.Elevated"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="8dp"
+                                    android:layout_weight="1"
+                                    app:cardCornerRadius="12dp">
 
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/total_revenue_textview"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_marginEnd="16dp"
-                                    android:fontFamily="@font/inter_semibold"
-                                    android:text="0"
-                                    android:textSize="40sp" />
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:padding="8dp">
+
+                                        <com.google.android.material.textview.MaterialTextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="16dp"
+                                            android:layout_marginTop="16dp"
+                                            android:layout_marginEnd="16dp"
+                                            android:fontFamily="@font/inter_semibold"
+                                            android:text="Overall Lessons"
+                                            android:textSize="16sp" />
+
+                                        <com.google.android.material.textview.MaterialTextView
+                                            android:id="@+id/total_lessons_textview"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="16dp"
+                                            android:layout_marginTop="16dp"
+                                            android:layout_marginEnd="16dp"
+                                            android:fontFamily="@font/inter_semibold"
+                                            android:maxLines="1"
+                                            android:text="0"
+                                            android:textSize="32sp" />
+                                    </LinearLayout>
+                                </com.google.android.material.card.MaterialCardView>
+
+                                <com.google.android.material.card.MaterialCardView
+                                    style="@style/Widget.Material3.CardView.Elevated"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="8dp"
+                                    android:layout_weight="1"
+                                    app:cardCornerRadius="12dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:padding="8dp">
+
+                                        <com.google.android.material.textview.MaterialTextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="16dp"
+                                            android:layout_marginTop="16dp"
+                                            android:layout_marginEnd="16dp"
+                                            android:fontFamily="@font/inter_semibold"
+                                            android:text="Overall Revenue"
+                                            android:textSize="16sp" />
+
+                                        <com.google.android.material.textview.MaterialTextView
+                                            android:id="@+id/total_revenue_textview"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="16dp"
+                                            android:layout_marginTop="16dp"
+                                            android:layout_marginEnd="16dp"
+                                            android:fontFamily="@font/inter_semibold"
+                                            android:text="0"
+                                            android:textSize="32sp" />
+                                    </LinearLayout>
+                                </com.google.android.material.card.MaterialCardView>
+
                             </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
 
-                    </LinearLayout>
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dashboard_textview">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:fontFamily="@font/inter_semibold"
+                            android:text="Upcoming Lessons"
+                            android:textSize="24sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:stretchColumns="*">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginBottom="16dp"
+                                android:fontFamily="@font/inter_semibold"
+                                android:text="Date"
+                                android:textSize="16sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginBottom="16dp"
+                                android:fontFamily="@font/inter_semibold"
+                                android:text="Lesson"
+                                android:textSize="16sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginBottom="16dp"
+                                android:fontFamily="@font/inter_semibold"
+                                android:gravity="end"
+                                android:text="Revenue"
+                                android:textSize="16sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dashboard_textview">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:fontFamily="@font/inter_semibold"
+                            android:text="History"
+                            android:textSize="24sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:stretchColumns="*">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginBottom="16dp"
+                                android:fontFamily="@font/inter_semibold"
+                                android:text="Date"
+                                android:textSize="16sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginBottom="16dp"
+                                android:fontFamily="@font/inter_semibold"
+                                android:text="Lesson"
+                                android:textSize="16sp" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginBottom="16dp"
+                                android:fontFamily="@font/inter_semibold"
+                                android:gravity="end"
+                                android:text="Revenue"
+                                android:textSize="16sp" />
+                        </TableRow>
+                    </TableLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
