@@ -1,5 +1,7 @@
 package com.example.yogatime.Instructor
 
+import Shared.fullLesson
+import Shared.instructorLesson
 import Shared.instructorStats
 import android.content.Context
 import android.content.Intent
@@ -7,15 +9,19 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.TableLayout
+import android.widget.TableRow
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import businessLogic.DataBL
 import com.example.yogatime.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.firestore.core.View
 import com.kizitonwose.calendar.core.atStartOfMonth
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
@@ -34,7 +40,7 @@ class InstructorProfileActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var currentOverview: String
 
-//    @RequiresApi(Build.VERSION_CODES.N)
+    //    @RequiresApi(Build.VERSION_CODES.N)
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,17 +56,22 @@ class InstructorProfileActivity : AppCompatActivity() {
         val items = resources.getStringArray(R.array.overview_span)
         val adapter = ArrayAdapter(this, R.layout.list_item_exposeddropdown, items)
         val textField: AutoCompleteTextView = findViewById(R.id.overview_span_dropdown)
-    dataBL.getInstructorStats(userId!!, LocalDate.now().minusYears(500)!!.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")),  LocalDate.now().plusYears(500)!!.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), ::updateStats)
+        dataBL.getInstructorStats(
+            userId!!,
+            LocalDate.now().minusYears(500)!!.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")),
+            LocalDate.now().plusYears(500)!!.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")),
+            ::updateStats
+        )
 
 
-    textField.setOnItemClickListener { parent, view, position, id ->
+        textField.setOnItemClickListener { parent, view, position, id ->
             val item = parent.getItemAtPosition(position).toString()
             if (item == currentOverview) {
                 return@setOnItemClickListener
             }
             Log.d(tag, "Selected item: $item")
-            var endDate : LocalDate? = null
-            var startDate : LocalDate? = null
+            var endDate: LocalDate? = null
+            var startDate: LocalDate? = null
             when (item) {
                 "All Time" -> {
                     startDate = LocalDate.now().minusYears(500)
@@ -71,7 +82,8 @@ class InstructorProfileActivity : AppCompatActivity() {
                     endDate = LocalDate.now()
                 }
                 "This Week" -> {
-                    startDate = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
+                    startDate =
+                        LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
                     endDate = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY))
 
                 }
@@ -80,7 +92,12 @@ class InstructorProfileActivity : AppCompatActivity() {
                     endDate = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth())
                 }
             }
-            dataBL.getInstructorStats(userId!!, startDate!!.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), endDate!!.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), ::updateStats)
+            dataBL.getInstructorStats(
+                userId!!,
+                startDate!!.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")),
+                endDate!!.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")),
+                ::updateStats
+            )
             currentOverview = item
         }
         currentOverview = items[0]
@@ -90,6 +107,7 @@ class InstructorProfileActivity : AppCompatActivity() {
 //        val endDate = LocalDate.MAX
 //        dataBL.getInstructorStats(userId!!, startDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), endDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), ::updateStats)
 
+//        dataBL.
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.selectedItemId = R.id.personal_profile_instructor_nav
@@ -119,12 +137,29 @@ class InstructorProfileActivity : AppCompatActivity() {
 
         for (element in elements) {
             val id = resources.getIdentifier(element.key, "id", packageName)
-            val textView = findViewById<TextView>(id)
-            textView.setText(element.value.toString())
+            val textView = findViewById<MaterialTextView>(id)
+            textView.text = element.value.toString()
         }
 
     }
 
+    fun updateUpcoming(stats: List<fullLesson>) {
+        val upcomingTable = findViewById<TableLayout>(R.id.upcoming_lessons_tablelayout)
+        upcomingTable.removeAllViews()
+
+        for (lesson in stats) {
+            val row =
+                LayoutInflater.from(this).inflate(R.layout.upcoming_lessons_row, null) as TableRow
+            val dateTextView = row.findViewById<MaterialTextView>(R.id.lesson_date)
+            val nameTextView = row.findViewById<MaterialTextView>(R.id.lesson_name)
+            val revenueTextView = row.findViewById<MaterialTextView>(R.id.lesson_revenue)
+            dateTextView.text = lesson.date
+            nameTextView.text = lesson.lesson.lessonName
+            revenueTextView.text = lesson.lesson.price.toString()
+            upcomingTable.addView(row)
+        }
+        upcomingTable.requestLayout()
+    }
 
 
     private fun loadUser(): String? {

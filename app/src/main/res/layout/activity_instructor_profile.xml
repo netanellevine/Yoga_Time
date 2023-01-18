@@ -13,13 +13,14 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="wrap_content"
+        app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_chainStyle="packed">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -146,7 +147,8 @@
                                             android:layout_marginEnd="16dp"
                                             android:fontFamily="@font/inter_semibold"
                                             android:text="0"
-                                            android:textSize="32sp" />
+                                            android:textSize="32sp"
+                                            app:autoSizeTextType="uniform" />
 
                                         <com.google.android.material.textview.MaterialTextView
                                             android:layout_width="wrap_content"
@@ -193,7 +195,8 @@
                                             android:layout_marginEnd="16dp"
                                             android:fontFamily="@font/inter_semibold"
                                             android:text="0"
-                                            android:textSize="32sp" />
+                                            android:textSize="32sp"
+                                            app:autoSizeTextType="uniform" />
 
                                         <com.google.android.material.textview.MaterialTextView
                                             android:layout_width="wrap_content"
@@ -248,7 +251,8 @@
                                             android:fontFamily="@font/inter_semibold"
                                             android:maxLines="1"
                                             android:text="0"
-                                            android:textSize="32sp" />
+                                            android:textSize="32sp"
+                                            app:autoSizeTextType="uniform" />
                                     </LinearLayout>
                                 </com.google.android.material.card.MaterialCardView>
 
@@ -285,7 +289,8 @@
                                             android:layout_marginEnd="16dp"
                                             android:fontFamily="@font/inter_semibold"
                                             android:text="0"
-                                            android:textSize="32sp" />
+                                            android:textSize="32sp"
+                                            app:autoSizeTextType="uniform" />
                                     </LinearLayout>
                                 </com.google.android.material.card.MaterialCardView>
 
@@ -339,6 +344,7 @@
                     </LinearLayout>
 
                     <TableLayout
+                        android:id="@+id/upcoming_lessons_tablelayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -397,6 +403,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 app:cardCornerRadius="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -430,6 +437,7 @@
                     </LinearLayout>
 
                     <TableLayout
+                        android:id="@+id/history_tablelayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -490,10 +498,9 @@
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
