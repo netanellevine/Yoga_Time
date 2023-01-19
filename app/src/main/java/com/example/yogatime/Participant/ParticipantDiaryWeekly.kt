@@ -12,10 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import businessLogic.DataBL
@@ -24,17 +21,13 @@ import com.example.yogatime.utils.LoadingDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kizitonwose.calendar.core.*
 import com.kizitonwose.calendar.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
-import android.widget.Toast
 
 
 class ParticipantDiaryWeekly: AppCompatActivity(),ParticipentSearchPopupFragment.OnForwardListener {
@@ -281,7 +274,9 @@ class ParticipantDiaryWeekly: AppCompatActivity(),ParticipentSearchPopupFragment
                     runOnUiThread {
                         userId?.let { it1 -> databl.getAvailability(it1, year, ::addTable) }
                     }
-                    TimeUnit.SECONDS.sleep(2L)
+                    withContext(Dispatchers.IO) {
+                        TimeUnit.SECONDS.sleep(2L)
+                    }
                     loading.dismissDialog()
 
                 }

@@ -330,7 +330,6 @@ class Data {
             val lesson = fulllesson.lesson
             if (lesson.ParticipantsList.size < lesson.numberOfParticipants) {
                     val inList = userId in lesson.ParticipantsList
-
                     callback(
                         lessonDate.replace('_' ,' '),
 //                        lessonDate.split("_")[1],

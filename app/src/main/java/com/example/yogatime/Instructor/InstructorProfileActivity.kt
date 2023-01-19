@@ -157,7 +157,7 @@ class InstructorProfileActivity : AppCompatActivity() {
             val revenueTextView = row.findViewById<MaterialTextView>(R.id.upcoming_lesson_revenue)
             dateTextView.text = lesson.date
             nameTextView.text = lesson.lesson.lessonName
-            revenueTextView.text = lesson.lesson.price.toString()
+            revenueTextView.text = (lesson.lesson.price * lesson.lesson.ParticipantsList.size).toString()
             upcomingTable.addView(row)
         }
         upcomingTable.requestLayout()

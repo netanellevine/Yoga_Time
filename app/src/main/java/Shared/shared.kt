@@ -44,7 +44,7 @@ data class participantFilter(@SerializedName("instructorName") val instructorNam
                              @SerializedName("price") val price: Double =0.0,
                              @SerializedName("date") val date: String = "any" )
 
-const val server = "13.37.222.111"
+const val server = "y-time-1132316634.eu-west-3.elb.amazonaws.com"
 
 
 @RequiresApi(Build.VERSION_CODES.N)
