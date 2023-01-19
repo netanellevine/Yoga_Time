@@ -315,7 +315,7 @@ class ParticipantDiaryWeekly: AppCompatActivity(),ParticipentSearchPopupFragment
         val primLayout = findViewById<LinearLayout>(R.id.timeLayout)
         var startIdentity = 300000
         var layoutId = 400000
-        for (i in 1..24){
+        for (i in 1..100){
             primLayout.removeView(findViewById(layoutId + 10))
             primLayout.removeView(findViewById(layoutId))
 //            for (j in 0..12) {
