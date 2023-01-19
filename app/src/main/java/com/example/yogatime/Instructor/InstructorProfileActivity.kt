@@ -165,7 +165,7 @@ class InstructorProfileActivity : AppCompatActivity() {
 
     fun updateHistoryLessons(stats: List<fullLesson>) {
         val historyTable = findViewById<TableLayout>(R.id.history_lessons_tablelayout)
-        historyTable.removeAllViews()
+//        historyTable.removeAllViews()
 
         for (lesson in stats) {
             val row =
@@ -175,7 +175,7 @@ class InstructorProfileActivity : AppCompatActivity() {
             val revenueTextView = row.findViewById<MaterialTextView>(R.id.history_lesson_revenue)
             dateTextView.text = lesson.date
             nameTextView.text = lesson.lesson.lessonName
-            revenueTextView.text = lesson.lesson.price.toString()
+            revenueTextView.text = (lesson.lesson.price * lesson.lesson.ParticipantsList.size).toString()
             historyTable.addView(row)
         }
         historyTable.requestLayout()

@@ -389,5 +389,37 @@ class Data {
         callback(lessons.toList())
     }
 
+    fun getUpcomingParticipantLessons(map: HashMap<String, Any>, callback: (lesson: List<fullLesson>) -> Unit) {
+        var res = ""
+        val thread = Thread {
+            try {
+                res = getRequest("lessons/participant/upcoming", map)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        thread.start()
+        thread.join()
+        val lessons = Gson().fromJson(res,Array<fullLesson>::class.java)
+        callback(lessons.toList())
+    }
+
+    fun getHistoryParticipantLessons(map: HashMap<String, Any>, callback: (lesson: List<fullLesson>) -> Unit) {
+        var res = ""
+        val thread = Thread {
+            try {
+                res = getRequest("lessons/participant/history", map)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        thread.start()
+        thread.join()
+        val lessons = Gson().fromJson(res,Array<fullLesson>::class.java)
+        callback(lessons.toList())
+    }
+
 
 }

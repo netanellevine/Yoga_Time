@@ -61,7 +61,7 @@ class ParticipantDiaryWeekly: AppCompatActivity(),ParticipentSearchPopupFragment
         super.onCreate(savedInstanceState)
         setContentView(R.layout.participant_weekly)
         userId = loadUser()
-        if(userId!= null) {
+        if(userId == null) {
             userId = this.intent?.getSerializableExtra("userId") as String
         }
         loading = LoadingDialog(this)

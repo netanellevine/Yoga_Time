@@ -126,5 +126,23 @@ class DataBL {
         data.getHistoryLessons(map, callback)
     }
 
+    fun getUpcomingParticipantLessons(userId: String, startDate: String, upcomingAmount: Int, callback: (lesson: List<fullLesson>) -> Unit) {
+        val map = hashMapOf<String, Any>(
+            "userId" to userId,
+            "startDate" to startDate,
+            "upcomingAmount" to upcomingAmount
+        )
+        data.getUpcomingParticipantLessons(map, callback)
+    }
+
+    fun getHistoryParticipantLessons(userId: String, endDate: String, historyAmount: Int, callback: (lesson: List<fullLesson>) -> Unit) {
+        val map = hashMapOf<String, Any>(
+            "userId" to userId,
+            "endDate" to endDate,
+            "historyAmount" to historyAmount
+        )
+        data.getHistoryParticipantLessons(map, callback)
+    }
+
 
 }
