@@ -15,15 +15,19 @@ Nir Sasson
 
 
 ### Repositories:
-App - https://github.com/SassonNir/Yoga_Time  
+**App** - https://github.com/SassonNir/Yoga_Time  
 ```
 The application was built in Android Studio and we used Kotlin.
 ```
 
-Server - https://github.com/netanellevine/python_server_api  
+**Server** - https://github.com/netanellevine/python_server_api  
 ```
 The server was built in Python on AWS EC2 using Fast-API.
 ```
+### Links:
+**Power Points Presentation** - https://docs.google.com/presentation/d/1iTOGPQOF3YR8NQxMLglVGIGIDxNSVEo3/edit?usp=sharing&ouid=113841670198344735182&rtpof=true&sd=true
+
+**Product demo video** - https://drive.google.com/file/d/1DR_iFTfCCvSJsiNYu9tBl3IlCY7MLTky/view?usp=sharing
 
 ## Problem vs. Solution
 
@@ -53,9 +57,6 @@ For the customers it provides the best solution for getting to know new instruct
 ## Technological Mapping
 <img src="pptimages/technological_mapping.png" alt="image" width="750" height="450"/>
 
-
-### Product Demo
-Click to start the demo ->  https://drive.google.com/file/d/1DR_iFTfCCvSJsiNYu9tBl3IlCY7MLTky/view?usp=sharing
 
 ## Design Goals
 <img src="pptimages/Design Goals.png" alt="image" width="750" height="450"/>
