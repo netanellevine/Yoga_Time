@@ -38,15 +38,15 @@ For the customers it provides the best solution for getting to know new instruct
 **Us** - Cheap and easy to useClients can see all the business filter and search for what they desire
 
 ## Functional Requirements
-  <img src="pptimages/Functional_Requirements.png" alt="image"/>
+  <img src="pptimages/Functional_Requirements.png" alt="image" width="750" height="450"/>
 
 
 ## Non-Functional Requirements
 
-   <img src="pptimages/Non-Functional Requirements.png" alt="image"/>
+   <img src="pptimages/Non-Functional Requirements.png" alt="image" width="750" height="450"/>
 
 ## Technological Mapping
-<img src="pptimages/technological_mapping.png" alt="image"/>
+<img src="pptimages/technological_mapping.png" alt="image" width="750" height="450"/>
 
 # Used Technologies
 
