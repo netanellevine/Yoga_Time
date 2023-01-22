@@ -37,7 +37,7 @@ Yoga Time enables all sorts of businesses an easy and a simple way for mannaging
 **Us** - Cheap and easy to useClients can see all the business filter and search for what they desire
 
 ## Functional Requirements
-  
+  <img src="pptimages/Functional_Requirements.png" alt="image"/>
   **Sign Up / Login** - המערכת תאפשר למשתמש להתחבר/להירשם
   
   **Create/Delete Lesson** - המערכת תאפשר למדריך ליצור/למחוק שיעור חדש
@@ -51,18 +51,19 @@ Yoga Time enables all sorts of businesses an easy and a simple way for mannaging
   **Weekly View** - המערכת תאפשר למשתמש לעבור בין ימים ולבחור שיעורים
 
 
-Non-Functional Requirements
-SMS Authenticationהתחברות באמצעות קוד שנשלח בהודעת סמס
-SMS Notifications
-מדריך יקבל הודעת סמס על כל רישום לשיעור/ביטול רישום
-SMS Notifications
-לקוח יקבל הודעת סמס במידה ויש שינוי/ביטול שיעור
-Instructor Dashboard
-Participant Dashboard
-Reliability
-המערכת תאפשר למדריך לצפות בהיסטוריית שיעורים/שיעורים עתידיים/הכנסות לפי תקופה
-המערכת תאפשר ללקוח לצפות בהיסטוריית שיעורים/שיעורים עתידיים/ ממוצע שיעורים תקופתי
-המערכת תהיה אמינה וזמינה 24/7
+## Non-Functional Requirements
+  
+  **SMS Authentication** - התחברות באמצעות קוד שנשלח בהודעת סמס
+  
+  **SMS Notifications** - מדריך יקבל הודעת סמס על כל רישום לשיעור/ביטול רישום
+  
+  **SMS Notifications** - לקוח יקבל הודעת סמס במידה ויש שינוי/ביטול שיעור
+  
+  **Instructor Dashboard** - המערכת תאפשר למדריך לצפות בהיסטוריית שיעורים/שיעורים עתידיים/הכנסות לפי תקופה
+  
+  **Participant Dashboard** - המערכת תאפשר ללקוח לצפות בהיסטוריית שיעורים/שיעורים עתידיים/ ממוצע שיעורים תקופתי
+  
+  **Reliability** - המערכת תהיה אמינה וזמינה 24/7
 
 BLLDALPL
 Technological Mapping
