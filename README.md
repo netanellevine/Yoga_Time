@@ -37,14 +37,18 @@ Yoga Time enables all sorts of businesses an easy and a simple way for mannaging
 **Us** - Cheap and easy to useClients can see all the business filter and search for what they desire
 
 ## Functional Requirements
-**Sign Up / Login** -   
-המערכת תאפשר למשתמש להתחבר/להירשם
-**Create/Delete Lesson** -   
-המערכת תאפשר למדריך ליצור/למחוק שיעור חדש
-**Sign/Unsign to Lesson** המערכת תאפשר ללקוח להירשם/לבטל רישום לשיעור
-**Filter Lessons** - המערכת תאפשר ללקוח לחפש שיעורים לפי קריטריונים שונים
-**Database** - המערכת תאפשר משיכת/עדכון נתונים מהבסיס נתונים
-**Weekly View** - המערכת תאפשר למשתמש לעבור בין ימים ולבחור שיעורים
+  
+  **Sign Up / Login** - המערכת תאפשר למשתמש להתחבר/להירשם
+  
+  **Create/Delete Lesson** - המערכת תאפשר למדריך ליצור/למחוק שיעור חדש
+  
+  **Sign/Unsign to Lesson** המערכת תאפשר ללקוח להירשם/לבטל רישום לשיעור
+  
+  **Filter Lessons** - המערכת תאפשר ללקוח לחפש שיעורים לפי קריטריונים שונים
+  
+  **Database** - המערכת תאפשר משיכת/עדכון נתונים מהבסיס נתונים  
+  
+  **Weekly View** - המערכת תאפשר למשתמש לעבור בין ימים ולבחור שיעורים
 
 
 Non-Functional Requirements
