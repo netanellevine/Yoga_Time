@@ -15,7 +15,7 @@ Nir Sasson
 
 
 ### Repositories:
-App- https://github.com/SassonNir/Yoga_Time  
+App - https://github.com/SassonNir/Yoga_Time  
 
 Server - https://github.com/netanellevine/python_server_api  
 
@@ -58,7 +58,7 @@ Click to start the demo ->  https://drive.google.com/file/d/1DR_iFTfCCvSJsiNYu9t
 <img src="pptimages/Design Goals.png" alt="image"/>
 
 ## Future Work
-<img src="pptimages/Feture Work.png" alt="image"/>
+<img src="pptimages/Future Work.png" alt="image"/>
 
 
 Diagrams
