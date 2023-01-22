@@ -81,7 +81,10 @@ For the customers it provides the best solution for getting to know new instruct
 <img src="pptimages/image23.png" alt="image" width="800" height="500"/>
 
 ### More Diagrams
- [Entity Relations Diagram](/pptimages/image25.png)
- [Sequence Diagram](/pptimages/image24.png)
- [Class Diagram](/pptimages/Class_Diagram-0.svg)
+ [Entity Relations Diagram](/pptimages/image25.png)  
+ 
+ [Sequence Diagram](/pptimages/image24.png)  
+ 
+ [Class Diagram](/pptimages/Class_Diagram-0.svg)  
+ 
 
