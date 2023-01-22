@@ -85,6 +85,7 @@ For the customers it provides the best solution for getting to know new instruct
  
  [Sequence Diagram](/pptimages/image24.png)  
  
- [Class Diagram](/pptimages/Class_Diagram-0.svg)  
+ [Class Diagram](/pptimages/Class_Diagram-0.svg)    
  
-
+ [Object Diagram](/pptimages/object diagram.svg)    
+ 
