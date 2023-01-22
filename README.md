@@ -87,5 +87,5 @@ For the customers it provides the best solution for getting to know new instruct
  
  [Class Diagram](/pptimages/Class_Diagram-0.svg)    
  
- [Object Diagram](/pptimages/object diagram.svg)    
+ [Object Diagram](/pptimages/object%20diagram.svg)    
  
