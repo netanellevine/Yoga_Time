@@ -31,7 +31,8 @@ Yoga Time enables all sorts of businesses an easy and a simple way for mannaging
 
 ## Our Competitors
 **Arbox**  
-![image](pptimages/image2.jfif)
+<img src="pptimages/image2.jfif" alt="image" width="200" height="300"/>
+
 Them - Expensive and require the business to pay a lot of money per monthClients can’t compare between several studios  
 Us - Cheap and easy to useClients can see all the business filter and search for what they desire
 
