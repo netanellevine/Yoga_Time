@@ -61,17 +61,14 @@ Click to start the demo ->  https://drive.google.com/file/d/1DR_iFTfCCvSJsiNYu9t
 <img src="pptimages/Future Work.png" alt="image" width="750" height="450"/>
 
 
-Diagrams
+## Diagrams
 
+### State Machine Diagram
+<img src="pptimages/image21.png" alt="image" width="750" height="450"/>
+### Activity Diagram
+<img src="pptimages/image22.png" alt="image" width="750" height="450"/>
+### Use Case Diagram
+<img src="pptimages/image23.png" alt="image" width="750" height="450"/>
 
-State Machine Diagram
-<img src="pptimages/Non-Functional Requirements.png" alt="image"/>
-Activity Diagram
-<img src="pptimages/Non-Functional Requirements.png" alt="image"/>
-Use Case Diagram
-<img src="pptimages/Non-Functional Requirements.png" alt="image"/>
-Sequence Diagram
-<img src="pptimages/Non-Functional Requirements.png" alt="image"/>
-Entity Relations Diagram
 
 
