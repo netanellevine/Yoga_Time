@@ -53,26 +53,13 @@ Yoga Time enables all sorts of businesses an easy and a simple way for mannaging
 ### Product Demo
 Click to start the demo ->  https://drive.google.com/file/d/1DR_iFTfCCvSJsiNYu9tBl3IlCY7MLTky/view?usp=sharing
 
+## Design Goals
+<img src="pptimages/Design Goals.png" alt="image"/>
+
+## Future Work
+<img src="pptimages/Feature Work.png" alt="image"/>
 
 
-Fire Store Documents
-
-Lambda Serverless
-
-Instances (servers)
-
-Load Balancer
-
-Target Group
-
-SNS
-
-Design GoalsModularityReusabilityEfficiencyUsabilityUser FriendlyResponsiveness
-
-
-Future Workממשק עם גוגל מפס כדי לחפש לפי מיקוםמערכת תשלום תמיכה בשפות נוספותהוספת חברים בפורטל כדי להירשם ביחד לשיעורים על ידי התראות
-<img src="pptimages/Non-Functional Requirements.png" alt="image"/>
-<img src="pptimages/Non-Functional Requirements.png" alt="image"/>
 Diagrams
 
 
@@ -86,5 +73,4 @@ Sequence Diagram
 <img src="pptimages/Non-Functional Requirements.png" alt="image"/>
 Entity Relations Diagram
 
-Thank You!
 
