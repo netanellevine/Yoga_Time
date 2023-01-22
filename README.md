@@ -33,21 +33,16 @@ Yoga Time enables all sorts of businesses an easy and a simple way for mannaging
 **Arbox**  
 <img src="pptimages/image2.jfif" alt="image" width="200" height="300"/>
 
-Them - Expensive and require the business to pay a lot of money per monthClients can’t compare between several studios  
-Us - Cheap and easy to useClients can see all the business filter and search for what they desire
+**Them** - Expensive and require the business to pay a lot of money per monthClients can’t compare between several studios  
+**Us** - Cheap and easy to useClients can see all the business filter and search for what they desire
 
-Functional Requirements
-Sign Up / Loginהמערכת תאפשר למשתמש להתחבר/להירשם
-Create/Delete Lesson
-המערכת תאפשר למדריך ליצור/למחוק שיעור חדש
-Sign/Unsign to Lesson
-המערכת תאפשר ללקוח להירשם/לבטל רישום לשיעור
-Filter Lessons
-Database
-Weekly View
-המערכת תאפשר ללקוח לחפש שיעורים לפי קריטריונים שונים
-המערכת תאפשר משיכת/עדכון נתונים מהבסיס נתונים
-המערכת תאפשר למשתמש לעבור בין ימים ולבחור שיעורים
+## Functional Requirements
+**Sign Up / Login** - המערכת תאפשר למשתמש להתחבר/להירשם
+**Create/Delete Lesson** - המערכת תאפשר למדריך ליצור/למחוק שיעור חדש
+**Sign/Unsign to Lesson** המערכת תאפשר ללקוח להירשם/לבטל רישום לשיעור
+**Filter Lessons** - המערכת תאפשר ללקוח לחפש שיעורים לפי קריטריונים שונים
+**Database** - המערכת תאפשר משיכת/עדכון נתונים מהבסיס נתונים
+**Weekly View** - המערכת תאפשר למשתמש לעבור בין ימים ולבחור שיעורים
 
 
 Non-Functional Requirements
