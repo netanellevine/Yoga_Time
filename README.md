@@ -17,7 +17,7 @@ Nir Sasson
 ### Repositories:
 App - https://github.com/SassonNir/Yoga_Time  
 ```
-The application was build in Android Studio and we used Kotlin.
+The application was built in Android Studio and we used Kotlin.
 ```
 
 Server - https://github.com/netanellevine/python_server_api  
