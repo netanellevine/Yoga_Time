@@ -34,7 +34,7 @@ For the customers it provides the best solution for getting to know new instruct
 **Arbox**  
 <img src="pptimages/image2.jfif" alt="image" width="200" height="300"/>
 
-**Them** - Expensive and require the business to pay a lot of money per monthClients can’t compare between several studios  
+**Them** - Expensive and require the business to pay a lot of money per month. Clients can’t compare between several studios  
 **Us** - Cheap and easy to useClients can see all the business filter and search for what they desire
 
 ## Functional Requirements
