@@ -20,18 +20,20 @@ App- https://github.com/SassonNir/Yoga_Time
 Server - https://github.com/netanellevine/python_server_api  
 
 
-Problem vs. Solution
+## Problem vs. Solution
 
-Problem
+### Problem:  
 Nowadays there isn’t a platform for small Yoga Studios or private Yoga instructors to manage their lessons and extend their number of  customers.
 
 
-Solution
+### Solution:  
 Yoga Time enables all sorts of businesses an easy and a simple way for mannaging their lessons. For the customers it provides the best solution for getting to know new instructors and prevents the monoply of the big businesses in the market.
 
-Our Competitors
-ThemExpensive and require the business to pay a lot of money per monthClients can’t compare between several studios
-UsCheap and easy to useClients can see all the business filter and search for what they desire
+## Our Competitors
+**Arbox**  
+![image](pptimages/image2.jfif)
+Them - Expensive and require the business to pay a lot of money per monthClients can’t compare between several studios  
+Us - Cheap and easy to useClients can see all the business filter and search for what they desire
 
 Functional Requirements
 Sign Up / Loginהמערכת תאפשר למשתמש להתחבר/להירשם
