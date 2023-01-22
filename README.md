@@ -16,9 +16,14 @@ Nir Sasson
 
 ### Repositories:
 App - https://github.com/SassonNir/Yoga_Time  
+```
+The application was build in Android Studio and we used Kotlin.
+```
 
 Server - https://github.com/netanellevine/python_server_api  
-
+```
+The server was built in Python on AWS EC2 using Fast-API.
+```
 
 ## Problem vs. Solution
 
@@ -47,8 +52,6 @@ For the customers it provides the best solution for getting to know new instruct
 
 ## Technological Mapping
 <img src="pptimages/technological_mapping.png" alt="image" width="750" height="450"/>
-
-# Used Technologies
 
 
 ### Product Demo
