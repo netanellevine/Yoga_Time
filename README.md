@@ -27,7 +27,8 @@ Nowadays there isn’t a platform for small Yoga Studios or private Yoga instruc
 
 
 ### Solution:  
-Yoga Time enables all sorts of businesses an easy and a simple way for mannaging their lessons. For the customers it provides the best solution for getting to know new instructors and prevents the monoply of the big businesses in the market.
+Yoga Time enables all sorts of businesses an easy and a simple way for mannaging their lessons.   
+For the customers it provides the best solution for getting to know new instructors and prevents the monoply of the big businesses in the market.
 
 ## Our Competitors
 **Arbox**  
