@@ -1,36 +1,24 @@
 
 
-Yoga Time
+# Yoga Time
 
 
-Introduction
+## Introduction
 Yoga Time is a mobile application that provides the ultimate solution for joining Yoga sessions and increasing the convinency of finding instructors.
 Our app connects individuals seeking flexible, short-term, and long-term Yoga sessions with instructors of all the various types of Yoga.
 In addition, we provide an easy way for instructors to gain new clients in a user friendly way.
 
-Our Team
-Yanir Cohen
-
-# 318658812
-Netanel
-
-## Levine
-
-##
-
-## 312512619
+## Our Team
+Yanir Cohen  
+Netanel Levine  
 Nir Sasson
 
-## 212174486
-Repositories:
 
-## App-
+### Repositories:
+App- https://github.com/SassonNir/Yoga_Time  
 
-## https://github.com/SassonNir/Yoga_Time
+Server - https://github.com/netanellevine/python_server_api  
 
-## Server -
-
-## https://github.com/netanellevine/python_server_api
 
 Problem vs. Solution
 
