@@ -44,40 +44,15 @@ Yoga Time enables all sorts of businesses an easy and a simple way for mannaging
 
    <img src="pptimages/Non-Functional Requirements.png" alt="image"/>
 
-BLLDALPL
-Technological Mapping
-![image](pptimages/image1.JPG)
-Presentation Layer והצגת המידע למשתמש (מדריך או מתאמן) UI Business Logic Layerלוגיקת עיבוד מרכזית מול השרת ואל מול שכבת ההצגהData Access Layer ייבוא ושליחת נתונים מהשרת אל עבר שכבת הלוגיקה
-![image](pptimages/image2.jfif)
-
-![image](pptimages/image3.png)
-
-![image](pptimages/image4.png)
-
-![image](pptimages/image5.png)
-
-![image](pptimages/image6.png)
-
-
-![image](pptimages/image7.png)
-BE
-
-![image](pptimages/image8.png)
-SERVERAlso contains PL + BLL + DALייבוא ושליחת נתונים ממסד הנתונים אל עבר האפליקציה
+## Technological Mapping
+<img src="pptimages/technological_mapping.png" alt="image"/>
 
 # Used Technologies
 
 
-Product Demo
-Click to start the demo ---------------------
+### Product Demo
+Click to start the demo ->  https://drive.google.com/file/d/1DR_iFTfCCvSJsiNYu9tBl3IlCY7MLTky/view?usp=sharing
 
-# 
-
-## If the video isn’t working, click on the link
-
-## https://drive.google.com/file/d/1DR_iFTfCCvSJsiNYu9tBl3IlCY7MLTky/view?usp=sharing
-
-Server
 
 
 Fire Store Documents
@@ -96,18 +71,19 @@ Design GoalsModularityReusabilityEfficiencyUsabilityUser FriendlyResponsiveness
 
 
 Future Workממשק עם גוגל מפס כדי לחפש לפי מיקוםמערכת תשלום תמיכה בשפות נוספותהוספת חברים בפורטל כדי להירשם ביחד לשיעורים על ידי התראות
-
+<img src="pptimages/Non-Functional Requirements.png" alt="image"/>
+<img src="pptimages/Non-Functional Requirements.png" alt="image"/>
 Diagrams
 
 
 State Machine Diagram
-
+<img src="pptimages/Non-Functional Requirements.png" alt="image"/>
 Activity Diagram
-
+<img src="pptimages/Non-Functional Requirements.png" alt="image"/>
 Use Case Diagram
-
+<img src="pptimages/Non-Functional Requirements.png" alt="image"/>
 Sequence Diagram
-
+<img src="pptimages/Non-Functional Requirements.png" alt="image"/>
 Entity Relations Diagram
 
 Thank You!
