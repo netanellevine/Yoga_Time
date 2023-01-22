@@ -64,11 +64,11 @@ Click to start the demo ->  https://drive.google.com/file/d/1DR_iFTfCCvSJsiNYu9t
 ## Diagrams
 
 ### State Machine Diagram
-<img src="pptimages/image21.png" alt="image" width="900" height="550"/>
+<img src="pptimages/image21.png" alt="image" width="750" height="450"/>
 ### Activity Diagram
-<img src="pptimages/image22.png" alt="image" width="900" height="550"/>
+<img src="pptimages/image22.png" alt="image" width="450" height="750"/>
 ### Use Case Diagram
-<img src="pptimages/image23.png" alt="image" width="900" height="550"/>
+<img src="pptimages/image23.png" alt="image" width="750" height="450"/>
 
 
 
