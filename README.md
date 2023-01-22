@@ -55,10 +55,10 @@ For the customers it provides the best solution for getting to know new instruct
 Click to start the demo ->  https://drive.google.com/file/d/1DR_iFTfCCvSJsiNYu9tBl3IlCY7MLTky/view?usp=sharing
 
 ## Design Goals
-<img src="pptimages/Design Goals.png" alt="image" width="400" height="300"/>
+<img src="pptimages/Design Goals.png" alt="image" width="650" height="450"/>
 
 ## Future Work
-<img src="pptimages/Future Work.png" alt="image" width="400" height="300"/>
+<img src="pptimages/Future Work.png" alt="image" width="650" height="450"/>
 
 
 Diagrams
