@@ -58,7 +58,7 @@ Click to start the demo ->  https://drive.google.com/file/d/1DR_iFTfCCvSJsiNYu9t
 <img src="pptimages/Design Goals.png" alt="image"/>
 
 ## Future Work
-<img src="pptimages/Feature Work.png" alt="image"/>
+<img src="pptimages/Feture Work.png" alt="image"/>
 
 
 Diagrams
